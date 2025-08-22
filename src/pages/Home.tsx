@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy } from 'lucide-react';
+import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy, Menu, X } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import LanguageSelector from '../components/LanguageSelector';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Remover o useEffect que força a detecção de idioma
   // O i18n já detecta automaticamente e reage às mudanças
@@ -98,7 +99,52 @@ const Home: React.FC = () => {
               <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.contact')}</a>
               <LanguageSelector />
             </nav>
+            
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+          
+          {/* Mobile menu */}
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="md:hidden border-t border-gray-200 pt-4 pb-4"
+            >
+              <div className="flex flex-col space-y-4">
+                <a 
+                  href="#games" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  {t('home.navigation.games')}
+                </a>
+                <a 
+                  href="#about" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  {t('home.navigation.about')}
+                </a>
+                <a 
+                  href="#contact" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                >
+                  {t('home.navigation.contact')}
+                </a>
+                <div className="pt-2 border-t border-gray-200">
+                  <LanguageSelector />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
       </header>
 
@@ -144,7 +190,8 @@ const Home: React.FC = () => {
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center"
               >
@@ -174,14 +221,15 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {games.map((game, index) => (
               <motion.div
                 key={game.id}
                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ 
-                  duration: 0.8, 
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.8,
                   delay: index * 0.2,
                   ease: "easeOut"
                 }}

@@ -49,6 +49,16 @@ const GameSetup: React.FC = () => {
     }
   }, []);
 
+  // Forçar sincronização com i18n quando disponível
+  useEffect(() => {
+    if (i18n.isInitialized) {
+      const currentLang = i18n.language;
+      if (currentLang && ['pt', 'en', 'es'].includes(currentLang)) {
+        setConfig(prev => ({ ...prev, language: currentLang }));
+      }
+    }
+  }, [i18n.isInitialized, i18n.language]);
+
   const [selectedPreset, setSelectedPreset] = useState<string>('custom');
 
   // Presets pré-configurados
