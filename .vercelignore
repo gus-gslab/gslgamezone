@@ -1,0 +1,12 @@
+# Ignore everything except what we need
+*
+!public/
+!src/
+!package.json
+!package-lock.json
+!vite.config.ts
+!tsconfig.json
+!index.html
+!.gitignore
+!README.md
+!vercel.json
