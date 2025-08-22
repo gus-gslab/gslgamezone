@@ -33,6 +33,12 @@ const GameSetup: React.FC = () => {
       if (!searchParams.get('lang')) {
         setConfig(prev => ({ ...prev, language: currentLang }));
       }
+    } else {
+      // Fallback para inglês se o idioma não for suportado
+      i18n.changeLanguage('en');
+      if (!searchParams.get('lang')) {
+        setConfig(prev => ({ ...prev, language: 'en' }));
+      }
     }
   }, [i18n, searchParams]);
 
@@ -82,15 +88,15 @@ const GameSetup: React.FC = () => {
   };
 
   const difficulties = [
-    { value: 'easy', name: t('gameSetup.difficulties.easy'), icon: '🟢', description: 'Palavras simples e curtas' },
-    { value: 'medium', name: t('gameSetup.difficulties.medium'), icon: '🟡', description: 'Palavras intermediárias' },
-    { value: 'hard', name: t('gameSetup.difficulties.hard'), icon: '🔴', description: 'Palavras complexas e longas' }
+    { value: 'easy', name: t('gameSetup.difficulties.easy'), icon: '🟢', description: t('gameSetup.difficulties.easyDesc') },
+    { value: 'medium', name: t('gameSetup.difficulties.medium'), icon: '🟡', description: t('gameSetup.difficulties.mediumDesc') },
+    { value: 'hard', name: t('gameSetup.difficulties.hard'), icon: '🔴', description: t('gameSetup.difficulties.hardDesc') }
   ];
 
   const gridSizes = [
-    { value: 'small', name: t('gameSetup.gridSizes.small'), icon: '🔹', description: '10x12 - 6 palavras' },
-    { value: 'medium', name: t('gameSetup.gridSizes.medium'), icon: '🔸', description: '12x15 - 8 palavras' },
-    { value: 'large', name: t('gameSetup.gridSizes.large'), icon: '🔶', description: '14x18 - 10 palavras' }
+    { value: 'small', name: t('gameSetup.gridSizes.small'), icon: '🔹', description: t('gameSetup.gridSizes.smallDesc') },
+    { value: 'medium', name: t('gameSetup.gridSizes.medium'), icon: '🔸', description: t('gameSetup.gridSizes.mediumDesc') },
+    { value: 'large', name: t('gameSetup.gridSizes.large'), icon: '🔶', description: t('gameSetup.gridSizes.largeDesc') }
   ];
 
   const languages = [

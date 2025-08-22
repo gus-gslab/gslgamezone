@@ -132,12 +132,18 @@
     "difficulties": {
       "easy": "Easy",
       "medium": "Medium",
-      "hard": "Hard"
+      "hard": "Hard",
+      "easyDesc": "Simple and short words",
+      "mediumDesc": "Intermediate words",
+      "hardDesc": "Complex and long words"
     },
     "gridSizes": {
       "small": "Small",
       "medium": "Medium",
-      "large": "Large"
+      "large": "Large",
+      "smallDesc": "10x12 - 6 words",
+      "mediumDesc": "12x15 - 8 words",
+      "largeDesc": "14x18 - 10 words"
     },
     "languages": {
       "pt": "Portuguese",
