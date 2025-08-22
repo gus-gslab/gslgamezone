@@ -255,7 +255,15 @@ const UI_TRANSLATIONS = {
     wordsFound: 'Palavras Encontradas',
     bestTime: 'Melhor Tempo',
     maxStreak: 'Sequência Máxima',
-    moreAchievements: 'mais conquistas'
+    moreAchievements: 'mais conquistas',
+    shareText: {
+      played: 'Joguei Caça-Palavras no GSL Game Zone!',
+      result: 'Resultado',
+      wordsFound: 'palavras encontradas',
+      time: 'Tempo',
+      score: 'Pontuação',
+      points: 'pontos'
+    }
   },
   en: {
     title: 'Word Search',
@@ -282,7 +290,15 @@ const UI_TRANSLATIONS = {
     wordsFound: 'Words Found',
     bestTime: 'Best Time',
     maxStreak: 'Max Streak',
-    moreAchievements: 'more achievements'
+    moreAchievements: 'more achievements',
+    shareText: {
+      played: 'I played Word Search in GSL Game Zone!',
+      result: 'Result',
+      wordsFound: 'words found',
+      time: 'Time',
+      score: 'Score',
+      points: 'points'
+    }
   },
   es: {
     title: 'Sopa de Letras',
@@ -309,7 +325,15 @@ const UI_TRANSLATIONS = {
     wordsFound: 'Palabras Encontradas',
     bestTime: 'Mejor Tiempo',
     maxStreak: 'Secuencia Máxima',
-    moreAchievements: 'más logros'
+    moreAchievements: 'más logros',
+    shareText: {
+      played: '¡Jugué Sopa de Letras en GSL Game Zone!',
+      result: 'Resultado',
+      wordsFound: 'palabras encontradas',
+      time: 'Tiempo',
+      score: 'Puntuación',
+      points: 'puntos'
+    }
   }
 };
 
@@ -1060,7 +1084,8 @@ const WordSearchGame: React.FC = () => {
     if (!gameState) return;
     
     const gameUrl = 'https://gslgamezone.com/game-setup';
-    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 ${gameUrl}`;
+    const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
+    const shareText = `🎮 ${t.shareText.played}\n\n🟢 ${t.shareText.result}: ${foundWords.length}/${gameState.words.length} ${t.shareText.wordsFound}\n🔵 ${t.shareText.time}: ${getFormattedTime()}\n🟣 ${t.shareText.score}: ${score} ${t.shareText.points}\n\n🎮 ${gameUrl}`;
     
     if (navigator.share) {
       navigator.share({ 
@@ -1082,7 +1107,8 @@ const WordSearchGame: React.FC = () => {
     if (!gameState) return;
     
     const gameUrl = 'https://gslgamezone.com/game-setup';
-    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 ${gameUrl}`;
+    const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
+    const shareText = `🎮 ${t.shareText.played}\n\n🟢 ${t.shareText.result}: ${foundWords.length}/${gameState.words.length} ${t.shareText.wordsFound}\n🔵 ${t.shareText.time}: ${getFormattedTime()}\n🟣 ${t.shareText.score}: ${score} ${t.shareText.points}\n\n🎮 ${gameUrl}`;
     
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
