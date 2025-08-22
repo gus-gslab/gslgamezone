@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp } from 'lucide-react';
+import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp, ArrowLeft } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Confetti from 'react-confetti';
@@ -701,10 +702,14 @@ const useTouchHandlers = (gameCompleted: boolean, onCellStart: (row: number, col
 
 // ===== MAIN COMPONENT =====
 const WordSearchGame: React.FC = () => {
-  const [language, setLanguage] = useState('pt');
-  const [gridSize, setGridSize] = useState('small');
-  const [wordDifficulty, setWordDifficulty] = useState('easy');
-  const [category, setCategory] = useState('animals');
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  
+  // Pegar configurações da URL ou usar padrões
+  const [language, setLanguage] = useState(searchParams.get('lang') || 'pt');
+  const [gridSize, setGridSize] = useState(searchParams.get('size') || 'medium');
+  const [wordDifficulty, setWordDifficulty] = useState(searchParams.get('difficulty') || 'easy');
+  const [category, setCategory] = useState(searchParams.get('category') || 'animals');
   
   // Estados temporários para configurações
   const [tempLanguage, setTempLanguage] = useState('pt');
@@ -799,6 +804,10 @@ const WordSearchGame: React.FC = () => {
     setShowConfetti(false);
   };
 
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
   const handleShare = () => {
     if (!gameState) return;
     
@@ -828,7 +837,7 @@ const WordSearchGame: React.FC = () => {
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [language, gridSize, wordDifficulty, category]);
+  }, [language, gridSize, wordDifficulty, category, initializeGame, resetGameState]);
 
   // Sincronizar estados temporários quando o jogo é inicializado
   useEffect(() => {
@@ -909,6 +918,15 @@ const WordSearchGame: React.FC = () => {
       >
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
+            <motion.button
+              onClick={handleBackToHome}
+              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Voltar para Home"
+            >
+              <ArrowLeft size={20} className="text-gray-600" />
+            </motion.button>
             <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
               <Target className="text-white" size={28} />
             </div>
@@ -1164,8 +1182,8 @@ const WordSearchGame: React.FC = () => {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-3">
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="xl:col-span-3">
           <motion.div 
             className="card game-area"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -1205,7 +1223,7 @@ const WordSearchGame: React.FC = () => {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-1 space-y-4">
+        <div className="xl:col-span-1 space-y-4">
           {/* Lista de Palavras */}
           <motion.div 
             className="card"

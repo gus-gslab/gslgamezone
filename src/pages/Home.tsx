@@ -211,7 +211,7 @@ const Home: React.FC = () => {
 
                   {game.status === 'active' ? (
                     <a
-                      href="/caca-palavras"
+                      href="/game-setup"
                       className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 block text-center"
                     >
                                              {t('home.games.playNow')}
