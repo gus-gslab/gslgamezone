@@ -61,6 +61,21 @@ const GRID_CONFIGS: Record<string, GridConfig> = {
   large: { size: 14, rows: 18, wordCount: 10 }
 };
 
+// Configurações específicas para mobile
+const MOBILE_GRID_CONFIGS: Record<string, GridConfig> = {
+  small: { size: 10, rows: 12, wordCount: 6 },
+  medium: { size: 10, rows: 16, wordCount: 8 },
+  large: { size: 10, rows: 20, wordCount: 10 }
+};
+
+// Função para obter configuração baseada no tamanho da tela
+const getGridConfig = (size: string, isMobile: boolean): GridConfig => {
+  if (isMobile) {
+    return MOBILE_GRID_CONFIGS[size] || MOBILE_GRID_CONFIGS.medium;
+  }
+  return GRID_CONFIGS[size] || GRID_CONFIGS.medium;
+};
+
 const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]];
 
 // Sistema de Pontuação
@@ -572,13 +587,17 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
         hasCategory: !!(WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category]
       });
       
+      // Detectar se é mobile
+      const isMobile = window.innerWidth < 768;
+      console.log('Is mobile:', isMobile);
+      
       if (!categoryWords?.length) {
         const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
         if (availableCategories.length > 0) {
           const fallbackCategory = availableCategories[0];
           const fallbackWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[fallbackCategory];
           
-          const config = GRID_CONFIGS[gridSize];
+          const config = getGridConfig(gridSize, isMobile);
           const seed = Date.now();
           const result = generateGrid(config.size, config.rows, fallbackWords, seed);
           
@@ -598,7 +617,7 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
         return;
       }
       
-      const config = GRID_CONFIGS[gridSize];
+      const config = getGridConfig(gridSize, isMobile);
       const seed = Date.now();
       console.log('Generating grid with config:', config);
       const result = generateGrid(config.size, config.rows, categoryWords, seed);
