@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Play, Settings, Target, Star, Zap } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ThemeToggle } from '../components/ThemeToggle';
+
 
 interface GameConfig {
   language: string;
@@ -148,14 +148,10 @@ const GameSetup: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-dark-bg dark:via-dark-bg dark:to-dark-bg light-container">
-      {/* Efeitos de luz no background */}
-      <div className="light-effect-1"></div>
-      <div className="light-effect-2"></div>
-      <div className="light-effect-3"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Header */}
       <motion.div 
-        className="bg-white shadow-sm border-b border-gray-100 dark:bg-dark-header dark:border-transparent light-content"
+        className="bg-white shadow-sm border-b border-gray-100"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -165,29 +161,29 @@ const GameSetup: React.FC = () => {
             <div className="flex items-center gap-3">
               <motion.button
                 onClick={handleBackToHome}
-                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors dark:bg-dark-border dark:hover:bg-dark-accent dark:text-dark-text"
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <ArrowLeft size={18} className="text-gray-600 dark:text-dark-text" />
+                <ArrowLeft size={18} className="text-gray-600" />
               </motion.button>
               <div>
-                <h1 className="text-lg font-bold text-gray-800 dark:text-dark-text">{t('gameSetup.title')}</h1>
-                <p className="text-xs text-gray-500 dark:text-dark-textSecondary">{t('gameSetup.subtitle')}</p>
+                <h1 className="text-lg font-bold text-gray-800">{t('gameSetup.title')}</h1>
+                <p className="text-xs text-gray-500">{t('gameSetup.subtitle')}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-dark-textSecondary">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
                 <Target size={14} />
                 <span className="text-xs font-medium">{t('gameSetup.gameName')}</span>
               </div>
-              <ThemeToggle />
+
             </div>
           </div>
         </div>
       </motion.div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8 light-content">
+      <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
           {/* Coluna Principal - Configurações */}
@@ -195,12 +191,12 @@ const GameSetup: React.FC = () => {
             
             {/* Presets Rápidos */}
             <motion.div 
-              className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6"
+              className="bg-white  rounded-xl shadow-sm border border-gray-100  p-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-text mb-4 flex items-center gap-2">
+              <h2 className="text-lg font-semibold text-gray-800  mb-4 flex items-center gap-2">
                 <Zap className="text-yellow-500" size={20} />
                 {t('gameSetup.presets.title')}
               </h2>
@@ -211,8 +207,8 @@ const GameSetup: React.FC = () => {
                     onClick={() => handlePresetSelect(preset)}
                     className={`p-4 rounded-lg border-2 transition-all duration-200 text-left ${
                       selectedPreset === preset.id
-                        ? 'border-blue-500 bg-blue-50 dark:border-dark-accent dark:bg-dark-border'
-                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 dark:border-dark-border dark:hover:border-dark-accent dark:hover:bg-dark-border'
+                        ? 'border-blue-500 bg-blue-50  '
+                        : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50   '
                     }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -220,8 +216,8 @@ const GameSetup: React.FC = () => {
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{preset.icon}</span>
                       <div>
-                        <div className="font-semibold text-gray-800 dark:text-dark-text">{preset.name}</div>
-                        <div className="text-sm text-gray-500 dark:text-dark-textSecondary">{preset.description}</div>
+                        <div className="font-semibold text-gray-800 ">{preset.name}</div>
+                        <div className="text-sm text-gray-500 Secondary">{preset.description}</div>
                       </div>
                     </div>
                   </motion.button>
@@ -231,12 +227,12 @@ const GameSetup: React.FC = () => {
 
             {/* Configurações Personalizadas */}
             <motion.div 
-              className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-100 dark:border-dark-border p-6"
+              className="bg-white  rounded-xl shadow-sm border border-gray-100  p-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-dark-text mb-4 flex items-center gap-2">
+              <h2 className="text-lg font-semibold text-gray-800  mb-4 flex items-center gap-2">
                 <Settings className="text-blue-500" size={20} />
                 {t('gameSetup.custom.title')}
               </h2>

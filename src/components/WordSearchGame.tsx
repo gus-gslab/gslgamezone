@@ -248,7 +248,14 @@ const UI_TRANSLATIONS = {
     gridSizes: { small: 'Pequeno (10x12)', medium: 'Médio (12x15)', large: 'Grande (14x18)' },
     wordDifficulties: { easy: 'Fácil', medium: 'Médio', hard: 'Difícil' },
     wordDifficultyDescriptions: { easy: 'Palavras simples e comuns', medium: 'Palavras de complexidade moderada', hard: 'Palavras complexas e longas' },
-    categories: { animals: 'Animais', colors: 'Cores', foods: 'Comidas', technology: 'Tecnologia', professions: 'Profissões', sports: 'Esportes', music: 'Música', nature: 'Natureza' }
+    categories: { animals: 'Animais', colors: 'Cores', foods: 'Comidas', technology: 'Tecnologia', professions: 'Profissões', sports: 'Esportes', music: 'Música', nature: 'Natureza' },
+    statistics: 'Estatísticas',
+    achievements: 'Conquistas',
+    totalGames: 'Jogos Totais',
+    wordsFound: 'Palavras Encontradas',
+    bestTime: 'Melhor Tempo',
+    maxStreak: 'Sequência Máxima',
+    moreAchievements: 'mais conquistas'
   },
   en: {
     title: 'Word Search',
@@ -268,7 +275,14 @@ const UI_TRANSLATIONS = {
     gridSizes: { small: 'Small (10x12)', medium: 'Medium (12x15)', large: 'Large (14x18)' },
     wordDifficulties: { easy: 'Easy', medium: 'Medium', hard: 'Hard' },
     wordDifficultyDescriptions: { easy: 'Simple and common words', medium: 'Moderate complexity words', hard: 'Complex and long words' },
-    categories: { animals: 'Animals', colors: 'Colors', foods: 'Foods', technology: 'Technology', professions: 'Professions', sports: 'Sports', music: 'Music', nature: 'Nature' }
+    categories: { animals: 'Animals', colors: 'Colors', foods: 'Foods', technology: 'Technology', professions: 'Professions', sports: 'Sports', music: 'Music', nature: 'Nature' },
+    statistics: 'Statistics',
+    achievements: 'Achievements',
+    totalGames: 'Total Games',
+    wordsFound: 'Words Found',
+    bestTime: 'Best Time',
+    maxStreak: 'Max Streak',
+    moreAchievements: 'more achievements'
   },
   es: {
     title: 'Sopa de Letras',
@@ -288,7 +302,14 @@ const UI_TRANSLATIONS = {
     gridSizes: { small: 'Pequeño (10x12)', medium: 'Mediano (12x15)', large: 'Grande (14x18)' },
     wordDifficulties: { easy: 'Fácil', medium: 'Medio', hard: 'Difícil' },
     wordDifficultyDescriptions: { easy: 'Palavras simples y comunes', medium: 'Palavras de complejidad moderada', hard: 'Palavras complejas y largas' },
-    categories: { animals: 'Animales', colors: 'Colores', foods: 'Comidas', technology: 'Tecnología', professions: 'Profesiones', sports: 'Deportes', music: 'Música', nature: 'Naturaleza' }
+    categories: { animals: 'Animales', colors: 'Colores', foods: 'Comidas', technology: 'Tecnología', professions: 'Profesiones', sports: 'Deportes', music: 'Música', nature: 'Naturaleza' },
+    statistics: 'Estadísticas',
+    achievements: 'Logros',
+    totalGames: 'Juegos Totales',
+    wordsFound: 'Palabras Encontradas',
+    bestTime: 'Mejor Tiempo',
+    maxStreak: 'Secuencia Máxima',
+    moreAchievements: 'más logros'
   }
 };
 
@@ -1364,6 +1385,99 @@ const WordSearchGame: React.FC = () => {
               )}
             </div>
           </motion.div>
+
+          {/* Estatísticas e Conquistas - Desktop (abaixo do grid) */}
+          <div className="hidden xl:grid xl:grid-cols-2 gap-6 mt-6">
+            {/* Estatísticas */}
+            <motion.div 
+              className="card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <TrendingUp className="text-blue-500" />
+                {t.statistics}
+              </h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg">
+                  <span className="text-sm text-gray-600">{t.totalGames}:</span>
+                  <span className="font-semibold text-blue-700">{gameStats.totalGames}</span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg">
+                  <span className="text-sm text-gray-600">{t.wordsFound}:</span>
+                  <span className="font-semibold text-green-700">{gameStats.totalWordsFound}</span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg">
+                  <span className="text-sm text-gray-600">{t.bestTime}:</span>
+                  <span className="font-semibold text-purple-700">
+                    {gameStats.bestTime > 0 ? formatTime(gameStats.bestTime) : '--:--'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-2 bg-orange-50 rounded-lg">
+                  <span className="text-sm text-gray-600">{t.maxStreak}:</span>
+                  <span className="font-semibold text-orange-700">{gameStats.longestStreak}</span>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Conquistas */}
+            <motion.div 
+              className="card"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <Award className="text-yellow-500" />
+                {t.achievements}
+              </h3>
+              <div className="space-y-2">
+                {gameStats.achievements.slice(0, 3).map((achievement, index) => (
+                  <motion.div
+                    key={achievement.id}
+                    className={`p-2 rounded-lg text-sm transition-all ${
+                      achievement.unlocked
+                        ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                        : 'bg-gray-100 text-gray-500'
+                    }`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{achievement.icon}</span>
+                      <div className="flex-1">
+                        <div className="font-medium">{achievement.name}</div>
+                        <div className="text-xs opacity-75">{achievement.description}</div>
+                      </div>
+                      {achievement.unlocked && (
+                        <span className="text-yellow-600">✓</span>
+                      )}
+                    </div>
+                    {!achievement.unlocked && achievement.maxProgress > 1 && (
+                      <div className="mt-1">
+                        <div className="w-full bg-gray-200 rounded-full h-1">
+                          <div 
+                            className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
+                            style={{ width: `${(achievement.progress / achievement.maxProgress) * 100}%` }}
+                          />
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {achievement.progress}/{achievement.maxProgress}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+                {gameStats.achievements.filter(a => a.unlocked).length > 3 && (
+                  <div className="text-center text-sm text-gray-500 mt-2">
+                    +{gameStats.achievements.filter(a => a.unlocked).length - 3} {t.moreAchievements}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
         </div>
 
         <div className="xl:col-span-1 space-y-4">
@@ -1397,49 +1511,49 @@ const WordSearchGame: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Estatísticas */}
+          {/* Estatísticas - Mobile/Tablet (lado direito) */}
           <motion.div 
-            className="card"
+            className="card xl:hidden"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <TrendingUp className="text-blue-500" />
-              Estatísticas
+              {t.statistics}
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg">
-                <span className="text-sm text-gray-600">Jogos Totais:</span>
+                <span className="text-sm text-gray-600">{t.totalGames}:</span>
                 <span className="font-semibold text-blue-700">{gameStats.totalGames}</span>
               </div>
               <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg">
-                <span className="text-sm text-gray-600">Palavras Encontradas:</span>
+                <span className="text-sm text-gray-600">{t.wordsFound}:</span>
                 <span className="font-semibold text-green-700">{gameStats.totalWordsFound}</span>
               </div>
               <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg">
-                <span className="text-sm text-gray-600">Melhor Tempo:</span>
+                <span className="text-sm text-gray-600">{t.bestTime}:</span>
                 <span className="font-semibold text-purple-700">
                   {gameStats.bestTime > 0 ? formatTime(gameStats.bestTime) : '--:--'}
                 </span>
               </div>
               <div className="flex justify-between items-center p-2 bg-orange-50 rounded-lg">
-                <span className="text-sm text-gray-600">Sequência Máxima:</span>
+                <span className="text-sm text-gray-600">{t.maxStreak}:</span>
                 <span className="font-semibold text-orange-700">{gameStats.longestStreak}</span>
               </div>
             </div>
           </motion.div>
 
-          {/* Conquistas */}
+          {/* Conquistas - Mobile/Tablet (lado direito) */}
           <motion.div 
-            className="card"
+            className="card xl:hidden"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
           >
             <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <Award className="text-yellow-500" />
-              Conquistas
+              {t.achievements}
             </h3>
             <div className="space-y-2">
               {gameStats.achievements.slice(0, 3).map((achievement, index) => (
@@ -1481,7 +1595,7 @@ const WordSearchGame: React.FC = () => {
               ))}
               {gameStats.achievements.filter(a => a.unlocked).length > 3 && (
                 <div className="text-center text-sm text-gray-500 mt-2">
-                  +{gameStats.achievements.filter(a => a.unlocked).length - 3} mais conquistas
+                  +{gameStats.achievements.filter(a => a.unlocked).length - 3} {t.moreAchievements}
                 </div>
               )}
             </div>

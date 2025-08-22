@@ -19,12 +19,16 @@ const LanguageSelector: React.FC = () => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        console.log('Closing dropdown - clicked outside');
         setIsOpen(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      // Usar setTimeout para evitar que o clique seja interceptado imediatamente
+      setTimeout(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+      }, 100);
     }
 
     return () => {
@@ -33,8 +37,13 @@ const LanguageSelector: React.FC = () => {
   }, [isOpen]);
 
   const handleLanguageChange = (languageCode: string) => {
+    console.log('Changing language to:', languageCode);
+    console.log('Current language before change:', i18n.language);
+    
     i18n.changeLanguage(languageCode);
     setIsOpen(false);
+    
+    console.log('Language changed to:', i18n.language);
     
     // Track language change in analytics
     if (window.gameAnalytics) {
@@ -45,7 +54,10 @@ const LanguageSelector: React.FC = () => {
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          console.log('Language selector button clicked, current isOpen:', isOpen);
+          setIsOpen(!isOpen);
+        }}
         className="flex items-center space-x-2 p-2 text-gray-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-gray-100 dark:text-dark-text dark:hover:text-white dark:bg-dark-button dark:hover:bg-dark-accentHover h-9"
       >
         <Globe className="h-5 w-5" />
@@ -54,14 +66,25 @@ const LanguageSelector: React.FC = () => {
       </button>
       
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-card rounded-lg shadow-lg border border-gray-200 dark:border-dark-border z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-card rounded-lg shadow-lg border border-gray-200 dark:border-dark-border z-[9999]">
           {languages.map((language) => (
             <button
               key={language.code}
-              onClick={() => handleLanguageChange(language.code)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-dark-border transition-colors ${
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Button clicked for language:', language.code);
+                handleLanguageChange(language.code);
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Mouse down on language button:', language.code);
+              }}
+              className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-dark-border transition-colors cursor-pointer ${
                 i18n.language === language.code ? 'bg-blue-50 text-blue-600 dark:bg-dark-button dark:text-dark-accent' : 'text-gray-700 dark:text-dark-text'
               }`}
+              style={{ pointerEvents: 'auto' }}
             >
               <span className="text-lg">{language.flag}</span>
               <span className="font-medium">{language.name}</span>
