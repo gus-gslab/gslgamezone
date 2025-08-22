@@ -478,16 +478,44 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
 
   const initializeGame = useCallback(() => {
     try {
+      console.log('Initializing game with:', { language, wordDifficulty, category, gridSize });
+      
       const categoryWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category];
+      console.log('Category words:', categoryWords);
+      
       if (!categoryWords?.length) {
+        console.log('No words found for category, using fallback');
         const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
-        if (availableCategories.length > 0) return availableCategories[0];
-        return null;
+        if (availableCategories.length > 0) {
+          const fallbackCategory = availableCategories[0];
+          const fallbackWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[fallbackCategory];
+          console.log('Using fallback category:', fallbackCategory, 'with words:', fallbackWords);
+          
+          const config = GRID_CONFIGS[gridSize];
+          const seed = Date.now();
+          const result = generateGrid(config.size, config.rows, fallbackWords, seed);
+          
+          setGameState({
+            grid: result.grid,
+            words: result.words.slice(0, config.wordCount),
+            cols: config.size,
+            rows: config.rows,
+            seed
+          });
+          
+          setFoundWords([]);
+          setGameCompleted(false);
+          setScore(0);
+          setCurrentStreak(0);
+        }
+        return;
       }
       
       const config = GRID_CONFIGS[gridSize];
       const seed = Date.now();
       const result = generateGrid(config.size, config.rows, categoryWords, seed);
+      
+      console.log('Generated grid with words:', result.words);
       
       setGameState({
         grid: result.grid,
@@ -502,16 +530,15 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
       setScore(0);
       setCurrentStreak(0);
       
-      return null;
     } catch (error) {
       console.error('Error initializing game:', error);
-      return null;
     }
   }, [language, gridSize, wordDifficulty, category]);
 
+  // Inicializar jogo apenas uma vez quando o componente monta
   useEffect(() => {
     initializeGame();
-  }, [initializeGame]);
+  }, []); // Remover dependências para evitar loop
 
   useEffect(() => {
     if (gameState?.words && foundWords.length === gameState.words.length && gameState.words.length > 0) {
@@ -798,10 +825,17 @@ const WordSearchGame: React.FC = () => {
     setCategory(tempCategory);
     
     // Reiniciar o jogo com as novas configurações
-    initializeGame();
-    resetGameState();
-    setSelectedCells([]);
-    setShowConfetti(false);
+    setTimeout(() => {
+      initializeGame();
+      resetGameState();
+      setSelectedCells([]);
+      setShowConfetti(false);
+    }, 100);
+    
+    // Track settings change
+    if (window.gameAnalytics) {
+      window.gameAnalytics.trackSettingsChange('new_game', 'previous', 'new');
+    }
   };
 
   const handleBackToHome = () => {
@@ -829,23 +863,15 @@ const WordSearchGame: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (gameState) {
-      const timer = setTimeout(() => {
-        initializeGame();
-        resetGameState();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [language, gridSize, wordDifficulty, category, initializeGame, resetGameState]);
-
-  // Sincronizar estados temporários quando o jogo é inicializado
+  // Atualizar configurações temporárias quando as configurações mudam
   useEffect(() => {
     setTempLanguage(language);
     setTempGridSize(gridSize);
     setTempWordDifficulty(wordDifficulty);
     setTempCategory(category);
   }, [language, gridSize, wordDifficulty, category]);
+
+
 
   useEffect(() => {
     const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
