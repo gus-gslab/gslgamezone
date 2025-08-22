@@ -1,0 +1,84 @@
+{
+  "home": {
+    "title": "Juegos Educativos",
+    "subtitle": "Aprende jugando",
+    "hero": {
+      "title": "Aprende de Forma",
+      "titleHighlight": "Divertida",
+      "description": "Nuestra colección de juegos educativos fue creada para hacer del aprendizaje una experiencia atractiva e interactiva para todas las edades.",
+      "cta": "Comenzar a Jugar",
+      "learnMore": "Saber Más"
+    },
+    "stats": {
+      "activePlayers": "Jugadores Activos",
+      "timePlayed": "Tiempo Jugado",
+      "wordsFound": "Palabras Encontradas",
+      "averageRating": "Calificación Promedio"
+    },
+    "games": {
+      "title": "Nuestros Juegos",
+      "description": "Explora nuestra creciente colección de juegos educativos, cada uno diseñado para desarrollar habilidades específicas.",
+      "wordSearch": {
+        "title": "Sopa de Letras",
+        "description": "Encuentra palabras ocultas en una cuadrícula de letras",
+        "category": "Educativo",
+        "difficulty": "Fácil",
+        "time": "5-15 min"
+      },
+      "puzzle": {
+        "title": "Rompecabezas",
+        "description": "Ensambla imágenes deslizando piezas",
+        "category": "Lógica",
+        "difficulty": "Medio",
+        "time": "10-30 min"
+      },
+      "memory": {
+        "title": "Juego de Memoria",
+        "description": "Encuentra pares de cartas iguales",
+        "category": "Memoria",
+        "difficulty": "Fácil",
+        "time": "3-10 min"
+      },
+      "crossword": {
+        "title": "Crucigrama",
+        "description": "Completa palabras con pistas",
+        "category": "Educativo",
+        "difficulty": "Difícil",
+        "time": "15-45 min"
+      },
+      "comingSoon": "Próximamente",
+      "playNow": "Jugar Ahora"
+    },
+    "about": {
+      "title": "¿Por qué Juegos Educativos?",
+      "description": "Creemos que el aprendizaje debe ser divertido y atractivo. Nuestros juegos se desarrollan basándose en principios educativos probados, combinando diversión con desarrollo de habilidades.",
+      "benefits": {
+        "cognitive": "Desarrollo cognitivo y memoria",
+        "concentration": "Mejora de la concentración y enfoque",
+        "vocabulary": "Aprendizaje de vocabulario y lenguaje",
+        "motor": "Desarrollo de habilidades motoras"
+      },
+      "stats": {
+        "title": "Estadísticas Impresionantes",
+        "activePlayers": "Jugadores Activos",
+        "timePlayed": "Tiempo Jugado",
+        "wordsFound": "Palabras Encontradas",
+        "averageRating": "Calificación Promedio"
+      }
+    },
+    "footer": {
+      "description": "Aprende jugando con nuestra colección de juegos educativos.",
+      "games": "Juegos",
+      "resources": "Recursos",
+      "contact": "Contacto",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "copyright": "© 2024 Juegos Educativos. Todos los derechos reservados."
+    },
+    "navigation": {
+      "games": "Juegos",
+      "about": "Acerca de",
+      "contact": "Contacto"
+    }
+  }
+}

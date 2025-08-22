@@ -16,13 +16,16 @@
     "deploy-vercel": "./scripts/deploy-vercel.sh"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.1",
-    "lucide-react": "^0.263.1",
     "framer-motion": "^10.16.4",
+    "i18next": "^25.4.0",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "lucide-react": "^0.263.1",
+    "react": "^18.2.0",
+    "react-confetti": "^6.1.0",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "react-confetti": "^6.1.0"
+    "react-i18next": "^15.7.1",
+    "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

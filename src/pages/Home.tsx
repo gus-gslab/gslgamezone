@@ -1,68 +1,72 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy } from 'lucide-react';
+import LanguageSelector from '../components/LanguageSelector';
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
+  
   const games = [
     {
       id: 'caca-palavras',
-      title: 'Caça-Palavras',
-      description: 'Encontre palavras escondidas em um grid de letras',
+      title: t('home.games.wordSearch.title'),
+      description: t('home.games.wordSearch.description'),
       icon: Search,
       color: 'from-blue-500 to-indigo-600',
       status: 'active',
       players: '1K+',
       rating: 4.8,
-      category: 'Educativo',
-      difficulty: 'Fácil',
-      time: '5-15 min'
+      category: t('home.games.wordSearch.category'),
+      difficulty: t('home.games.wordSearch.difficulty'),
+      time: t('home.games.wordSearch.time')
     },
     {
       id: 'coming-soon-1',
-      title: 'Quebra-Cabeça',
-      description: 'Monte imagens deslizando as peças',
+      title: t('home.games.puzzle.title'),
+      description: t('home.games.puzzle.description'),
       icon: Brain,
       color: 'from-purple-500 to-pink-600',
       status: 'coming-soon',
-      players: 'Em breve',
+      players: t('home.games.comingSoon'),
       rating: 0,
-      category: 'Lógica',
-      difficulty: 'Médio',
-      time: '10-30 min'
+      category: t('home.games.puzzle.category'),
+      difficulty: t('home.games.puzzle.difficulty'),
+      time: t('home.games.puzzle.time')
     },
     {
       id: 'coming-soon-2',
-      title: 'Jogo da Memória',
-      description: 'Encontre pares de cartas iguais',
+      title: t('home.games.memory.title'),
+      description: t('home.games.memory.description'),
       icon: Target,
       color: 'from-green-500 to-teal-600',
       status: 'coming-soon',
-      players: 'Em breve',
+      players: t('home.games.comingSoon'),
       rating: 0,
-      category: 'Memória',
-      difficulty: 'Fácil',
-      time: '3-10 min'
+      category: t('home.games.memory.category'),
+      difficulty: t('home.games.memory.difficulty'),
+      time: t('home.games.memory.time')
     },
     {
       id: 'coming-soon-3',
-      title: 'Palavras Cruzadas',
-      description: 'Complete as palavras com as dicas',
+      title: t('home.games.crossword.title'),
+      description: t('home.games.crossword.description'),
       icon: Zap,
       color: 'from-orange-500 to-red-600',
       status: 'coming-soon',
-      players: 'Em breve',
+      players: t('home.games.comingSoon'),
       rating: 0,
-      category: 'Educativo',
-      difficulty: 'Difícil',
-      time: '15-45 min'
+      category: t('home.games.crossword.category'),
+      difficulty: t('home.games.crossword.difficulty'),
+      time: t('home.games.crossword.time')
     }
   ];
 
   const stats = [
-    { icon: Users, label: 'Jogadores Ativos', value: '1,234' },
-    { icon: Clock, label: 'Tempo Jogado', value: '2,567h' },
-    { icon: Trophy, label: 'Palavras Encontradas', value: '45,678' },
-    { icon: Star, label: 'Avaliação Média', value: '4.8/5' }
+    { icon: Users, label: t('home.stats.activePlayers'), value: '1,234' },
+    { icon: Clock, label: t('home.stats.timePlayed'), value: '2,567h' },
+    { icon: Trophy, label: t('home.stats.wordsFound'), value: '45,678' },
+    { icon: Star, label: t('home.stats.averageRating'), value: '4.8/5' }
   ];
 
   return (
@@ -77,16 +81,17 @@ const Home: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent">
-                  Jogos Educativos
+                  {t('home.title')}
                 </h1>
-                <p className="text-sm text-gray-600">Aprenda brincando</p>
+                <p className="text-sm text-gray-600">{t('home.subtitle')}</p>
               </div>
             </div>
             
-            <nav className="hidden md:flex space-x-8">
-              <a href="#games" className="text-gray-700 hover:text-blue-600 transition-colors">Jogos</a>
-              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">Sobre</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contato</a>
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="#games" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.games')}</a>
+              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.about')}</a>
+              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.contact')}</a>
+              <LanguageSelector />
             </nav>
           </div>
         </div>
@@ -101,12 +106,11 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-              Aprenda de Forma
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"> Divertida</span>
+              {t('home.hero.title')}{' '}
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{t('home.hero.titleHighlight')}</span>
             </h2>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Nossa coleção de jogos educativos foi criada para tornar o aprendizado 
-              uma experiência envolvente e interativa para todas as idades.
+              {t('home.hero.description')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -114,13 +118,13 @@ const Home: React.FC = () => {
                 href="#games"
                 className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
               >
-                Começar a Jogar
+                {t('home.hero.cta')}
               </a>
               <a
                 href="#about"
                 className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all duration-200"
               >
-                Saiba Mais
+                {t('home.hero.learnMore')}
               </a>
             </div>
           </motion.div>
@@ -159,10 +163,9 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h3 className="text-4xl font-bold text-gray-900 mb-4">Nossos Jogos</h3>
+            <h3 className="text-4xl font-bold text-gray-900 mb-4">{t('home.games.title')}</h3>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Explore nossa coleção crescente de jogos educativos, 
-              cada um projetado para desenvolver habilidades específicas.
+              {t('home.games.description')}
             </p>
           </motion.div>
 
@@ -183,9 +186,9 @@ const Home: React.FC = () => {
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-xl font-semibold text-gray-900">{game.title}</h4>
                     {game.status === 'coming-soon' && (
-                      <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
-                        Em breve
-                      </span>
+                                           <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                       {t('home.games.comingSoon')}
+                     </span>
                     )}
                   </div>
                   
@@ -211,14 +214,14 @@ const Home: React.FC = () => {
                       href="/caca-palavras"
                       className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 block text-center"
                     >
-                      Jogar Agora
+                                             {t('home.games.playNow')}
                     </a>
                   ) : (
                     <button
                       disabled
                       className="w-full bg-gray-200 text-gray-500 py-3 px-4 rounded-lg font-semibold cursor-not-allowed"
                     >
-                      Em Breve
+                                             {t('home.games.comingSoon')}
                     </button>
                   )}
                 </div>
@@ -237,32 +240,30 @@ const Home: React.FC = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h3 className="text-4xl font-bold text-gray-900 mb-6">
-                Por que Jogos Educativos?
-              </h3>
-              <p className="text-lg text-gray-600 mb-6">
-                Acreditamos que o aprendizado deve ser divertido e envolvente. 
-                Nossos jogos são desenvolvidos com base em princípios educacionais 
-                comprovados, combinando diversão com desenvolvimento de habilidades.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-center text-gray-700">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Desenvolvimento cognitivo e memória
-                </li>
-                <li className="flex items-center text-gray-700">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Melhoria da concentração e foco
-                </li>
-                <li className="flex items-center text-gray-700">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Aprendizado de vocabulário e linguagem
-                </li>
-                <li className="flex items-center text-gray-700">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  Desenvolvimento de habilidades motoras
-                </li>
-              </ul>
+                             <h3 className="text-4xl font-bold text-gray-900 mb-6">
+                 {t('home.about.title')}
+               </h3>
+               <p className="text-lg text-gray-600 mb-6">
+                 {t('home.about.description')}
+               </p>
+               <ul className="space-y-3">
+                 <li className="flex items-center text-gray-700">
+                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                   {t('home.about.benefits.cognitive')}
+                 </li>
+                 <li className="flex items-center text-gray-700">
+                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                   {t('home.about.benefits.concentration')}
+                 </li>
+                 <li className="flex items-center text-gray-700">
+                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                   {t('home.about.benefits.vocabulary')}
+                 </li>
+                 <li className="flex items-center text-gray-700">
+                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                   {t('home.about.benefits.motor')}
+                 </li>
+               </ul>
             </motion.div>
             
             <motion.div
@@ -272,25 +273,25 @@ const Home: React.FC = () => {
               className="relative"
             >
               <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-8 text-white">
-                <h4 className="text-2xl font-bold mb-4">Estatísticas Impressionantes</h4>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span>Jogadores Ativos</span>
-                    <span className="font-bold">1,234</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Tempo Jogado</span>
-                    <span className="font-bold">2,567h</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Palavras Encontradas</span>
-                    <span className="font-bold">45,678</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Avaliação Média</span>
-                    <span className="font-bold">4.8/5</span>
-                  </div>
-                </div>
+                                 <h4 className="text-2xl font-bold mb-4">{t('home.about.stats.title')}</h4>
+                 <div className="space-y-4">
+                   <div className="flex justify-between">
+                     <span>{t('home.about.stats.activePlayers')}</span>
+                     <span className="font-bold">1,234</span>
+                   </div>
+                   <div className="flex justify-between">
+                     <span>{t('home.about.stats.timePlayed')}</span>
+                     <span className="font-bold">2,567h</span>
+                   </div>
+                   <div className="flex justify-between">
+                     <span>{t('home.about.stats.wordsFound')}</span>
+                     <span className="font-bold">45,678</span>
+                   </div>
+                   <div className="flex justify-between">
+                     <span>{t('home.about.stats.averageRating')}</span>
+                     <span className="font-bold">4.8/5</span>
+                   </div>
+                 </div>
               </div>
             </motion.div>
           </div>
@@ -308,44 +309,44 @@ const Home: React.FC = () => {
                 </div>
                 <span className="text-xl font-bold">Jogos Educativos</span>
               </div>
-              <p className="text-gray-400">
-                Aprenda brincando com nossa coleção de jogos educativos.
-              </p>
+                             <p className="text-gray-400">
+                 {t('home.footer.description')}
+               </p>
             </div>
             
-            <div>
-              <h5 className="font-semibold mb-4">Jogos</h5>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="/caca-palavras" className="hover:text-white transition-colors">Caça-Palavras</a></li>
-                <li><span className="text-gray-600">Quebra-Cabeça (Em breve)</span></li>
-                <li><span className="text-gray-600">Jogo da Memória (Em breve)</span></li>
-                <li><span className="text-gray-600">Palavras Cruzadas (Em breve)</span></li>
-              </ul>
-            </div>
+                         <div>
+               <h5 className="font-semibold mb-4">{t('home.footer.games')}</h5>
+               <ul className="space-y-2 text-gray-400">
+                 <li><a href="/caca-palavras" className="hover:text-white transition-colors">{t('home.games.wordSearch.title')}</a></li>
+                 <li><span className="text-gray-600">{t('home.games.puzzle.title')} ({t('home.games.comingSoon')})</span></li>
+                 <li><span className="text-gray-600">{t('home.games.memory.title')} ({t('home.games.comingSoon')})</span></li>
+                 <li><span className="text-gray-600">{t('home.games.crossword.title')} ({t('home.games.comingSoon')})</span></li>
+               </ul>
+             </div>
+             
+             <div>
+               <h5 className="font-semibold mb-4">{t('home.footer.resources')}</h5>
+               <ul className="space-y-2 text-gray-400">
+                 <li><a href="#about" className="hover:text-white transition-colors">{t('home.navigation.about')}</a></li>
+                 <li><a href="#contact" className="hover:text-white transition-colors">{t('home.navigation.contact')}</a></li>
+                 <li><a href="/privacy" className="hover:text-white transition-colors">{t('home.footer.privacy')}</a></li>
+                 <li><a href="/terms" className="hover:text-white transition-colors">{t('home.footer.terms')}</a></li>
+               </ul>
+             </div>
             
-            <div>
-              <h5 className="font-semibold mb-4">Recursos</h5>
-              <ul className="space-y-2 text-gray-400">
-                <li><a href="#about" className="hover:text-white transition-colors">Sobre</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Contato</a></li>
-                <li><a href="/privacy" className="hover:text-white transition-colors">Privacidade</a></li>
-                <li><a href="/terms" className="hover:text-white transition-colors">Termos</a></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h5 className="font-semibold mb-4">Contato</h5>
-              <ul className="space-y-2 text-gray-400">
-                <li>contato@jogoseducativos.com</li>
-                <li>+55 (11) 99999-9999</li>
-                <li>São Paulo, SP</li>
-              </ul>
-            </div>
+                         <div>
+               <h5 className="font-semibold mb-4">{t('home.footer.contact')}</h5>
+               <ul className="space-y-2 text-gray-400">
+                 <li>contato@jogoseducativos.com</li>
+                 <li>+55 (11) 99999-9999</li>
+                 <li>São Paulo, SP</li>
+               </ul>
+             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Jogos Educativos. Todos os direitos reservados.</p>
-          </div>
+                     <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+             <p>{t('home.footer.copyright')}</p>
+           </div>
         </div>
       </footer>
     </div>

@@ -1,0 +1,84 @@
+{
+  "home": {
+    "title": "Educational Games",
+    "subtitle": "Learn while playing",
+    "hero": {
+      "title": "Learn in a",
+      "titleHighlight": "Fun Way",
+      "description": "Our collection of educational games was created to make learning an engaging and interactive experience for all ages.",
+      "cta": "Start Playing",
+      "learnMore": "Learn More"
+    },
+    "stats": {
+      "activePlayers": "Active Players",
+      "timePlayed": "Time Played",
+      "wordsFound": "Words Found",
+      "averageRating": "Average Rating"
+    },
+    "games": {
+      "title": "Our Games",
+      "description": "Explore our growing collection of educational games, each designed to develop specific skills.",
+      "wordSearch": {
+        "title": "Word Search",
+        "description": "Find hidden words in a letter grid",
+        "category": "Educational",
+        "difficulty": "Easy",
+        "time": "5-15 min"
+      },
+      "puzzle": {
+        "title": "Puzzle",
+        "description": "Assemble images by sliding pieces",
+        "category": "Logic",
+        "difficulty": "Medium",
+        "time": "10-30 min"
+      },
+      "memory": {
+        "title": "Memory Game",
+        "description": "Find matching card pairs",
+        "category": "Memory",
+        "difficulty": "Easy",
+        "time": "3-10 min"
+      },
+      "crossword": {
+        "title": "Crossword",
+        "description": "Complete words with clues",
+        "category": "Educational",
+        "difficulty": "Hard",
+        "time": "15-45 min"
+      },
+      "comingSoon": "Coming Soon",
+      "playNow": "Play Now"
+    },
+    "about": {
+      "title": "Why Educational Games?",
+      "description": "We believe that learning should be fun and engaging. Our games are developed based on proven educational principles, combining fun with skill development.",
+      "benefits": {
+        "cognitive": "Cognitive development and memory",
+        "concentration": "Improved concentration and focus",
+        "vocabulary": "Vocabulary and language learning",
+        "motor": "Motor skills development"
+      },
+      "stats": {
+        "title": "Impressive Statistics",
+        "activePlayers": "Active Players",
+        "timePlayed": "Time Played",
+        "wordsFound": "Words Found",
+        "averageRating": "Average Rating"
+      }
+    },
+    "footer": {
+      "description": "Learn while playing with our collection of educational games.",
+      "games": "Games",
+      "resources": "Resources",
+      "contact": "Contact",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "copyright": "© 2024 Educational Games. All rights reserved."
+    },
+    "navigation": {
+      "games": "Games",
+      "about": "About",
+      "contact": "Contact"
+    }
+  }
+}
