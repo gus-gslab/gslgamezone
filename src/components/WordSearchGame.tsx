@@ -126,9 +126,9 @@ const ACHIEVEMENTS: Achievement[] = [
 const WORD_CATALOGS = {
   pt: {
     easy: {
-      animals: ['GATO', 'CASA', 'MESA', 'AMOR', 'LUZ', 'MAR', 'SOL', 'CEU', 'PAO', 'FLOR', 'BOI', 'RATO', 'PATO', 'URSO', 'GALO'],
+      animals: ['GATO', 'BOI', 'RATO', 'PATO', 'URSO', 'GALO', 'CAO', 'GATO', 'PORCO', 'CAVALO', 'VACA', 'CARNEIRO', 'COELHO', 'PEIXE', 'PASSARO'],
       colors: ['AZUL', 'ROSA', 'ROXO', 'CINZA', 'OURO', 'VERDE', 'CORAL', 'BEGE', 'MARROM', 'PRETO', 'BRANCO', 'AMARELO', 'LARANJA'],
-      foods: ['MACA', 'LEITE', 'AGUA', 'CAFE', 'BOLO', 'SOPA', 'OVO', 'MEL', 'SAL', 'ACUCAR', 'ARROZ', 'FEIJAO', 'PEIXE'],
+      foods: ['MACA', 'BOLO', 'SOPA', 'OVO', 'MEL', 'SAL', 'ACUCAR', 'ARROZ', 'FEIJAO', 'PEIXE', 'CARNE', 'PAO', 'QUEIJO', 'BANANA', 'LARANJA'],
       technology: ['COMPUTADOR', 'TELEFONE', 'INTERNET', 'EMAIL', 'SITE', 'PROGRAMA', 'ARQUIVO', 'DADOS', 'REDE', 'SISTEMA', 'CODIGO', 'SENHA', 'LOGIN'],
       professions: ['MEDICO', 'PROFESSOR', 'ENGENHEIRO', 'ADVOGADO', 'DENTISTA', 'VETERINARIO', 'ARQUITETO', 'FARMACEUTICO', 'ENFERMEIRO', 'PSICOLOGO'],
       sports: ['FUTEBOL', 'BASQUETE', 'TENIS', 'NATACAO', 'VOLEI', 'ATLETISMO', 'GINASTICA', 'SURF', 'SKATE', 'CICLISMO'],
@@ -157,7 +157,7 @@ const WORD_CATALOGS = {
     easy: {
       animals: ['CAT', 'DOG', 'BIRD', 'FISH', 'BEAR', 'DUCK', 'FROG', 'DEER', 'FOX', 'BEE', 'ANT', 'RAT', 'BAT'],
       colors: ['RED', 'BLUE', 'GREEN', 'PINK', 'GOLD', 'GRAY', 'BLACK', 'WHITE', 'BROWN', 'BEIGE', 'YELLOW', 'ORANGE'],
-      foods: ['APPLE', 'BREAD', 'MILK', 'EGG', 'CAKE', 'SOUP', 'RICE', 'FISH', 'MEAT', 'CORN', 'BEANS', 'PASTA'],
+      foods: ['APPLE', 'BREAD', 'EGG', 'CAKE', 'SOUP', 'RICE', 'FISH', 'MEAT', 'CORN', 'BEANS', 'PASTA', 'CHEESE', 'BANANA', 'ORANGE'],
       technology: ['COMPUTER', 'PHONE', 'INTERNET', 'EMAIL', 'WEBSITE', 'PROGRAM', 'FILE', 'DATA', 'NETWORK', 'SYSTEM', 'CODE'],
       professions: ['DOCTOR', 'TEACHER', 'ENGINEER', 'LAWYER', 'DENTIST', 'VETERINARIAN', 'ARCHITECT', 'PHARMACIST', 'NURSE', 'PSYCHOLOGIST'],
       sports: ['FOOTBALL', 'BASKETBALL', 'TENNIS', 'SWIMMING', 'VOLLEYBALL', 'ATHLETICS', 'GYMNASTICS', 'SURFING', 'SKATEBOARDING', 'CYCLING'],
@@ -186,7 +186,7 @@ const WORD_CATALOGS = {
     easy: {
       animals: ['GATO', 'PERRO', 'PAJARO', 'PEZ', 'OSO', 'PATO', 'RANA', 'CIERVO', 'ZORRO', 'ABEJA', 'HORMIGA', 'RATA'],
       colors: ['ROJO', 'AZUL', 'VERDE', 'ROSA', 'ORO', 'GRIS', 'NEGRO', 'BLANCO', 'CAFE', 'BEIGE', 'AMARILLO'],
-      foods: ['MANZANA', 'PAN', 'LECHE', 'HUEVO', 'PASTEL', 'SOPA', 'ARROZ', 'PESCADO', 'CARNE', 'MAIZ'],
+      foods: ['MANZANA', 'PAN', 'HUEVO', 'PASTEL', 'SOPA', 'ARROZ', 'PESCADO', 'CARNE', 'MAIZ', 'QUESO', 'PLATANO', 'NARANJA'],
       technology: ['COMPUTADORA', 'TELEFONO', 'INTERNET', 'CORREO', 'SITIO WEB', 'PROGRAMA', 'ARCHIVO', 'DATOS', 'RED', 'SISTEMA'],
       professions: ['MEDICO', 'PROFESOR', 'INGENIERO', 'ABOGADO', 'DENTISTA', 'VETERINARIO', 'ARQUITECTO', 'FARMACEUTICO', 'ENFERMERO', 'PSICOLOGO'],
       sports: ['FUTBOL', 'BALONCESTO', 'TENIS', 'NATACION', 'VOLEIBOL', 'ATLETISMO', 'GIMNASIA', 'SURF', 'SKATE', 'CICLISMO'],
@@ -478,18 +478,13 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
 
   const initializeGame = useCallback(() => {
     try {
-      console.log('Initializing game with:', { language, wordDifficulty, category, gridSize });
-      
       const categoryWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category];
-      console.log('Category words:', categoryWords);
       
       if (!categoryWords?.length) {
-        console.log('No words found for category, using fallback');
         const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
         if (availableCategories.length > 0) {
           const fallbackCategory = availableCategories[0];
           const fallbackWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[fallbackCategory];
-          console.log('Using fallback category:', fallbackCategory, 'with words:', fallbackWords);
           
           const config = GRID_CONFIGS[gridSize];
           const seed = Date.now();
@@ -514,8 +509,6 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
       const config = GRID_CONFIGS[gridSize];
       const seed = Date.now();
       const result = generateGrid(config.size, config.rows, categoryWords, seed);
-      
-      console.log('Generated grid with words:', result.words);
       
       setGameState({
         grid: result.grid,
