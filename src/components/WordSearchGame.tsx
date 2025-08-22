@@ -866,8 +866,8 @@ const WordSearchGame: React.FC = () => {
   const { width, height } = useWindowSize();
   const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
   // const { speak } = useTTS(language, ttsEnabled); // TTS desabilitado
-  const { startTimer, resetTimer, getFormattedTime, startTime } = useGameTimer(gameStarted, false);
-    const {
+  
+  const {
     gameState,
     foundWords,
     gameCompleted,
@@ -879,6 +879,8 @@ const WordSearchGame: React.FC = () => {
     updateGameCompletionStats,
     checkAchievements
   } = useGameState(language, gridSize, wordDifficulty, category);
+
+  const { startTimer, resetTimer, getFormattedTime, startTime } = useGameTimer(gameStarted, gameCompleted);
 
   // Estado para controlar palavras sendo processadas
   const [processingWords, setProcessingWords] = useState<Set<string>>(new Set());
@@ -1037,7 +1039,7 @@ const WordSearchGame: React.FC = () => {
     if (!gameState) return;
     
     const gameUrl = 'https://gslgamezone.com/game-setup';
-    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 Jogue agora: ${gameUrl}`;
+    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 ${gameUrl}`;
     
     if (navigator.share) {
       navigator.share({ 
@@ -1059,7 +1061,7 @@ const WordSearchGame: React.FC = () => {
     if (!gameState) return;
     
     const gameUrl = 'https://gslgamezone.com/game-setup';
-    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 Jogue agora: ${gameUrl}`;
+    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 ${gameUrl}`;
     
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
@@ -1069,7 +1071,12 @@ const WordSearchGame: React.FC = () => {
     const shareModal = document.createElement('div');
     shareModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
     shareModal.innerHTML = `
-      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4 relative">
+        <button onclick="this.parentElement.parentElement.remove()" class="absolute top-3 right-3 p-1 text-gray-400 hover:text-gray-600 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
         <div class="text-center mb-6">
           <h3 class="text-lg font-semibold text-gray-800 mb-2">Compartilhar Resultado</h3>
           <p class="text-sm text-gray-600">Escolha como compartilhar seu resultado!</p>
@@ -1094,10 +1101,6 @@ const WordSearchGame: React.FC = () => {
           <button onclick="navigator.clipboard.writeText('${shareText.replace(/'/g, "\\'")}'); this.parentElement.parentElement.parentElement.remove(); alert('Texto copiado!');" class="flex items-center justify-center gap-3 w-full p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
             <span class="text-xl">📋</span>
             Copiar Link
-          </button>
-          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="flex items-center justify-center gap-3 w-full p-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
-            <span class="text-xl">❌</span>
-            Cancelar
           </button>
         </div>
       </div>
