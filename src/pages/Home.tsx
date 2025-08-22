@@ -191,7 +191,7 @@ const Home: React.FC = () => {
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center"
               >
@@ -211,8 +211,9 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
             <h3 className="text-4xl font-bold text-gray-900 mb-4">{t('home.games.title')}</h3>
@@ -225,12 +226,12 @@ const Home: React.FC = () => {
             {games.map((game, index) => (
               <motion.div
                 key={game.id}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{
-                  duration: 0.8,
-                  delay: index * 0.2,
+                  duration: 0.6,
+                  delay: index * 0.1,
                   ease: "easeOut"
                 }}
                 className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"

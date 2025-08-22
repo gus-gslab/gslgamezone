@@ -1160,9 +1160,9 @@ const WordSearchGame: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           {/* Mobile Header - Simplified */}
-          <div className="md:hidden flex items-center justify-between w-full mb-4">
+          <div className="md:hidden flex items-center justify-between w-full mb-2">
             <motion.button
               onClick={handleBackToHome}
               className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -1205,14 +1205,14 @@ const WordSearchGame: React.FC = () => {
             >
               <ArrowLeft size={20} className="text-gray-600" />
             </motion.button>
-            <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg">
-              <Target className="text-white" size={28} />
+            <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg shadow-lg">
+              <Target className="text-white" size={24} />
             </div>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent">
                 {t.title}
               </h1>
-              <p className="text-sm text-gray-500 mt-1">Jogo educativo interativo</p>
+              <p className="text-xs text-gray-500 mt-1">Jogo educativo interativo</p>
             </div>
           </div>
           
