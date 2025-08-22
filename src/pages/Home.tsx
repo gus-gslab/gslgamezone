@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy, Menu, X } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 import LanguageSelector from '../components/LanguageSelector';
+import LogoGSLGameZone from '../components/LogoGSLGameZone';
+import LogoGSLGameZoneDark from '../components/LogoGSLGameZoneDark';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -83,9 +85,9 @@ const Home: React.FC = () => {
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
               {/* Logo GSL Game Zone SVG */}
-              <img 
-                src="/logo-gslgamezone-whiteBG.svg" 
-                alt="GSL Game Zone" 
+              <LogoGSLGameZone 
+                width={200} 
+                height={48} 
                 className="h-12 w-auto"
               />
             </div>
@@ -360,11 +362,11 @@ const Home: React.FC = () => {
             <div>
               <div className="flex items-start mb-4">
                 <div className="flex flex-col items-center">
-                  <img 
-                    src="/logo-gslgamezone-darkBG.svg" 
-                    alt="GSL Game Zone" 
-                    className="h-[36.96px] w-auto mb-2"
-                  />
+                                  <LogoGSLGameZoneDark 
+                  width={150} 
+                  height={37} 
+                  className="mb-2"
+                />
                   <span className="text-sm text-gray-400">{t('home.subtitle')}</span>
                 </div>
               </div>
