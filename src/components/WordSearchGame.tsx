@@ -1181,7 +1181,7 @@ const WordSearchGame: React.FC = () => {
       >
         <div className="flex items-center justify-between mb-4">
           {/* Mobile Header - Simplified */}
-          <div className="md:hidden flex items-center justify-between w-full mb-2">
+          <div className="md:hidden flex items-center justify-between w-full mb-2 h-[85px]">
             <motion.button
               onClick={handleBackToHome}
               className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
