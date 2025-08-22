@@ -82,36 +82,12 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-3">
-              {/* Logo GSL Game Zone */}
-              <div className="flex items-center space-x-3">
-                {/* Controller Icon */}
-                <div className="relative">
-                  <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center shadow-lg">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      {/* Game Controller Icon */}
-                      <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM10 15H8v-2h2v2zm0-4H8V9h2v2zm4 4h-2v-2h2v2zm0-4h-2V9h2v2zm4 4h-2v-2h2v2zm0-4h-2V9h2v2z"/>
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* GSL Text */}
-                <div className="flex items-center space-x-1">
-                  <span className="text-3xl font-bold text-orange-500">G</span>
-                  <span className="text-3xl font-bold text-yellow-500">S</span>
-                  <span className="text-3xl font-bold text-purple-600">L</span>
-                </div>
-                
-                {/* GAME ZONE Text */}
-                <div className="flex flex-col space-y-1">
-                  <span className="text-xl font-bold text-white bg-gray-800 px-3 py-1 rounded">GAME</span>
-                  <span className="text-xl font-bold text-white bg-gray-800 px-3 py-1 rounded">ZONE</span>
-                </div>
-                
-                {/* URL Bar */}
-                <div className="bg-orange-500 px-3 py-1 rounded text-sm text-white font-medium">
-                  gslgamezone.com
-                </div>
-              </div>
+              {/* Logo GSL Game Zone SVG */}
+              <img 
+                src="/logo-gslgamezone-whiteBG.svg" 
+                alt="GSL Game Zone" 
+                className="h-12 w-auto"
+              />
             </div>
             
             <nav className="hidden md:flex items-center space-x-8">
@@ -382,13 +358,14 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="p-2 bg-blue-600 rounded-lg">
-                  <Brain className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <span className="text-xl font-bold">GSL Game Zone</span>
-                  <p className="text-xs text-gray-500 mt-1">{t('home.subtitle')}</p>
+              <div className="flex items-start mb-4">
+                <div className="flex flex-col items-center">
+                  <img 
+                    src="/logo-gslgamezone-darkBG.svg" 
+                    alt="GSL Game Zone" 
+                    className="h-[36.96px] w-auto mb-2"
+                  />
+                  <span className="text-sm text-gray-400">{t('home.subtitle')}</span>
                 </div>
               </div>
                              <p className="text-gray-400">
