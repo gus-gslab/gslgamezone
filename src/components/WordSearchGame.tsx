@@ -1151,7 +1151,41 @@ const WordSearchGame: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
+          {/* Mobile Header - Simplified */}
+          <div className="md:hidden flex items-center justify-between w-full mb-4">
+            <motion.button
+              onClick={handleBackToHome}
+              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Voltar para Home"
+            >
+              <ArrowLeft size={20} className="text-gray-600" />
+            </motion.button>
+            
+            <div className="flex items-center gap-2">
+              <Target size={20} className="text-blue-600" />
+              <h1 className="text-lg font-bold text-gray-800">{t.title}</h1>
+            </div>
+            
+            {gameCompleted && (
+              <motion.button
+                onClick={handleShare}
+                className="p-2 bg-green-500 text-white rounded-lg"
+                title={t.share}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Share2 size={18} />
+              </motion.button>
+            )}
+          </div>
+          
+          {/* Desktop Header */}
+          <div className="hidden md:flex items-center gap-3">
             <motion.button
               onClick={handleBackToHome}
               className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -1194,7 +1228,7 @@ const WordSearchGame: React.FC = () => {
 
 
 
-        <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border border-gray-200">
+        <div className="hidden md:block bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border border-gray-200">
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
             {/* Progresso e Pontuação */}
             <div className="flex items-center gap-3">
