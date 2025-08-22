@@ -22,7 +22,7 @@ i18n
     debug: false,
     
     detection: {
-      order: ['navigator', 'htmlTag', 'path', 'subdomain'],
+      order: ['navigator', 'localStorage', 'htmlTag', 'path', 'subdomain'],
       caches: ['localStorage'],
       lookupLocalStorage: 'i18nextLng',
       lookupFromPathIndex: 0,

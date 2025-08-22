@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp, ArrowLeft } from 'lucide-react';
+import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp, ArrowLeft, X } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '../hooks/useWindowSize';
+import { useTranslation } from 'react-i18next';
 
 // ===== TYPES =====
 interface GridConfig {
@@ -724,9 +725,17 @@ const useTouchHandlers = (gameCompleted: boolean, onCellStart: (row: number, col
 const WordSearchGame: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { i18n } = useTranslation();
   
   // Pegar configurações da URL ou usar padrões
   const [language, setLanguage] = useState(searchParams.get('lang') || 'pt');
+  
+  // Atualizar i18n quando o idioma mudar
+  useEffect(() => {
+    if (language && ['pt', 'en', 'es'].includes(language)) {
+      i18n.changeLanguage(language);
+    }
+  }, [language, i18n]);
   const [gridSize, setGridSize] = useState(searchParams.get('size') || 'medium');
   const [wordDifficulty, setWordDifficulty] = useState(searchParams.get('difficulty') || 'easy');
   const [category, setCategory] = useState(searchParams.get('category') || 'animals');
@@ -761,7 +770,6 @@ const WordSearchGame: React.FC = () => {
   const handleWordFound = (word: string) => {
     addFoundWord(word);
     speak(word);
-    toast.success(`🎉 ${word} encontrada!`);
     
     // Track word found
     if (window.gameAnalytics) {
@@ -835,24 +843,85 @@ const WordSearchGame: React.FC = () => {
     navigate('/');
   };
 
+  const handleCloseGame = () => {
+    navigate('/game-setup');
+  };
+
   const handleShare = () => {
     if (!gameState) return;
     
-    const shareText = `${t.title} - ${t.gridSizes[gridSize as keyof typeof t.gridSizes]}\n${t.found}: ${foundWords.length}/${gameState.words.length}\n${t.timeElapsed}: ${getFormattedTime()}`;
+    const gameUrl = 'https://gslgamezone.com/game-setup';
+    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 Jogue agora: ${gameUrl}`;
     
     if (navigator.share) {
-      navigator.share({ title: t.title, text: shareText });
+      navigator.share({ 
+        title: 'Caça-Palavras - GSL Game Zone', 
+        text: shareText,
+        url: gameUrl
+      });
       // Track share
       if (window.gameAnalytics) {
         window.gameAnalytics.trackShare('native');
       }
     } else {
-      navigator.clipboard.writeText(shareText);
-      toast.success('Resultado copiado para a área de transferência!');
-      // Track share
-      if (window.gameAnalytics) {
-        window.gameAnalytics.trackShare('clipboard');
-      }
+      // Fallback para navegadores que não suportam Web Share API
+      showShareModal();
+    }
+  };
+
+  const showShareModal = () => {
+    if (!gameState) return;
+    
+    const gameUrl = 'https://gslgamezone.com/game-setup';
+    const shareText = `🎮 Joguei Caça-Palavras no GSL Game Zone!\n\n🏆 Resultado: ${foundWords.length}/${gameState.words.length} palavras encontradas\n⏱️ Tempo: ${getFormattedTime()}\n🎯 Pontuação: ${score} pontos\n\n🎮 Jogue agora: ${gameUrl}`;
+    
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(gameUrl)}`;
+    const smsUrl = `sms:?body=${encodeURIComponent(shareText)}`;
+    
+    const shareModal = document.createElement('div');
+    shareModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    shareModal.innerHTML = `
+      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+        <div class="text-center mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Compartilhar Resultado</h3>
+          <p class="text-sm text-gray-600">Escolha como compartilhar seu resultado!</p>
+        </div>
+        <div class="space-y-3">
+          <a href="${whatsappUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+            <span class="text-xl">📱</span>
+            WhatsApp
+          </a>
+          <a href="${twitterUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+            <span class="text-xl">🐦</span>
+            Twitter
+          </a>
+          <a href="${facebookUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+            <span class="text-xl">📘</span>
+            Facebook
+          </a>
+          <a href="${smsUrl}" class="flex items-center justify-center gap-3 w-full p-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+            <span class="text-xl">💬</span>
+            SMS
+          </a>
+          <button onclick="navigator.clipboard.writeText('${shareText.replace(/'/g, "\\'")}'); this.parentElement.parentElement.parentElement.remove(); alert('Texto copiado!');" class="flex items-center justify-center gap-3 w-full p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
+            <span class="text-xl">📋</span>
+            Copiar Link
+          </button>
+          <button onclick="this.parentElement.parentElement.parentElement.remove()" class="flex items-center justify-center gap-3 w-full p-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors">
+            <span class="text-xl">❌</span>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(shareModal);
+    
+    // Track share
+    if (window.gameAnalytics) {
+      window.gameAnalytics.trackShare('modal');
     }
   };
 
@@ -1374,12 +1443,21 @@ const WordSearchGame: React.FC = () => {
             exit={{ opacity: 0 }}
           >
             <motion.div 
-              className="bg-white rounded-lg p-8 max-w-md w-full mx-4"
+              className="bg-white rounded-lg p-8 max-w-md w-full mx-4 relative"
               initial={{ scale: 0.8, y: 50 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
             >
+              {/* Botão Fechar */}
+              <button
+                onClick={handleCloseGame}
+                className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                title="Fechar"
+              >
+                <X size={20} className="text-gray-600" />
+              </button>
+              
               <div className="text-center">
                 <motion.div 
                   className="text-6xl mb-4"

@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy } from 'lucide-react';
 import LanguageSelector from '../components/LanguageSelector';
 
 const Home: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  
+  // Garantir que o idioma seja detectado corretamente
+  useEffect(() => {
+    const detectedLang = i18n.language || navigator.language.split('-')[0];
+    if (detectedLang && ['pt', 'en', 'es'].includes(detectedLang)) {
+      i18n.changeLanguage(detectedLang);
+    }
+  }, [i18n]);
   
   const games = [
     {
