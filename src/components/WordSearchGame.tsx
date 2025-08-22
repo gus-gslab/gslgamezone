@@ -61,7 +61,7 @@ const GRID_CONFIGS: Record<string, GridConfig> = {
   large: { size: 14, rows: 18, wordCount: 10 }
 };
 
-// Configurações específicas para mobile
+// Configurações específicas para mobile e tablet
 const MOBILE_GRID_CONFIGS: Record<string, GridConfig> = {
   small: { size: 10, rows: 12, wordCount: 6 },
   medium: { size: 10, rows: 16, wordCount: 8 },
@@ -327,6 +327,7 @@ const placeWord = (grid: string[][], word: string, row: number, col: number, dir
 };
 
 const generateGrid = (cols: number, rows: number, words: string[], seed: number = Date.now()): { grid: string[][], words: WordObj[] } => {
+  console.log('generateGrid called with:', { cols, rows, wordsLength: words?.length, seed });
   const grid = Array(rows).fill('').map(() => Array(cols).fill(''));
   const placedWords: WordObj[] = [];
   let currentSeed = seed;
@@ -587,9 +588,9 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
         hasCategory: !!(WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category]
       });
       
-      // Detectar se é mobile
-      const isMobile = window.innerWidth < 768;
-      console.log('Is mobile:', isMobile);
+      // Detectar se é mobile ou tablet
+      const isMobile = window.innerWidth < 1024; // Inclui tablets (iPad Pro 11" = 834px)
+      console.log('Is mobile/tablet:', isMobile, 'Window width:', window.innerWidth);
       
       if (!categoryWords?.length) {
         const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
@@ -644,6 +645,8 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
   // Inicializar jogo apenas uma vez quando o componente monta
   useEffect(() => {
     console.log('useEffect triggered for initializeGame');
+    console.log('Component state:', { language, gridSize, wordDifficulty, category });
+    console.log('Window dimensions:', { width: window.innerWidth, height: window.innerHeight });
     initializeGame();
   }, []); // Remover dependências para evitar loop
 
