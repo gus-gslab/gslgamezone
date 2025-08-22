@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SEOHead from '../components/SEOHead';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 const Privacy: React.FC = () => {
   const { i18n } = useTranslation();
@@ -153,45 +154,50 @@ const Privacy: React.FC = () => {
         pageTitle={`${content.title} - GSL Game Zone`}
         pageDescription={`${content.title} do GSL Game Zone. Saiba como protegemos e utilizamos suas informações pessoais.`}
       />
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-dark-bg dark:to-dark-bg light-container">
+        {/* Efeitos de luz no background */}
+        <div className="light-effect-1"></div>
+        <div className="light-effect-2"></div>
+        <div className="light-effect-3"></div>
         {/* Header */}
-        <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="max-w-4xl mx-auto px-4 py-4">
+        <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-dark-header dark:border-dark-border light-content">
+          <div className="max-w-4xl mx-auto px-4 py-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <motion.button
                   onClick={handleBackToHome}
-                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors dark:bg-dark-border dark:hover:bg-dark-accent dark:text-dark-text"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <ArrowLeft size={20} className="text-gray-600" />
+                  <ArrowLeft size={18} className="text-gray-600 dark:text-dark-text" />
                 </motion.button>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-green-600 rounded-lg">
-                    <Shield className="h-6 w-6 text-white" />
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-green-600 dark:bg-green-500 rounded-lg">
+                    <Shield className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-xl font-bold text-gray-800">{content.title}</h1>
-                    <p className="text-sm text-gray-500">GSL Game Zone</p>
+                    <h1 className="text-lg font-bold text-gray-800 dark:text-dark-text">{content.title}</h1>
+                    <p className="text-xs text-gray-500 dark:text-dark-textSecondary">GSL Game Zone</p>
                   </div>
                 </div>
               </div>
+              <ThemeToggle />
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="max-w-4xl mx-auto px-4 py-8">
+        <main className="max-w-4xl mx-auto px-4 py-8 light-content">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-xl shadow-lg p-8"
+            className="bg-white dark:bg-dark-card rounded-xl shadow-lg p-8 dark:border dark:border-dark-border"
           >
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">{content.title}</h2>
-              <p className="text-gray-600">{content.lastUpdated}</p>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-dark-text mb-2">{content.title}</h2>
+              <p className="text-gray-600 dark:text-dark-textSecondary">{content.lastUpdated}</p>
             </div>
 
             <div className="space-y-6">
@@ -201,16 +207,16 @@ const Privacy: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="border-b border-gray-100 pb-6 last:border-b-0"
+                  className="border-b border-gray-100 dark:border-dark-border pb-6 last:border-b-0"
                 >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{section.title}</h3>
-                  <p className="text-gray-700 leading-relaxed">{section.content}</p>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-dark-text mb-3">{section.title}</h3>
+                  <p className="text-gray-700 dark:text-dark-textSecondary leading-relaxed">{section.content}</p>
                 </motion.div>
               ))}
             </div>
 
-            <div className="mt-8 pt-6 border-t border-gray-200 text-center">
-              <p className="text-sm text-gray-500">
+            <div className="mt-8 pt-6 border-t border-gray-200 dark:border-dark-border text-center">
+              <p className="text-sm text-gray-500 dark:text-dark-textSecondary">
                 © 2024 GSL Game Zone. Todos os direitos reservados.
               </p>
             </div>

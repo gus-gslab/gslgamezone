@@ -6,6 +6,7 @@ import SEOHead from '../components/SEOHead';
 import LanguageSelector from '../components/LanguageSelector';
 import LogoGSLGameZone from '../components/LogoGSLGameZone';
 import LogoGSLGameZoneDark from '../components/LogoGSLGameZoneDark';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -77,35 +78,46 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-dark-bg dark:to-dark-bg light-container">
       <SEOHead />
+      {/* Efeitos de luz no background */}
+      <div className="light-effect-1"></div>
+      <div className="light-effect-2"></div>
+      <div className="light-effect-3"></div>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-dark-header dark:border-dark-border light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               {/* Logo GSL Game Zone SVG */}
               <LogoGSLGameZone 
-                width={200} 
-                height={48} 
-                className="h-12 w-auto"
+                width={180} 
+                height={40} 
+                className="h-10 w-auto"
               />
             </div>
             
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#games" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.games')}</a>
-              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.about')}</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">{t('home.navigation.contact')}</a>
-              <LanguageSelector />
+            <nav className="hidden md:flex items-center space-x-6">
+              <a href="#games" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent font-medium text-sm">{t('home.navigation.games')}</a>
+              <a href="#about" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent font-medium text-sm">{t('home.navigation.about')}</a>
+              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent font-medium text-sm">{t('home.navigation.contact')}</a>
+              
+              <div className="flex items-center space-x-3 ml-4">
+                <ThemeToggle />
+                <LanguageSelector />
+              </div>
             </nav>
             
             {/* Mobile menu button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="md:hidden flex items-center space-x-2">
+              <ThemeToggle />
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors dark:text-dark-text dark:hover:text-dark-accent dark:hover:bg-dark-border"
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           </div>
           
           {/* Mobile menu */}
@@ -114,31 +126,32 @@ const Home: React.FC = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="md:hidden border-t border-gray-200 pt-4 pb-4"
+              className="md:hidden border-t border-gray-200 dark:border-dark-border pt-4 pb-4"
             >
               <div className="flex flex-col space-y-4">
                 <a 
                   href="#games" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                  className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent"
                 >
                   {t('home.navigation.games')}
                 </a>
                 <a 
                   href="#about" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                  className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent"
                 >
                   {t('home.navigation.about')}
                 </a>
                 <a 
                   href="#contact" 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                  className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent"
                 >
                   {t('home.navigation.contact')}
                 </a>
-                <div className="pt-2 border-t border-gray-200">
+                <div className="flex items-center space-x-4 pt-2 border-t border-gray-200 dark:border-dark-border">
+                  <ThemeToggle />
                   <LanguageSelector />
                 </div>
               </div>
@@ -148,31 +161,31 @@ const Home: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 light-content">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-dark-text mb-6">
               {t('home.hero.title')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{t('home.hero.titleHighlight')}</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-glow bg-clip-text text-transparent">{t('home.hero.titleHighlight')}</span>
             </h2>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-dark-textSecondary mb-8 max-w-3xl mx-auto">
               {t('home.hero.description')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#games"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
               >
                 {t('home.hero.cta')}
               </a>
               <a
                 href="#about"
-                className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:border-blue-600 hover:text-blue-600 transition-all duration-200"
+                className="px-8 py-4 border-2 border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text rounded-lg font-semibold hover:border-blue-600 dark:hover:border-dark-accent hover:text-blue-600 dark:hover:text-dark-accent transition-all duration-200"
               >
                 {t('home.hero.learnMore')}
               </a>
@@ -182,7 +195,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-dark-bg light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -194,11 +207,11 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4">
-                  <stat.icon className="h-6 w-6 text-blue-600" />
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-dark-border rounded-lg mb-4">
+                  <stat.icon className="h-6 w-6 text-blue-600 dark:text-white" />
                 </div>
-                <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600">{stat.label}</div>
+                <div className="text-2xl font-bold text-gray-900 dark:text-dark-text mb-1">{stat.value}</div>
+                <div className="text-sm text-gray-600 dark:text-dark-textSecondary">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -206,7 +219,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Games Section */}
-      <section id="games" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="games" className="py-20 px-4 sm:px-6 lg:px-8 dark:bg-dark-bg light-content">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -215,8 +228,8 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h3 className="text-4xl font-bold text-gray-900 mb-4">{t('home.games.title')}</h3>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h3 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">{t('home.games.title')}</h3>
+            <p className="text-xl text-gray-600 dark:text-dark-textSecondary max-w-2xl mx-auto">
               {t('home.games.description')}
             </p>
           </motion.div>
@@ -233,7 +246,7 @@ const Home: React.FC = () => {
                   delay: index * 0.1,
                   ease: "easeOut"
                 }}
-                className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                className="bg-white dark:bg-dark-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden dark:border dark:border-dark-border relative group"
               >
                 <div className={`h-32 bg-gradient-to-br ${game.color} flex items-center justify-center`}>
                   <game.icon className="h-12 w-12 text-white" />
@@ -241,42 +254,42 @@ const Home: React.FC = () => {
                 
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xl font-semibold text-gray-900">{game.title}</h4>
+                    <h4 className="text-xl font-semibold text-gray-900 dark:text-dark-text">{game.title}</h4>
                     {game.status === 'coming-soon' && (
-                                           <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                                           <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-200 text-yellow-800 text-xs rounded-full">
                        {t('home.games.comingSoon')}
                      </span>
                     )}
                   </div>
                   
-                  <p className="text-gray-600 mb-4">{game.description}</p>
+                  <p className="text-gray-600 dark:text-dark-textSecondary mb-4">{game.description}</p>
                   
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Categoria:</span>
-                      <span className="font-medium">{game.category}</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">Categoria:</span>
+                      <span className="font-medium dark:text-dark-text">{game.category}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Dificuldade:</span>
-                      <span className="font-medium">{game.difficulty}</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">Dificuldade:</span>
+                      <span className="font-medium dark:text-dark-text">{game.difficulty}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500">Tempo:</span>
-                      <span className="font-medium">{game.time}</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">Tempo:</span>
+                      <span className="font-medium dark:text-dark-text">{game.time}</span>
                     </div>
                   </div>
 
                   {game.status === 'active' ? (
                     <a
                       href="/game-setup"
-                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 block text-center"
+                      className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 block text-center"
                     >
                                              {t('home.games.playNow')}
                     </a>
                   ) : (
                     <button
                       disabled
-                      className="w-full bg-gray-200 text-gray-500 py-3 px-4 rounded-lg font-semibold cursor-not-allowed"
+                      className="w-full bg-gray-200 dark:bg-dark-border text-gray-500 dark:text-dark-textSecondary py-3 px-4 rounded-lg font-semibold cursor-not-allowed"
                     >
                                              {t('home.games.comingSoon')}
                     </button>
@@ -289,7 +302,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white">
+      <section id="about" className="py-20 bg-white dark:bg-dark-card light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -297,27 +310,27 @@ const Home: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-                             <h3 className="text-4xl font-bold text-gray-900 mb-6">
+                             <h3 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-6">
                  {t('home.about.title')}
                </h3>
-               <p className="text-lg text-gray-600 mb-6">
+               <p className="text-lg text-gray-600 dark:text-dark-textSecondary mb-6">
                  {t('home.about.description')}
                </p>
                <ul className="space-y-3">
-                 <li className="flex items-center text-gray-700">
-                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                 <li className="flex items-center text-gray-700 dark:text-dark-text">
+                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
                    {t('home.about.benefits.cognitive')}
                  </li>
-                 <li className="flex items-center text-gray-700">
-                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                 <li className="flex items-center text-gray-700 dark:text-dark-text">
+                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
                    {t('home.about.benefits.concentration')}
                  </li>
-                 <li className="flex items-center text-gray-700">
-                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                 <li className="flex items-center text-gray-700 dark:text-dark-text">
+                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
                    {t('home.about.benefits.vocabulary')}
                  </li>
-                 <li className="flex items-center text-gray-700">
-                   <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                 <li className="flex items-center text-gray-700 dark:text-dark-text">
+                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
                    {t('home.about.benefits.motor')}
                  </li>
                </ul>
@@ -329,7 +342,7 @@ const Home: React.FC = () => {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-8 text-white">
+              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover rounded-2xl p-8 text-white">
                                  <h4 className="text-2xl font-bold mb-4">{t('home.about.stats.title')}</h4>
                  <div className="space-y-4">
                    <div className="flex justify-between">
@@ -356,7 +369,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 dark:bg-dark-bg text-white py-12 light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>

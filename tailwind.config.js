@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -30,6 +31,21 @@ export default {
           700: '#15803d',
           800: '#166534',
           900: '#14532d',
+        },
+        // Cores do dark mode baseadas na referência
+        dark: {
+          bg: '#1A0033', // Fundo principal escuro
+          card: '#2D1B69', // Cards escuros
+          border: '#4C1D95', // Bordas roxas
+          text: '#F3F4F6', // Texto claro
+          textSecondary: '#9CA3AF', // Texto secundário
+          accent: '#8B5CF6', // Roxo neon
+          accentHover: '#A855F7', // Roxo neon hover
+          glow: '#C084FC', // Brilho roxo
+          header: '#1A0033', // Header roxo escuro (como o fundo principal)
+          light1: '#8B5CF6', // Efeito de luz 1 (roxo)
+          light2: '#C084FC', // Efeito de luz 2 (roxo claro)
+          light3: '#A855F7', // Efeito de luz 3 (roxo médio)
         }
       },
       animation: {
