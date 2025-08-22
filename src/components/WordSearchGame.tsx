@@ -977,8 +977,15 @@ const WordSearchGame: React.FC = () => {
     }, 500);
     
     // Track word found
-    if (window.gameAnalytics) {
-      window.gameAnalytics.trackWordFound(word, category, wordDifficulty);
+    if (window.gtag) {
+      window.gtag('event', 'word_found', {
+        word: word,
+        game_category: category,
+        game_difficulty: wordDifficulty,
+        event_category: 'Game',
+        event_label: word
+      });
+      console.log('Analytics: Word found tracked', { word, category, wordDifficulty });
     }
     
     // Remover palavra do processamento após um delay maior
@@ -997,8 +1004,15 @@ const WordSearchGame: React.FC = () => {
       setGameStarted(true);
       
       // Track game start
-      if (window.gameAnalytics) {
-        window.gameAnalytics.trackGameStart(category, wordDifficulty, language);
+      if (window.gtag) {
+        window.gtag('event', 'game_start', {
+          game_category: category,
+          game_difficulty: wordDifficulty,
+          game_language: language,
+          event_category: 'Game',
+          event_label: `${category}_${wordDifficulty}_${language}`
+        });
+        console.log('Analytics: Game start tracked', { category, wordDifficulty, language });
       }
     }
     setSelectedCells([{ row, col }]);
@@ -1067,8 +1081,15 @@ const WordSearchGame: React.FC = () => {
     }, 100);
     
     // Track settings change
-    if (window.gameAnalytics) {
-      window.gameAnalytics.trackSettingsChange('new_game', 'previous', 'new');
+    if (window.gtag) {
+      window.gtag('event', 'settings_change', {
+        setting_name: 'new_game',
+        old_value: 'previous',
+        new_value: 'new',
+        event_category: 'Settings',
+        event_label: 'new_game'
+      });
+      console.log('Analytics: Settings change tracked', { setting: 'new_game', oldValue: 'previous', newValue: 'new' });
     }
   };
 
@@ -1094,8 +1115,13 @@ const WordSearchGame: React.FC = () => {
         url: gameUrl
       });
       // Track share
-      if (window.gameAnalytics) {
-        window.gameAnalytics.trackShare('native');
+      if (window.gtag) {
+        window.gtag('event', 'share', {
+          share_platform: 'native',
+          event_category: 'Social',
+          event_label: 'native'
+        });
+        console.log('Analytics: Share tracked', { platform: 'native' });
       }
     } else {
       // Fallback para navegadores que não suportam Web Share API
@@ -1156,8 +1182,13 @@ const WordSearchGame: React.FC = () => {
     document.body.appendChild(shareModal);
     
     // Track share
-    if (window.gameAnalytics) {
-      window.gameAnalytics.trackShare('modal');
+    if (window.gtag) {
+      window.gtag('event', 'share', {
+        share_platform: 'modal',
+        event_category: 'Social',
+        event_label: 'modal'
+      });
+      console.log('Analytics: Share tracked', { platform: 'modal' });
     }
   };
 
@@ -1184,14 +1215,23 @@ const WordSearchGame: React.FC = () => {
       setTimeout(() => setShowConfetti(false), 5000);
       
       // Track game completion
-      if (window.gameAnalytics && startTime) {
-        window.gameAnalytics.trackGameComplete(
+      if (startTime && window.gtag) {
+        window.gtag('event', 'game_complete', {
+          game_category: category,
+          game_difficulty: wordDifficulty,
+          game_language: language,
+          words_found: foundWords.length,
+          completion_time: completionTime,
+          event_category: 'Game',
+          event_label: `${category}_${wordDifficulty}_${language}`
+        });
+        console.log('Analytics: Game complete tracked', { 
           category, 
           wordDifficulty, 
           language, 
-          foundWords.length, 
+          wordsFound: foundWords.length, 
           completionTime
-        );
+        });
       }
     }
   }, [gameCompleted, category, wordDifficulty, language, foundWords.length, startTime, score, currentStreak, updateGameCompletionStats]);

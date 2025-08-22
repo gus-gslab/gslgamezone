@@ -46,8 +46,19 @@ const LanguageSelector: React.FC = () => {
     console.log('Language changed to:', i18n.language);
     
     // Track language change in analytics
-    if (window.gameAnalytics) {
-      window.gameAnalytics.trackSettingsChange('language', i18n.language, languageCode);
+    if (window.gtag) {
+      window.gtag('event', 'settings_change', {
+        setting_name: 'language',
+        old_value: i18n.language,
+        new_value: languageCode,
+        event_category: 'Settings',
+        event_label: 'language'
+      });
+      console.log('Analytics: Language change tracked', { 
+        setting: 'language', 
+        oldValue: i18n.language, 
+        newValue: languageCode 
+      });
     }
   };
 
