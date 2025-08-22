@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target } from 'lucide-react';
+import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 import Confetti from 'react-confetti';
@@ -32,6 +32,26 @@ interface Cell {
   col: number;
 }
 
+interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlocked: boolean;
+  progress: number;
+  maxProgress: number;
+}
+
+interface GameStats {
+  totalGames: number;
+  totalWordsFound: number;
+  bestTime: number;
+  averageTime: number;
+  achievements: Achievement[];
+  currentStreak: number;
+  longestStreak: number;
+}
+
 // ===== CONSTANTS =====
 const GRID_CONFIGS: Record<string, GridConfig> = {
   small: { size: 10, rows: 12, wordCount: 6 },
@@ -40,6 +60,67 @@ const GRID_CONFIGS: Record<string, GridConfig> = {
 };
 
 const DIRECTIONS = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [-1, -1], [1, -1], [-1, 1]];
+
+// Sistema de Pontuação
+const SCORING = {
+  wordFound: 100,
+  timeBonus: 50, // pontos por segundo restante
+  streakBonus: 25, // bônus por palavras consecutivas
+  difficultyMultiplier: {
+    easy: 1,
+    medium: 1.5,
+    hard: 2
+  }
+};
+
+// Conquistas
+const ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'first_word',
+    name: 'Primeira Palavra',
+    description: 'Encontre sua primeira palavra',
+    icon: '🎯',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 1
+  },
+  {
+    id: 'speed_demon',
+    name: 'Demônio da Velocidade',
+    description: 'Complete um jogo em menos de 2 minutos',
+    icon: '⚡',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 1
+  },
+  {
+    id: 'word_master',
+    name: 'Mestre das Palavras',
+    description: 'Encontre 50 palavras no total',
+    icon: '🏆',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 50
+  },
+  {
+    id: 'streak_champion',
+    name: 'Campeão da Sequência',
+    description: 'Encontre 5 palavras consecutivas',
+    icon: '🔥',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 5
+  },
+  {
+    id: 'perfectionist',
+    name: 'Perfeccionista',
+    description: 'Complete 10 jogos sem erros',
+    icon: '💎',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 10
+  }
+];
 
 const WORD_CATALOGS = {
   pt: {
@@ -95,7 +176,7 @@ const WORD_CATALOGS = {
       animals: ['RHINOCEROS', 'HIPPOPOTAMUS', 'PLATYPUS', 'SALAMANDER', 'CHAMELEON', 'OCTOPUS', 'DRAGONFLY', 'SCORPION'],
       technology: ['ARTIFICIAL INTELLIGENCE', 'MACHINE LEARNING', 'DEEP LEARNING', 'NEURAL NETWORK', 'QUANTUM COMPUTING', 'BIOTECHNOLOGY'],
       professions: ['NEUROSURGEON', 'CARDIOVASCULAR', 'ONCOLOGIST', 'HEMATOLOGIST', 'ENDOCRINOLOGIST', 'GASTROENTEROLOGIST', 'NEPHROLOGIST', 'RHEUMATOLOGIST'],
-      sports: ['PARALYMPIC', 'PENTATHLON', 'DECATHLON', 'HEPTATHLON', 'TRIATHLON', 'ULTRAMARATHON', 'MOUNTAINEERING', 'SPELEOLOGY'],
+      sports: ['PARALYMPIC', 'PENTATHLON', 'DECATHLON', 'HEPTATHLON', 'TRIATLON', 'ULTRAMARATHON', 'MOUNTAINEERING', 'SPELEOLOGY'],
       music: ['SYMPHONY', 'CONCERTO', 'OPERA', 'BALLET', 'MUSICAL', 'ORATORIO', 'CANTATA', 'SONATA', 'FUGUE', 'RHAPSODY'],
       nature: ['BIODIVERSITY', 'ECOSYSTEM', 'SUSTAINABILITY', 'CONSERVATION', 'PRESERVATION', 'RECYCLING', 'RENEWABLE', 'ENERGY']
     }
@@ -374,6 +455,25 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
   const [gameState, setGameState] = useState<GameState | null>(null);
   const [foundWords, setFoundWords] = useState<string[]>([]);
   const [gameCompleted, setGameCompleted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [gameStats, setGameStats] = useState<GameStats>(() => {
+    const saved = localStorage.getItem('wordSearchStats');
+    return saved ? JSON.parse(saved) : {
+      totalGames: 0,
+      totalWordsFound: 0,
+      bestTime: 0,
+      averageTime: 0,
+      achievements: ACHIEVEMENTS,
+      currentStreak: 0,
+      longestStreak: 0
+    };
+  });
+
+  // Salvar estatísticas no localStorage
+  useEffect(() => {
+    localStorage.setItem('wordSearchStats', JSON.stringify(gameStats));
+  }, [gameStats]);
 
   const initializeGame = useCallback(() => {
     try {
@@ -398,6 +498,8 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
       
       setFoundWords([]);
       setGameCompleted(false);
+      setScore(0);
+      setCurrentStreak(0);
       
       return null;
     } catch (error) {
@@ -419,13 +521,128 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
   const addFoundWord = useCallback((word: string) => {
     setFoundWords(prev => {
       if (!prev.includes(word)) {
+        // Calcular pontuação
+        const baseScore = SCORING.wordFound;
+        const difficultyMultiplier = SCORING.difficultyMultiplier[wordDifficulty as keyof typeof SCORING.difficultyMultiplier];
+        const streakBonus = currentStreak * SCORING.streakBonus;
+        const wordScore = Math.floor((baseScore + streakBonus) * difficultyMultiplier);
+        
+        setScore(prevScore => prevScore + wordScore);
+        setCurrentStreak(prevStreak => prevStreak + 1);
+        
+        // Atualizar estatísticas
+        setGameStats(prevStats => ({
+          ...prevStats,
+          totalWordsFound: prevStats.totalWordsFound + 1
+        }));
+        
+        // Verificar conquistas
+        checkAchievements();
+        
+        // Feedback visual
+        toast.success(`+${wordScore} pontos! 🔥`, {
+          icon: '🎯',
+          duration: 2000,
+          style: {
+            background: '#10B981',
+            color: 'white',
+            fontWeight: 'bold'
+          }
+        });
+        
         return [...prev, word];
       }
       return prev;
     });
+  }, [currentStreak, wordDifficulty]);
+
+  const checkAchievements = useCallback(() => {
+    setGameStats((prev: GameStats) => {
+      const newStats = { ...prev };
+      const achievements = [...prev.achievements];
+      
+      // Primeira palavra
+      const firstWord = achievements.find((a: Achievement) => a.id === 'first_word');
+      if (firstWord && !firstWord.unlocked) {
+        firstWord.progress = 1;
+        firstWord.unlocked = true;
+        toast.success('🏆 Conquista: Primeira Palavra!', {
+          duration: 3000,
+          icon: '🎯'
+        });
+      }
+      
+      // Mestre das palavras
+      const wordMaster = achievements.find((a: Achievement) => a.id === 'word_master');
+      if (wordMaster) {
+        wordMaster.progress = Math.min(prev.totalWordsFound + 1, wordMaster.maxProgress);
+        if (wordMaster.progress >= wordMaster.maxProgress && !wordMaster.unlocked) {
+          wordMaster.unlocked = true;
+          toast.success('🏆 Conquista: Mestre das Palavras!', {
+            duration: 3000,
+            icon: '🏆'
+          });
+        }
+      }
+      
+      // Campeão da sequência
+      const streakChampion = achievements.find((a: Achievement) => a.id === 'streak_champion');
+      if (streakChampion) {
+        streakChampion.progress = Math.max(streakChampion.progress, currentStreak + 1);
+        if (streakChampion.progress >= streakChampion.maxProgress && !streakChampion.unlocked) {
+          streakChampion.unlocked = true;
+          toast.success('🏆 Conquista: Campeão da Sequência!', {
+            duration: 3000,
+            icon: '🔥'
+          });
+        }
+      }
+      
+      newStats.achievements = achievements;
+      return newStats;
+    });
+  }, [currentStreak]);
+
+  const updateGameCompletionStats = useCallback((completionTime: number, finalStreak: number) => {
+    setGameStats((prev: GameStats) => {
+      const newStats = { ...prev };
+      newStats.totalGames += 1;
+      
+      // Atualizar melhor tempo
+      if (completionTime > 0 && (newStats.bestTime === 0 || completionTime < newStats.bestTime)) {
+        newStats.bestTime = completionTime;
+      }
+      
+      // Atualizar sequência máxima
+      if (finalStreak > newStats.longestStreak) {
+        newStats.longestStreak = finalStreak;
+      }
+      
+      // Verificar conquista de velocidade
+      const speedDemon = newStats.achievements.find((a: Achievement) => a.id === 'speed_demon');
+      if (speedDemon && !speedDemon.unlocked && completionTime < 120) { // menos de 2 minutos
+        speedDemon.unlocked = true;
+        toast.success('🏆 Conquista: Demônio da Velocidade!', {
+          duration: 3000,
+          icon: '⚡'
+        });
+      }
+      
+      return newStats;
+    });
   }, []);
 
-  return { gameState, foundWords, gameCompleted, initializeGame, addFoundWord };
+  return { 
+    gameState, 
+    foundWords, 
+    gameCompleted, 
+    score,
+    currentStreak,
+    gameStats,
+    initializeGame, 
+    addFoundWord,
+    updateGameCompletionStats
+  };
 };
 
 const useTouchHandlers = (gameCompleted: boolean, onCellStart: (row: number, col: number) => void, onCellMove: (row: number, col: number) => void, onCellEnd: () => void) => {
@@ -504,7 +721,17 @@ const WordSearchGame: React.FC = () => {
   const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
   const { speak } = useTTS(language, ttsEnabled);
   const { startTimer, resetTimer, getFormattedTime, startTime } = useGameTimer(gameStarted, false);
-  const { gameState, foundWords, gameCompleted, initializeGame, addFoundWord } = useGameState(language, gridSize, wordDifficulty, category);
+  const { 
+    gameState, 
+    foundWords, 
+    gameCompleted, 
+    score,
+    currentStreak,
+    gameStats,
+    initializeGame, 
+    addFoundWord,
+    updateGameCompletionStats
+  } = useGameState(language, gridSize, wordDifficulty, category);
 
   const handleWordFound = (word: string) => {
     addFoundWord(word);
@@ -620,8 +847,13 @@ const WordSearchGame: React.FC = () => {
 
   useEffect(() => {
     if (gameCompleted) {
+      const completionTime = startTime ? Math.floor((Date.now() - startTime) / 1000) : 0;
+      
+      // Atualizar estatísticas finais
+      updateGameCompletionStats(completionTime, currentStreak);
+      
       setShowConfetti(true);
-      toast.success('🎉 Parabéns! Você completou o puzzle!');
+      toast.success(`🎉 Parabéns! Você completou o puzzle com ${score} pontos!`);
       setTimeout(() => setShowConfetti(false), 5000);
       
       // Track game completion
@@ -631,11 +863,11 @@ const WordSearchGame: React.FC = () => {
           wordDifficulty, 
           language, 
           foundWords.length, 
-          Math.floor((Date.now() - startTime) / 1000)
+          completionTime
         );
       }
     }
-  }, [gameCompleted, category, wordDifficulty, language, foundWords.length]);
+  }, [gameCompleted, category, wordDifficulty, language, foundWords.length, startTime, score, currentStreak, updateGameCompletionStats]);
 
   if (!gameState || !gameState.grid) {
     return (
@@ -872,7 +1104,7 @@ const WordSearchGame: React.FC = () => {
 
         <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border border-gray-200">
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm">
-            {/* Progresso */}
+            {/* Progresso e Pontuação */}
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm border">
                 <Trophy size={18} className="text-yellow-500" />
@@ -881,11 +1113,29 @@ const WordSearchGame: React.FC = () => {
                 </span>
               </div>
               
+              {/* Pontuação */}
+              <div className="flex items-center gap-2 bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-2 rounded-lg shadow-sm border border-yellow-200">
+                <Zap size={18} className="text-yellow-600" />
+                <span className="font-semibold text-gray-800">
+                  <span className="text-yellow-700">{score}</span> pts
+                </span>
+              </div>
+              
+              {/* Sequência */}
+              {currentStreak > 0 && (
+                <div className="flex items-center gap-2 bg-gradient-to-r from-red-100 to-pink-100 px-3 py-2 rounded-lg shadow-sm border border-red-200">
+                  <span className="text-lg">🔥</span>
+                  <span className="font-semibold text-gray-800">
+                    <span className="text-red-700">{currentStreak}</span> seq
+                  </span>
+                </div>
+              )}
+              
               {/* Timer */}
               <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm border">
-                <span className="text-lg">⏱️</span>
+                <Clock size={18} className="text-green-500" />
                 <span className={`font-semibold ${gameStarted ? 'text-green-600' : 'text-gray-500'}`}>
-                  {t.timeElapsed}: {getFormattedTime()}
+                  {getFormattedTime()}
                 </span>
                 {!gameStarted && (
                   <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
@@ -955,7 +1205,8 @@ const WordSearchGame: React.FC = () => {
           </motion.div>
         </div>
 
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 space-y-4">
+          {/* Lista de Palavras */}
           <motion.div 
             className="card"
             initial={{ opacity: 0, x: 20 }}
@@ -982,6 +1233,96 @@ const WordSearchGame: React.FC = () => {
                   {wordObj.word}
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
+
+          {/* Estatísticas */}
+          <motion.div 
+            className="card"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <TrendingUp className="text-blue-500" />
+              Estatísticas
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center p-2 bg-blue-50 rounded-lg">
+                <span className="text-sm text-gray-600">Jogos Totais:</span>
+                <span className="font-semibold text-blue-700">{gameStats.totalGames}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-green-50 rounded-lg">
+                <span className="text-sm text-gray-600">Palavras Encontradas:</span>
+                <span className="font-semibold text-green-700">{gameStats.totalWordsFound}</span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-purple-50 rounded-lg">
+                <span className="text-sm text-gray-600">Melhor Tempo:</span>
+                <span className="font-semibold text-purple-700">
+                  {gameStats.bestTime > 0 ? formatTime(gameStats.bestTime) : '--:--'}
+                </span>
+              </div>
+              <div className="flex justify-between items-center p-2 bg-orange-50 rounded-lg">
+                <span className="text-sm text-gray-600">Sequência Máxima:</span>
+                <span className="font-semibold text-orange-700">{gameStats.longestStreak}</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Conquistas */}
+          <motion.div 
+            className="card"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Award className="text-yellow-500" />
+              Conquistas
+            </h3>
+            <div className="space-y-2">
+              {gameStats.achievements.slice(0, 3).map((achievement, index) => (
+                <motion.div
+                  key={achievement.id}
+                  className={`p-2 rounded-lg text-sm transition-all ${
+                    achievement.unlocked
+                      ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
+                      : 'bg-gray-100 text-gray-500'
+                  }`}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{achievement.icon}</span>
+                    <div className="flex-1">
+                      <div className="font-medium">{achievement.name}</div>
+                      <div className="text-xs opacity-75">{achievement.description}</div>
+                    </div>
+                    {achievement.unlocked && (
+                      <span className="text-yellow-600">✓</span>
+                    )}
+                  </div>
+                  {!achievement.unlocked && achievement.maxProgress > 1 && (
+                    <div className="mt-1">
+                      <div className="w-full bg-gray-200 rounded-full h-1">
+                        <div 
+                          className="bg-yellow-400 h-1 rounded-full transition-all duration-300"
+                          style={{ width: `${(achievement.progress / achievement.maxProgress) * 100}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {achievement.progress}/{achievement.maxProgress}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+              {gameStats.achievements.filter(a => a.unlocked).length > 3 && (
+                <div className="text-center text-sm text-gray-500 mt-2">
+                  +{gameStats.achievements.filter(a => a.unlocked).length - 3} mais conquistas
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
@@ -1014,10 +1355,26 @@ const WordSearchGame: React.FC = () => {
                 <p className="text-gray-600 mb-4">{t.gameCompleted}</p>
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">
                   <div className="text-sm text-gray-600 space-y-1">
-                    <div>{t.found}: {foundWords.length}/{gameState.words.length}</div>
-                    <div>{t.timeElapsed}: {getFormattedTime()}</div>
-                    <div>{t.gridSize}: {t.gridSizes[gridSize as keyof typeof t.gridSizes]}</div>
-                    <div>{t.wordDifficulty}: {t.wordDifficulties[wordDifficulty as keyof typeof t.wordDifficulties]}</div>
+                    <div className="flex justify-between">
+                      <span>Pontuação Final:</span>
+                      <span className="font-bold text-yellow-600">{score} pts</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Palavras Encontradas:</span>
+                      <span>{foundWords.length}/{gameState.words.length}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Tempo:</span>
+                      <span>{getFormattedTime()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Sequência Máxima:</span>
+                      <span className="text-red-600">{currentStreak}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Dificuldade:</span>
+                      <span>{t.wordDifficulties[wordDifficulty as keyof typeof t.wordDifficulties]}</span>
+                    </div>
                   </div>
                 </div>
                 <div className="flex gap-3">
