@@ -85,7 +85,7 @@ const Home: React.FC = () => {
       <div className="light-effect-2"></div>
       <div className="light-effect-3"></div>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-dark-header dark:border-dark-border light-content">
+      <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-dark-header dark:border-transparent light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">

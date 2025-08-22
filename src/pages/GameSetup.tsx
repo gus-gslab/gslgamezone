@@ -155,7 +155,7 @@ const GameSetup: React.FC = () => {
       <div className="light-effect-3"></div>
       {/* Header */}
       <motion.div 
-        className="bg-white shadow-sm border-b border-gray-100 dark:bg-dark-header dark:border-dark-border light-content"
+        className="bg-white shadow-sm border-b border-gray-100 dark:bg-dark-header dark:border-transparent light-content"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}

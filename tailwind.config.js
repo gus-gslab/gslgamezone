@@ -42,7 +42,8 @@ export default {
           accent: '#8B5CF6', // Roxo neon
           accentHover: '#A855F7', // Roxo neon hover
           glow: '#C084FC', // Brilho roxo
-          header: '#1A0033', // Header roxo escuro (como o fundo principal)
+          header: '#230C40', // Header roxo escuro (nova cor)
+          button: '#583AB5', // Cor do botão dark mode
           light1: '#8B5CF6', // Efeito de luz 1 (roxo)
           light2: '#C084FC', // Efeito de luz 2 (roxo claro)
           light3: '#A855F7', // Efeito de luz 3 (roxo médio)
