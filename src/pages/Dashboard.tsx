@@ -12,6 +12,7 @@ import {
   Download,
   RefreshCw
 } from 'lucide-react';
+import { fetchAnalyticsData, getGameStatsFromStorage } from '../services/analyticsService';
 
 interface AnalyticsData {
   pageViews: number;
@@ -52,65 +53,57 @@ const Dashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Simular carregamento de dados
+  // Carregar dados reais
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
       
-      // Simular delay de API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Dados mockados para demonstração
-      setData({
-        pageViews: 15420,
-        uniqueVisitors: 3247,
-        averageTimeOnPage: 187,
-        topCountries: [
-          { country: 'Brasil', visitors: 2847 },
-          { country: 'Estados Unidos', visitors: 234 },
-          { country: 'Portugal', visitors: 89 },
-          { country: 'Espanha', visitors: 67 },
-          { country: 'Argentina', visitors: 45 }
-        ],
-        topPages: [
-          { page: '/', views: 8234 },
-          { page: '/caca-palavras', views: 4567 },
-          { page: '/game-setup', views: 2341 },
-          { page: '/about', views: 278 }
-        ],
-        gameStats: {
-          totalGames: 1234,
-          totalWordsFound: 15678,
-          averageScore: 847,
-          completionRate: 78.5
-        },
-        recentActivity: [
-          {
-            id: '1',
-            action: 'game_complete',
-            timestamp: '2024-01-15T14:30:00Z',
-            details: 'Jogo completado em 2:34 - Pontuação: 1250'
-          },
-          {
-            id: '2',
-            action: 'word_found',
-            timestamp: '2024-01-15T14:25:00Z',
-            details: 'Palavra "ELEFANTE" encontrada'
-          },
-          {
-            id: '3',
-            action: 'achievement_unlocked',
-            timestamp: '2024-01-15T14:20:00Z',
-            details: 'Conquista "Mestre das Palavras" desbloqueada'
-          },
-          {
-            id: '4',
-            action: 'game_start',
-            timestamp: '2024-01-15T14:15:00Z',
-            details: 'Novo jogo iniciado - Categoria: Animais'
+      try {
+        // Buscar dados do Analytics
+        const analyticsData = await fetchAnalyticsData(timeRange);
+        
+        // Buscar estatísticas do jogo do localStorage
+        const gameStats = getGameStatsFromStorage();
+        
+        // Combinar dados
+        setData({
+          ...analyticsData,
+          gameStats: {
+            totalGames: gameStats.totalGames,
+            totalWordsFound: gameStats.totalWordsFound,
+            averageScore: gameStats.averageScore,
+            completionRate: gameStats.completionRate
           }
-        ]
-      });
+        });
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        // Em caso de erro, usar dados zerados
+        setData({
+          pageViews: 0,
+          uniqueVisitors: 0,
+          averageTimeOnPage: 0,
+          topCountries: [
+            { country: 'Brasil', visitors: 0 },
+            { country: 'Estados Unidos', visitors: 0 },
+            { country: 'Portugal', visitors: 0 },
+            { country: 'Espanha', visitors: 0 },
+            { country: 'Argentina', visitors: 0 }
+          ],
+          topPages: [
+            { page: '/', views: 0 },
+            { page: '/caca-palavras', views: 0 },
+            { page: '/game-setup', views: 0 },
+            { page: '/about', views: 0 }
+          ],
+          gameStats: {
+            totalGames: 0,
+            totalWordsFound: 0,
+            averageScore: 0,
+            completionRate: 0
+          },
+          recentActivity: []
+        });
+      }
       
       setIsLoading(false);
     };
@@ -188,6 +181,25 @@ const Dashboard: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
+        {/* Mensagem Informativa */}
+        <motion.div 
+          className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-center gap-3">
+            <BarChart3 className="text-blue-600" size={20} />
+            <div>
+              <h3 className="text-sm font-medium text-blue-900">Dashboard Analytics</h3>
+              <p className="text-sm text-blue-700">
+                Dados reais do Google Analytics serão exibidos conforme o tráfego aumenta. 
+                Estatísticas do jogo são carregadas do localStorage dos usuários.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+        
         {/* Métricas Principais */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <motion.div 
@@ -205,9 +217,8 @@ const Dashboard: React.FC = () => {
                 <Eye className="text-blue-600" size={24} />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm text-green-600">
-              <TrendingUp size={16} />
-              <span className="ml-1">+12.5%</span>
+            <div className="mt-4 flex items-center text-sm text-gray-500">
+              <span className="text-xs">Dados em tempo real</span>
             </div>
           </motion.div>
 
@@ -226,9 +237,8 @@ const Dashboard: React.FC = () => {
                 <Users className="text-green-600" size={24} />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm text-green-600">
-              <TrendingUp size={16} />
-              <span className="ml-1">+8.3%</span>
+            <div className="mt-4 flex items-center text-sm text-gray-500">
+              <span className="text-xs">Dados em tempo real</span>
             </div>
           </motion.div>
 
@@ -247,9 +257,8 @@ const Dashboard: React.FC = () => {
                 <Clock className="text-purple-600" size={24} />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm text-green-600">
-              <TrendingUp size={16} />
-              <span className="ml-1">+5.2%</span>
+            <div className="mt-4 flex items-center text-sm text-gray-500">
+              <span className="text-xs">Dados em tempo real</span>
             </div>
           </motion.div>
 
@@ -268,9 +277,8 @@ const Dashboard: React.FC = () => {
                 <Trophy className="text-yellow-600" size={24} />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-sm text-green-600">
-              <TrendingUp size={16} />
-              <span className="ml-1">+15.7%</span>
+            <div className="mt-4 flex items-center text-sm text-gray-500">
+              <span className="text-xs">Dados em tempo real</span>
             </div>
           </motion.div>
         </div>
