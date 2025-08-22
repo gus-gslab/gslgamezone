@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Jogos Educativos",
-    "subtitle": "Aprenda brincando",
+    "title": "GSL Game Zone",
+    "subtitle": "Jogos Educativos",
     "hero": {
       "title": "Aprenda de Forma",
       "titleHighlight": "Divertida",
@@ -73,7 +73,7 @@
       "contact": "Contato",
       "privacy": "Privacidade",
       "terms": "Termos",
-      "copyright": "© 2024 Jogos Educativos. Todos os direitos reservados."
+      "copyright": "© 2024 GSL Game Zone. Todos os direitos reservados."
     },
     "navigation": {
       "games": "Jogos",
@@ -84,8 +84,13 @@
   "gameSetup": {
     "title": "Configurar Jogo",
     "subtitle": "Escolha suas configurações preferidas",
+    "gameName": "Caça-Palavras",
     "backToHome": "Voltar para Home",
     "startGame": "Iniciar Jogo",
+    "readyToPlay": "Pronto para Jogar?",
+    "startDescription": "Clique em iniciar para começar sua aventura de caça-palavras!",
+    "tipTitle": "💡 Dica",
+    "tipDescription": "Comece com o preset \"Iniciante\" se for sua primeira vez. Você pode sempre ajustar as configurações depois!",
     "presets": {
       "title": "Presets Rápidos",
       "beginner": {

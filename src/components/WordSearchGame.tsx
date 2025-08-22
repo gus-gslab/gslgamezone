@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Volume2, VolumeX, RotateCcw, Settings, Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp, ArrowLeft, X } from 'lucide-react';
+import { Trophy, Share2, Star, Target, Award, Zap, Clock, TrendingUp, ArrowLeft, X } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
@@ -402,24 +402,108 @@ const getCellClass = (row: number, col: number, selectedCells: Cell[], gameState
 };
 
 // ===== CUSTOM HOOKS =====
+// TTS DESABILITADO - Função comentada
+/*
 const useTTS = (language: string, enabled: boolean) => {
   const speak = useCallback((word: string) => {
     if (!enabled || !('speechSynthesis' in window)) return;
     
+    // Cancelar qualquer fala anterior
     speechSynthesis.cancel();
+    
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.rate = 0.95;
-    utterance.pitch = 1.0;
     
-    const voices = speechSynthesis.getVoices();
-    const langVoice = voices.find(voice => voice.lang.startsWith(language));
-    if (langVoice) utterance.voice = langVoice;
+    // Configurações AGGRESSIVAS para melhor qualidade
+    utterance.rate = 0.6; // Mais lento para clareza
+    utterance.pitch = 1.2; // Tom mais alto para destaque
+    utterance.volume = 1.0; // Volume máximo
     
-    speechSynthesis.speak(utterance);
+    // Configurar idioma com fallbacks robustos
+    const langMap: { [key: string]: string } = {
+      'pt': 'pt-BR',
+      'en': 'en-US', 
+      'es': 'es-ES'
+    };
+    
+    utterance.lang = langMap[language] || 'en-US';
+    
+    // Função para selecionar a MELHOR voz disponível
+    const selectBestVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      console.log('Available voices:', voices.map(v => `${v.name} (${v.lang})`));
+      
+      let selectedVoice = null;
+      
+      // Estratégia 1: Voz nativa de alta qualidade
+      selectedVoice = voices.find(voice => 
+        voice.lang === langMap[language] && 
+        voice.localService &&
+        (voice.name.includes('Premium') || voice.name.includes('Enhanced') || voice.name.includes('HD'))
+      );
+      
+      // Estratégia 2: Qualquer voz nativa
+      if (!selectedVoice) {
+        selectedVoice = voices.find(voice => 
+          voice.lang === langMap[language] && voice.localService
+        );
+      }
+      
+      // Estratégia 3: Voz do idioma (não necessariamente nativa)
+      if (!selectedVoice) {
+        selectedVoice = voices.find(voice => 
+          voice.lang.startsWith(language) || voice.lang.startsWith(langMap[language])
+        );
+      }
+      
+      // Estratégia 4: Voz em inglês de alta qualidade (fallback)
+      if (!selectedVoice && language !== 'en') {
+        selectedVoice = voices.find(voice => 
+          voice.lang.startsWith('en') && 
+          (voice.name.includes('Premium') || voice.name.includes('Enhanced') || voice.name.includes('HD'))
+        );
+      }
+      
+      // Estratégia 5: Qualquer voz em inglês
+      if (!selectedVoice && language !== 'en') {
+        selectedVoice = voices.find(voice => voice.lang.startsWith('en'));
+      }
+      
+      // Estratégia 6: Primeira voz disponível
+      if (!selectedVoice) {
+        selectedVoice = voices[0];
+      }
+      
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        console.log('TTS: Selected voice -', selectedVoice.name, 'for language:', language);
+      } else {
+        console.warn('TTS: No voice found for language:', language);
+      }
+      
+      // Falar com configurações otimizadas
+      speechSynthesis.speak(utterance);
+    };
+    
+    // Aguardar vozes carregarem ou usar imediatamente
+    if (speechSynthesis.getVoices().length > 0) {
+      selectBestVoice();
+    } else {
+      speechSynthesis.onvoiceschanged = () => {
+        selectBestVoice();
+        speechSynthesis.onvoiceschanged = null;
+      };
+    }
+    
+    // Adicionar handlers para debug
+    utterance.onstart = () => console.log('TTS: Started speaking -', word);
+    utterance.onend = () => console.log('TTS: Finished speaking -', word);
+    utterance.onerror = (event) => console.warn('TTS: Error -', event.error);
+    
   }, [enabled, language]);
   
   return { speak };
 };
+*/
 
 const useGameTimer = (gameStarted: boolean, gameCompleted: boolean) => {
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -541,8 +625,10 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
   }, [foundWords, gameState]);
 
   const addFoundWord = useCallback((word: string) => {
+    console.log('addFoundWord called for:', word);
     setFoundWords(prev => {
       if (!prev.includes(word)) {
+        console.log('Adding new word:', word);
         // Calcular pontuação
         const baseScore = SCORING.wordFound;
         const difficultyMultiplier = SCORING.difficultyMultiplier[wordDifficulty as keyof typeof SCORING.difficultyMultiplier];
@@ -558,21 +644,9 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
           totalWordsFound: prevStats.totalWordsFound + 1
         }));
         
-        // Verificar conquistas
-        checkAchievements();
-        
-        // Feedback visual
-        toast.success(`+${wordScore} pontos! 🔥`, {
-          icon: '🎯',
-          duration: 2000,
-          style: {
-            background: '#10B981',
-            color: 'white',
-            fontWeight: 'bold'
-          }
-        });
-        
         return [...prev, word];
+      } else {
+        console.log('Word already in foundWords:', word);
       }
       return prev;
     });
@@ -663,7 +737,8 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
     gameStats,
     initializeGame, 
     addFoundWord,
-    updateGameCompletionStats
+    updateGameCompletionStats,
+    checkAchievements
   };
 };
 
@@ -686,8 +761,14 @@ const useTouchHandlers = (gameCompleted: boolean, onCellStart: (row: number, col
   const handleCellEnd = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
     if (e) e.preventDefault();
     if (!isSelecting || gameCompleted) return;
-    onCellEnd();
+    
+    // Proteção adicional contra chamadas duplicadas
     setIsSelecting(false);
+    
+    // Chamar onCellEnd com um delay maior para evitar conflitos
+    setTimeout(() => {
+      onCellEnd();
+    }, 50);
   }, [isSelecting, gameCompleted, onCellEnd]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
@@ -743,45 +824,92 @@ const WordSearchGame: React.FC = () => {
       }
     }
   }, [language, i18n]);
-  const [gridSize, setGridSize] = useState(searchParams.get('size') || 'medium');
-  const [wordDifficulty, setWordDifficulty] = useState(searchParams.get('difficulty') || 'easy');
+  const [gridSize] = useState(searchParams.get('size') || 'medium');
+  const [wordDifficulty] = useState(searchParams.get('difficulty') || 'easy');
   const [category, setCategory] = useState(searchParams.get('category') || 'animals');
-  
-  // Estados temporários para configurações
-  const [tempLanguage, setTempLanguage] = useState('pt');
-  const [tempGridSize, setTempGridSize] = useState('small');
-  const [tempWordDifficulty, setTempWordDifficulty] = useState('easy');
-  const [tempCategory, setTempCategory] = useState('animals');
   const [selectedCells, setSelectedCells] = useState<Cell[]>([]);
   const [gameStarted, setGameStarted] = useState(false);
-  const [ttsEnabled, setTtsEnabled] = useState(true);
-  const [showSettings, setShowSettings] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
   const { width, height } = useWindowSize();
   const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
-  const { speak } = useTTS(language, ttsEnabled);
+  // const { speak } = useTTS(language, ttsEnabled); // TTS desabilitado
   const { startTimer, resetTimer, getFormattedTime, startTime } = useGameTimer(gameStarted, false);
-  const { 
-    gameState, 
-    foundWords, 
-    gameCompleted, 
+    const {
+    gameState,
+    foundWords,
+    gameCompleted,
     score,
     currentStreak,
     gameStats,
     initializeGame, 
     addFoundWord,
-    updateGameCompletionStats
+    updateGameCompletionStats,
+    checkAchievements
   } = useGameState(language, gridSize, wordDifficulty, category);
 
+  // Estado para controlar palavras sendo processadas
+  const [processingWords, setProcessingWords] = useState<Set<string>>(new Set());
+  const [lastProcessedWord, setLastProcessedWord] = useState<string>('');
+  const [lastProcessedTime, setLastProcessedTime] = useState<number>(0);
+
   const handleWordFound = (word: string) => {
+    const now = Date.now();
+    
+    // Verificar se a palavra já foi encontrada
+    if (foundWords.includes(word)) {
+      console.log('Word already found:', word);
+      return;
+    }
+    
+    // Verificar se a mesma palavra foi processada recentemente (debounce mais agressivo)
+    if (word === lastProcessedWord && (now - lastProcessedTime) < 2000) {
+      console.log('Word processed too recently:', word);
+      return;
+    }
+    
+    // Verificar se está sendo processada
+    if (processingWords.has(word)) {
+      console.log('Word being processed:', word);
+      return;
+    }
+    
+    // Marcar palavra como sendo processada
+    setProcessingWords(prev => new Set(prev).add(word));
+    setLastProcessedWord(word);
+    setLastProcessedTime(now);
+    
+    // Calcular pontuação para o toast
+    const baseScore = SCORING.wordFound;
+    const difficultyMultiplier = SCORING.difficultyMultiplier[wordDifficulty as keyof typeof SCORING.difficultyMultiplier];
+    const streakBonus = currentStreak * SCORING.streakBonus;
+    const wordScore = Math.floor((baseScore + streakBonus) * difficultyMultiplier);
+    
+    console.log('Processing word:', word, 'with score:', wordScore);
+    
+    // Adicionar palavra encontrada
     addFoundWord(word);
-    speak(word);
+    
+    // Feedback visual removido - sem toast de pontuação
+    
+    // Verificar conquistas após um delay maior
+    setTimeout(() => {
+      checkAchievements();
+    }, 500);
     
     // Track word found
     if (window.gameAnalytics) {
       window.gameAnalytics.trackWordFound(word, category, wordDifficulty);
     }
+    
+    // Remover palavra do processamento após um delay maior
+    setTimeout(() => {
+      setProcessingWords(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(word);
+        return newSet;
+      });
+    }, 2000);
   };
 
   const onCellStart = (row: number, col: number) => {
@@ -811,9 +939,30 @@ const WordSearchGame: React.FC = () => {
   };
 
   const onCellEnd = () => {
-    const foundWord = checkWordMatch(gameState, selectedCells, foundWords);
-    if (foundWord) handleWordFound(foundWord.word);
+    // Evitar processamento se não há células selecionadas
+    if (selectedCells.length === 0) {
+      console.log('No cells selected');
+      return;
+    }
+    
+    // Proteção contra chamadas duplicadas
+    const currentSelectedCells = [...selectedCells];
+    
+    // Limpar seleção imediatamente para evitar chamadas duplicadas
     setSelectedCells([]);
+    
+    // Verificar se há uma palavra válida
+    const foundWord = checkWordMatch(gameState, currentSelectedCells, foundWords);
+    
+    if (foundWord && foundWord.word) {
+      console.log('Found word in onCellEnd:', foundWord.word);
+      // Usar setTimeout com delay maior para evitar conflitos
+      setTimeout(() => {
+        handleWordFound(foundWord.word);
+      }, 100);
+    } else {
+      console.log('No valid word found in selection');
+    }
   };
 
   const { handleCellStart, handleCellMove, handleCellEnd, handleTouchMove } = useTouchHandlers(
@@ -827,10 +976,8 @@ const WordSearchGame: React.FC = () => {
 
   const handleNewGame = () => {
     // Aplicar configurações temporárias
-    setLanguage(tempLanguage);
-    setGridSize(tempGridSize);
-    setWordDifficulty(tempWordDifficulty);
-    setCategory(tempCategory);
+    // As configurações já estão definidas pelos parâmetros da URL
+    // Não é necessário alterar aqui
     
     // Reiniciar o jogo com as novas configurações
     setTimeout(() => {
@@ -932,13 +1079,7 @@ const WordSearchGame: React.FC = () => {
     }
   };
 
-  // Atualizar configurações temporárias quando as configurações mudam
-  useEffect(() => {
-    setTempLanguage(language);
-    setTempGridSize(gridSize);
-    setTempWordDifficulty(wordDifficulty);
-    setTempCategory(category);
-  }, [language, gridSize, wordDifficulty, category]);
+
 
 
 
@@ -947,7 +1088,7 @@ const WordSearchGame: React.FC = () => {
     if (!availableCategories.includes(category) && availableCategories.length > 0) {
       setCategory(availableCategories[0]);
     }
-  }, [language, wordDifficulty, category]);
+  }, [language, wordDifficulty, category, setCategory]);
 
   useEffect(() => {
     if (gameCompleted) {
@@ -999,8 +1140,6 @@ const WordSearchGame: React.FC = () => {
     );
   }
 
-  const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
-
   return (
     <div className="max-w-4xl mx-auto p-4 bg-gray-50 min-h-screen">
       {showConfetti && <Confetti width={width} height={height} recycle={false} />}
@@ -1034,33 +1173,7 @@ const WordSearchGame: React.FC = () => {
           </div>
           
           <div className="flex gap-3">
-            <motion.button
-              onClick={() => setTtsEnabled(!ttsEnabled)}
-              className={`p-3 rounded-xl transition-all duration-200 shadow-sm ${
-                ttsEnabled 
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-green-200' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              title={t.ttsEnabled}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {ttsEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
-            </motion.button>
-            
-            <motion.button
-              onClick={() => setShowSettings(!showSettings)}
-              className={`p-3 rounded-xl transition-all duration-200 shadow-sm ${
-                showSettings 
-                  ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-blue-200' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              title={t.settings}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Settings size={20} />
-            </motion.button>
+
             
             {gameCompleted && (
               <motion.button
@@ -1079,141 +1192,7 @@ const WordSearchGame: React.FC = () => {
           </div>
         </div>
 
-        <AnimatePresence>
-          {showSettings && (
-            <motion.div 
-              className="mb-6 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100 shadow-sm"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <div className="flex items-center gap-2 mb-4">
-                <Settings className="text-blue-600" size={20} />
-                <h3 className="text-lg font-semibold text-gray-800">{t.settings}</h3>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* Idioma */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2 h-6">
-                    <span className="text-lg">🌍</span>
-                    Idioma
-                  </label>
-                  <select
-                    value={tempLanguage}
-                    onChange={(e) => {
-                      const oldValue = tempLanguage;
-                      setTempLanguage(e.target.value);
-                      // Track settings change
-                      if (window.gameAnalytics) {
-                        window.gameAnalytics.trackSettingsChange('language', oldValue, e.target.value);
-                      }
-                    }}
-                    className="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
-                  >
-                    <option value="pt">🇧🇷 Português</option>
-                    <option value="en">🇺🇸 English</option>
-                    <option value="es">🇪🇸 Español</option>
-                  </select>
-                </div>
 
-                {/* Tamanho do Grid */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2 h-6">
-                    <span className="text-lg">📏</span>
-                    Grid
-                  </label>
-                  <select
-                    value={tempGridSize}
-                    onChange={(e) => setTempGridSize(e.target.value)}
-                    className="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
-                  >
-                    <option value="small">🔹 {t.gridSizes.small}</option>
-                    <option value="medium">🔸 {t.gridSizes.medium}</option>
-                    <option value="large">🔶 {t.gridSizes.large}</option>
-                  </select>
-                </div>
-
-                {/* Dificuldade */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2 h-6">
-                    <span className="text-lg">🎯</span>
-                    Dificuldade
-                  </label>
-                  <select
-                    value={tempWordDifficulty}
-                    onChange={(e) => setTempWordDifficulty(e.target.value)}
-                    className="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
-                  >
-                    <option value="easy">🟢 {t.wordDifficulties.easy}</option>
-                    <option value="medium">🟡 {t.wordDifficulties.medium}</option>
-                    <option value="hard">🔴 {t.wordDifficulties.hard}</option>
-                  </select>
-                </div>
-
-                {/* Categoria */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2 mb-2 h-6">
-                    <span className="text-lg">📚</span>
-                    Categoria
-                  </label>
-                  <select
-                    value={tempCategory}
-                    onChange={(e) => setTempCategory(e.target.value)}
-                    className="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white hover:border-gray-300"
-                  >
-                    {availableCategories.map(cat => (
-                      <option key={cat} value={cat}>
-                        {cat === 'animals' ? '🐾 ' : 
-                         cat === 'colors' ? '🎨 ' : 
-                         cat === 'foods' ? '🍽️ ' : 
-                         cat === 'technology' ? '💻 ' : 
-                         cat === 'professions' ? '👨‍⚕️ ' : 
-                         cat === 'sports' ? '⚽ ' : 
-                         cat === 'music' ? '🎵 ' : 
-                         cat === 'nature' ? '🌿 ' : '📝 '}
-                        {t.categories[cat as keyof typeof t.categories] || cat}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Botão Novo Jogo */}
-              <div className="mt-6 flex justify-center">
-                <motion.button
-                  onClick={handleNewGame}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-semibold flex items-center gap-3 shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <RotateCcw size={18} />
-                  <span>{t.newGame}</span>
-                  <span className="text-sm opacity-90">🎮</span>
-                </motion.button>
-              </div>
-
-              {/* Preview das configurações */}
-              <div className="mt-4 p-3 bg-white rounded-lg border border-blue-200">
-                <div className="text-sm text-gray-600 text-center">
-                  <span className="font-medium">📋 Configuração atual:</span>
-                  <div className="mt-1 flex flex-wrap justify-center gap-2 text-xs">
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                      {t.categories[tempCategory as keyof typeof t.categories] || tempCategory}
-                    </span>
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
-                      {t.gridSizes[tempGridSize as keyof typeof t.gridSizes]}
-                    </span>
-                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded">
-                      {t.wordDifficulties[tempWordDifficulty as keyof typeof t.wordDifficulties]}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-4 border border-gray-200">
           <div className="flex flex-wrap items-center justify-between gap-4 text-sm">

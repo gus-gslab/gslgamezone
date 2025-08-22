@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Educational Games",
-    "subtitle": "Learn while playing",
+    "title": "GSL Game Zone",
+    "subtitle": "Educational Games",
     "hero": {
       "title": "Learn in a",
       "titleHighlight": "Fun Way",
@@ -73,7 +73,7 @@
       "contact": "Contact",
       "privacy": "Privacy",
       "terms": "Terms",
-      "copyright": "© 2024 Educational Games. All rights reserved."
+      "copyright": "© 2024 GSL Game Zone. All rights reserved."
     },
     "navigation": {
       "games": "Games",
@@ -84,8 +84,13 @@
   "gameSetup": {
     "title": "Game Setup",
     "subtitle": "Choose your preferred settings",
+    "gameName": "Word Search",
     "backToHome": "Back to Home",
     "startGame": "Start Game",
+    "readyToPlay": "Ready to Play?",
+    "startDescription": "Click start to begin your word search adventure!",
+    "tipTitle": "💡 Tip",
+    "tipDescription": "Start with the \"Beginner\" preset if it's your first time. You can always adjust the settings later!",
     "presets": {
       "title": "Quick Presets",
       "beginner": {

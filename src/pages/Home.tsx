@@ -1,19 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy } from 'lucide-react';
+import SEOHead from '../components/SEOHead';
 import LanguageSelector from '../components/LanguageSelector';
 
 const Home: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   
-  // Garantir que o idioma seja detectado corretamente
-  useEffect(() => {
-    const detectedLang = i18n.language || navigator.language.split('-')[0];
-    if (detectedLang && ['pt', 'en', 'es'].includes(detectedLang)) {
-      i18n.changeLanguage(detectedLang);
-    }
-  }, [i18n]);
+  // Remover o useEffect que força a detecção de idioma
+  // O i18n já detecta automaticamente e reage às mudanças
   
   const games = [
     {
@@ -79,6 +75,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <SEOHead />
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -167,7 +164,7 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
@@ -181,9 +178,13 @@ const Home: React.FC = () => {
             {games.map((game, index) => (
               <motion.div
                 key={game.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: index * 0.2,
+                  ease: "easeOut"
+                }}
                 className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
                 <div className={`h-32 bg-gradient-to-br ${game.color} flex items-center justify-center`}>
@@ -245,7 +246,7 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
                              <h3 className="text-4xl font-bold text-gray-900 mb-6">
@@ -276,7 +277,7 @@ const Home: React.FC = () => {
             
             <motion.div
               initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               className="relative"
             >
@@ -315,7 +316,10 @@ const Home: React.FC = () => {
                 <div className="p-2 bg-blue-600 rounded-lg">
                   <Brain className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold">Jogos Educativos</span>
+                <div>
+                  <span className="text-xl font-bold">GSL Game Zone</span>
+                  <p className="text-xs text-gray-500 mt-1">{t('home.subtitle')}</p>
+                </div>
               </div>
                              <p className="text-gray-400">
                  {t('home.footer.description')}
@@ -342,14 +346,15 @@ const Home: React.FC = () => {
                </ul>
              </div>
             
-                         <div>
-               <h5 className="font-semibold mb-4">{t('home.footer.contact')}</h5>
-               <ul className="space-y-2 text-gray-400">
-                 <li>contato@jogoseducativos.com</li>
-                 <li>+55 (11) 99999-9999</li>
-                 <li>São Paulo, SP</li>
-               </ul>
-             </div>
+                                     <div>
+              <h5 className="font-semibold mb-4">{t('home.footer.contact')}</h5>
+              <ul className="space-y-2 text-gray-400">
+                <li>gslgamezone@gmail.com</li>
+                <li>San Jose, CA</li>
+                <li>Rio de Janeiro, BR</li>
+                <li>Barcelona, ES</li>
+              </ul>
+            </div>
           </div>
           
                      <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">

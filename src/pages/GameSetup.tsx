@@ -16,31 +16,38 @@ const GameSetup: React.FC = () => {
   const [searchParams] = useSearchParams();
   const { i18n, t } = useTranslation();
 
-  // Configuração inicial baseada na URL ou padrões
-  const [config, setConfig] = useState<GameConfig>({
-    language: searchParams.get('lang') || 'pt',
-    gridSize: searchParams.get('size') || 'medium',
-    difficulty: searchParams.get('difficulty') || 'easy',
-    category: searchParams.get('category') || 'animals'
+  // Configuração inicial baseada na URL ou idioma atual
+  const [config, setConfig] = useState<GameConfig>(() => {
+    const urlLang = searchParams.get('lang');
+    const storedLang = localStorage.getItem('i18nextLng');
+    const currentLang = i18n.language;
+    
+    return {
+      language: urlLang || storedLang || currentLang || 'pt',
+      gridSize: searchParams.get('size') || 'medium',
+      difficulty: searchParams.get('difficulty') || 'easy',
+      category: searchParams.get('category') || 'animals'
+    };
   });
 
-  // Sincronizar idioma com o i18n
+  // Sincronizar configuração com o idioma atual
   useEffect(() => {
-    const currentLang = i18n.language || navigator.language.split('-')[0];
+    const currentLang = i18n.language;
+    
     if (currentLang && ['pt', 'en', 'es'].includes(currentLang)) {
-      i18n.changeLanguage(currentLang);
-      // Atualizar config se não foi especificado na URL
-      if (!searchParams.get('lang')) {
-        setConfig(prev => ({ ...prev, language: currentLang }));
-      }
-    } else {
-      // Fallback para inglês se o idioma não for suportado
-      i18n.changeLanguage('en');
-      if (!searchParams.get('lang')) {
-        setConfig(prev => ({ ...prev, language: 'en' }));
-      }
+      // Sempre atualizar config para refletir o idioma atual
+      setConfig(prev => ({ ...prev, language: currentLang }));
     }
-  }, [i18n, searchParams]);
+  }, [i18n.language]);
+
+  // Forçar sincronização na montagem do componente
+  useEffect(() => {
+    const storedLang = localStorage.getItem('i18nextLng');
+    
+    if (storedLang && ['pt', 'en', 'es'].includes(storedLang)) {
+      setConfig(prev => ({ ...prev, language: storedLang }));
+    }
+  }, []);
 
   const [selectedPreset, setSelectedPreset] = useState<string>('custom');
 
@@ -156,7 +163,7 @@ const GameSetup: React.FC = () => {
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-500">
               <Target size={16} />
-              <span>Caça-Palavras</span>
+              <span>{t('gameSetup.gameName')}</span>
             </div>
           </div>
         </div>
@@ -372,9 +379,9 @@ const GameSetup: React.FC = () => {
             >
               <div className="text-center text-white mb-4">
                 <div className="text-2xl mb-2">🎮</div>
-                <h3 className="text-lg font-semibold mb-2">Pronto para Jogar?</h3>
+                <h3 className="text-lg font-semibold mb-2">{t('gameSetup.readyToPlay')}</h3>
                 <p className="text-blue-100 text-sm">
-                  Clique em iniciar para começar sua aventura de caça-palavras!
+                  {t('gameSetup.startDescription')}
                 </p>
               </div>
               
@@ -399,10 +406,9 @@ const GameSetup: React.FC = () => {
               <div className="flex items-start gap-3">
                 <Star className="text-yellow-600 mt-1" size={16} />
                 <div className="text-sm">
-                  <div className="font-medium text-yellow-800 mb-1">💡 Dica</div>
+                  <div className="font-medium text-yellow-800 mb-1">{t('gameSetup.tipTitle')}</div>
                   <div className="text-yellow-700">
-                    Comece com o preset "Iniciante" se for sua primeira vez. 
-                    Você pode sempre ajustar as configurações depois!
+                    {t('gameSetup.tipDescription')}
                   </div>
                 </div>
               </div>

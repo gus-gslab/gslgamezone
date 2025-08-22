@@ -1,7 +1,7 @@
 {
   "home": {
-    "title": "Juegos Educativos",
-    "subtitle": "Aprende jugando",
+    "title": "GSL Game Zone",
+    "subtitle": "Juegos Educativos",
     "hero": {
       "title": "Aprende de Forma",
       "titleHighlight": "Divertida",
@@ -73,7 +73,7 @@
       "contact": "Contacto",
       "privacy": "Privacidad",
       "terms": "Términos",
-      "copyright": "© 2024 Juegos Educativos. Todos los derechos reservados."
+      "copyright": "© 2024 GSL Game Zone. Todos los derechos reservados."
     },
     "navigation": {
       "games": "Juegos",
@@ -84,8 +84,13 @@
   "gameSetup": {
     "title": "Configurar Juego",
     "subtitle": "Elige tus configuraciones preferidas",
+    "gameName": "Sopa de Letras",
     "backToHome": "Volver al Inicio",
     "startGame": "Iniciar Juego",
+    "readyToPlay": "¿Listo para Jugar?",
+    "startDescription": "¡Haz clic en iniciar para comenzar tu aventura de sopa de letras!",
+    "tipTitle": "💡 Consejo",
+    "tipDescription": "Comienza con el preset \"Principiante\" si es tu primera vez. ¡Siempre puedes ajustar las configuraciones después!",
     "presets": {
       "title": "Presets Rápidos",
       "beginner": {
