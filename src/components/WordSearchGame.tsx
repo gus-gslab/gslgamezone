@@ -1298,7 +1298,7 @@ const WordSearchGame: React.FC = () => {
                 <span className={`font-semibold ${gameStarted ? 'text-green-600' : 'text-gray-500'}`}>
                   {getFormattedTime()}
                 </span>
-                {!gameStarted && (
+                {!gameStarted && width < 1024 && (
                   <span className="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded">
                     ({t.clickToStart})
                   </span>
