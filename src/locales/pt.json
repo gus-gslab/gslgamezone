@@ -80,5 +80,69 @@
       "about": "Sobre",
       "contact": "Contato"
     }
+  },
+  "gameSetup": {
+    "title": "Configurar Jogo",
+    "subtitle": "Escolha suas configurações preferidas",
+    "backToHome": "Voltar para Home",
+    "startGame": "Iniciar Jogo",
+    "presets": {
+      "title": "Presets Rápidos",
+      "beginner": {
+        "name": "Iniciante",
+        "description": "Perfeito para começar"
+      },
+      "casual": {
+        "name": "Casual",
+        "description": "Para jogar relaxadamente"
+      },
+      "challenge": {
+        "name": "Desafio",
+        "description": "Para jogadores experientes"
+      },
+      "expert": {
+        "name": "Expert",
+        "description": "Para os verdadeiros mestres"
+      }
+    },
+    "custom": {
+      "title": "Configuração Personalizada",
+      "language": "Idioma",
+      "category": "Categoria",
+      "difficulty": "Dificuldade",
+      "gridSize": "Tamanho do Grid"
+    },
+    "preview": {
+      "title": "Preview da Configuração",
+      "language": "Idioma",
+      "category": "Categoria",
+      "difficulty": "Dificuldade",
+      "gridSize": "Tamanho do Grid"
+    },
+    "categories": {
+      "animals": "Animais",
+      "colors": "Cores",
+      "foods": "Comidas",
+      "technology": "Tecnologia",
+      "professions": "Profissões",
+      "sports": "Esportes",
+      "music": "Música",
+      "nature": "Natureza"
+    },
+    "difficulties": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "gridSizes": {
+      "small": "Pequeno",
+      "medium": "Médio",
+      "large": "Grande"
+    },
+    "languages": {
+      "pt": "Português",
+      "en": "English",
+      "es": "Español"
+    }
   }
 }

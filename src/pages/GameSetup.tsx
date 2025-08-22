@@ -14,7 +14,7 @@ interface GameConfig {
 const GameSetup: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   // Configuração inicial baseada na URL ou padrões
   const [config, setConfig] = useState<GameConfig>({
@@ -42,61 +42,61 @@ const GameSetup: React.FC = () => {
   const presets = [
     {
       id: 'beginner',
-      name: 'Iniciante',
-      description: 'Perfeito para começar',
+      name: t('gameSetup.presets.beginner.name'),
+      description: t('gameSetup.presets.beginner.description'),
       icon: '🌟',
       config: { language: config.language, gridSize: 'small', difficulty: 'easy', category: 'animals' }
     },
     {
       id: 'casual',
-      name: 'Casual',
-      description: 'Para jogar relaxadamente',
+      name: t('gameSetup.presets.casual.name'),
+      description: t('gameSetup.presets.casual.description'),
       icon: '😌',
       config: { language: config.language, gridSize: 'medium', difficulty: 'easy', category: 'colors' }
     },
     {
       id: 'challenge',
-      name: 'Desafio',
-      description: 'Para jogadores experientes',
+      name: t('gameSetup.presets.challenge.name'),
+      description: t('gameSetup.presets.challenge.description'),
       icon: '🔥',
       config: { language: config.language, gridSize: 'large', difficulty: 'medium', category: 'technology' }
     },
     {
       id: 'expert',
-      name: 'Expert',
-      description: 'Para os verdadeiros mestres',
+      name: t('gameSetup.presets.expert.name'),
+      description: t('gameSetup.presets.expert.description'),
       icon: '👑',
       config: { language: config.language, gridSize: 'large', difficulty: 'hard', category: 'professions' }
     }
   ];
 
   const categories = {
-    animals: { name: 'Animais', icon: '🐾', color: 'from-green-400 to-green-600' },
-    colors: { name: 'Cores', icon: '🎨', color: 'from-pink-400 to-pink-600' },
-    foods: { name: 'Comidas', icon: '🍽️', color: 'from-orange-400 to-orange-600' },
-    technology: { name: 'Tecnologia', icon: '💻', color: 'from-blue-400 to-blue-600' },
-    professions: { name: 'Profissões', icon: '👨‍⚕️', color: 'from-purple-400 to-purple-600' },
-    sports: { name: 'Esportes', icon: '⚽', color: 'from-red-400 to-red-600' },
-    music: { name: 'Música', icon: '🎵', color: 'from-indigo-400 to-indigo-600' },
-    nature: { name: 'Natureza', icon: '🌿', color: 'from-emerald-400 to-emerald-600' }
+    animals: { name: t('gameSetup.categories.animals'), icon: '🐾', color: 'from-green-400 to-green-600' },
+    colors: { name: t('gameSetup.categories.colors'), icon: '🎨', color: 'from-pink-400 to-pink-600' },
+    foods: { name: t('gameSetup.categories.foods'), icon: '🍽️', color: 'from-orange-400 to-orange-600' },
+    technology: { name: t('gameSetup.categories.technology'), icon: '💻', color: 'from-blue-400 to-blue-600' },
+    professions: { name: t('gameSetup.categories.professions'), icon: '👨‍⚕️', color: 'from-purple-400 to-purple-600' },
+    sports: { name: t('gameSetup.categories.sports'), icon: '⚽', color: 'from-red-400 to-red-600' },
+    music: { name: t('gameSetup.categories.music'), icon: '🎵', color: 'from-indigo-400 to-indigo-600' },
+    nature: { name: t('gameSetup.categories.nature'), icon: '🌿', color: 'from-emerald-400 to-emerald-600' }
   };
 
   const difficulties = [
-    { value: 'easy', name: 'Fácil', icon: '🟢', description: 'Palavras simples e curtas' },
-    { value: 'medium', name: 'Médio', icon: '🟡', description: 'Palavras intermediárias' },
-    { value: 'hard', name: 'Difícil', icon: '🔴', description: 'Palavras complexas e longas' }
+    { value: 'easy', name: t('gameSetup.difficulties.easy'), icon: '🟢', description: 'Palavras simples e curtas' },
+    { value: 'medium', name: t('gameSetup.difficulties.medium'), icon: '🟡', description: 'Palavras intermediárias' },
+    { value: 'hard', name: t('gameSetup.difficulties.hard'), icon: '🔴', description: 'Palavras complexas e longas' }
   ];
 
   const gridSizes = [
-    { value: 'small', name: 'Pequeno', icon: '🔹', description: '10x12 - 6 palavras' },
-    { value: 'medium', name: 'Médio', icon: '🔸', description: '12x15 - 8 palavras' },
-    { value: 'large', name: 'Grande', icon: '🔶', description: '14x18 - 10 palavras' }
+    { value: 'small', name: t('gameSetup.gridSizes.small'), icon: '🔹', description: '10x12 - 6 palavras' },
+    { value: 'medium', name: t('gameSetup.gridSizes.medium'), icon: '🔸', description: '12x15 - 8 palavras' },
+    { value: 'large', name: t('gameSetup.gridSizes.large'), icon: '🔶', description: '14x18 - 10 palavras' }
   ];
 
   const languages = [
-    { value: 'pt', name: 'Português', flag: '🇧🇷' },
-    { value: 'en', name: 'English', flag: '🇺🇸' },
-    { value: 'es', name: 'Español', flag: '🇪🇸' }
+    { value: 'pt', name: t('gameSetup.languages.pt'), flag: '🇧🇷' },
+    { value: 'en', name: t('gameSetup.languages.en'), flag: '🇺🇸' },
+    { value: 'es', name: t('gameSetup.languages.es'), flag: '🇪🇸' }
   ];
 
   const handlePresetSelect = (preset: any) => {
@@ -144,8 +144,8 @@ const GameSetup: React.FC = () => {
                 <ArrowLeft size={20} className="text-gray-600" />
               </motion.button>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Configurar Jogo</h1>
-                <p className="text-sm text-gray-500">Personalize sua experiência</p>
+                <h1 className="text-xl font-bold text-gray-800">{t('gameSetup.title')}</h1>
+                <p className="text-sm text-gray-500">{t('gameSetup.subtitle')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -171,7 +171,7 @@ const GameSetup: React.FC = () => {
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                 <Zap className="text-yellow-500" size={20} />
-                Presets Rápidos
+                {t('gameSetup.presets.title')}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {presets.map((preset) => (
@@ -207,7 +207,7 @@ const GameSetup: React.FC = () => {
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                 <Settings className="text-blue-500" size={20} />
-                Configurações Personalizadas
+                {t('gameSetup.custom.title')}
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -215,7 +215,7 @@ const GameSetup: React.FC = () => {
                 {/* Idioma */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Idioma
+                    {t('gameSetup.custom.language')}
                   </label>
                   <div className="space-y-2">
                     {languages.map((lang) => (
@@ -240,7 +240,7 @@ const GameSetup: React.FC = () => {
                 {/* Categoria */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Categoria
+                    {t('gameSetup.custom.category')}
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {Object.entries(categories).map(([key, cat]) => (
@@ -263,7 +263,7 @@ const GameSetup: React.FC = () => {
                 {/* Dificuldade */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Dificuldade
+                    {t('gameSetup.custom.difficulty')}
                   </label>
                   <div className="space-y-2">
                     {difficulties.map((diff) => (
@@ -291,7 +291,7 @@ const GameSetup: React.FC = () => {
                 {/* Tamanho do Grid */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Tamanho do Grid
+                    {t('gameSetup.custom.gridSize')}
                   </label>
                   <div className="space-y-2">
                     {gridSizes.map((size) => (
@@ -331,27 +331,27 @@ const GameSetup: React.FC = () => {
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                 <Target className="text-green-500" size={20} />
-                Preview da Configuração
+                {t('gameSetup.preview.title')}
               </h2>
               
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Idioma:</span>
+                                      <span className="text-sm text-gray-600">{t('gameSetup.preview.language')}:</span>
                   <span className="font-medium">{languages.find(l => l.value === config.language)?.flag} {languages.find(l => l.value === config.language)?.name}</span>
                 </div>
                 
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Categoria:</span>
+                                      <span className="text-sm text-gray-600">{t('gameSetup.preview.category')}:</span>
                   <span className="font-medium">{categories[config.category as keyof typeof categories]?.icon} {categories[config.category as keyof typeof categories]?.name}</span>
                 </div>
                 
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Dificuldade:</span>
+                                      <span className="text-sm text-gray-600">{t('gameSetup.preview.difficulty')}:</span>
                   <span className="font-medium">{difficulties.find(d => d.value === config.difficulty)?.icon} {difficulties.find(d => d.value === config.difficulty)?.name}</span>
                 </div>
                 
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Grid:</span>
+                                      <span className="text-sm text-gray-600">{t('gameSetup.preview.gridSize')}:</span>
                   <span className="font-medium">{gridSizes.find(s => s.value === config.gridSize)?.icon} {gridSizes.find(s => s.value === config.gridSize)?.name}</span>
                 </div>
               </div>
@@ -379,7 +379,7 @@ const GameSetup: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Play size={24} />
-                Iniciar Jogo
+                {t('gameSetup.startGame')}
               </motion.button>
             </motion.div>
 

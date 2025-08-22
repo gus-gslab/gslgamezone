@@ -80,5 +80,69 @@
       "about": "About",
       "contact": "Contact"
     }
+  },
+  "gameSetup": {
+    "title": "Game Setup",
+    "subtitle": "Choose your preferred settings",
+    "backToHome": "Back to Home",
+    "startGame": "Start Game",
+    "presets": {
+      "title": "Quick Presets",
+      "beginner": {
+        "name": "Beginner",
+        "description": "Perfect to start"
+      },
+      "casual": {
+        "name": "Casual",
+        "description": "To play relaxed"
+      },
+      "challenge": {
+        "name": "Challenge",
+        "description": "For experienced players"
+      },
+      "expert": {
+        "name": "Expert",
+        "description": "For true masters"
+      }
+    },
+    "custom": {
+      "title": "Custom Configuration",
+      "language": "Language",
+      "category": "Category",
+      "difficulty": "Difficulty",
+      "gridSize": "Grid Size"
+    },
+    "preview": {
+      "title": "Configuration Preview",
+      "language": "Language",
+      "category": "Category",
+      "difficulty": "Difficulty",
+      "gridSize": "Grid Size"
+    },
+    "categories": {
+      "animals": "Animals",
+      "colors": "Colors",
+      "foods": "Foods",
+      "technology": "Technology",
+      "professions": "Professions",
+      "sports": "Sports",
+      "music": "Music",
+      "nature": "Nature"
+    },
+    "difficulties": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "gridSizes": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "languages": {
+      "pt": "Portuguese",
+      "en": "English",
+      "es": "Spanish"
+    }
   }
 }
