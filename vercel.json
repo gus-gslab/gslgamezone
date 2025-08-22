@@ -19,6 +19,15 @@
       ]
     },
     {
+      "source": "/(.*)\\.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
