@@ -562,8 +562,15 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
   }, [gameStats]);
 
   const initializeGame = useCallback(() => {
+    console.log('Initializing game with:', { language, gridSize, wordDifficulty, category });
     try {
       const categoryWords = (WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category];
+      console.log('Category words found:', categoryWords?.length);
+      console.log('WORD_CATALOGS structure:', {
+        hasLanguage: !!WORD_CATALOGS[language as keyof typeof WORD_CATALOGS],
+        hasDifficulty: !!WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt],
+        hasCategory: !!(WORD_CATALOGS as any)[language]?.[wordDifficulty]?.[category]
+      });
       
       if (!categoryWords?.length) {
         const availableCategories = Object.keys(WORD_CATALOGS[language as keyof typeof WORD_CATALOGS]?.[wordDifficulty as keyof typeof WORD_CATALOGS.pt] || {});
@@ -593,7 +600,9 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
       
       const config = GRID_CONFIGS[gridSize];
       const seed = Date.now();
+      console.log('Generating grid with config:', config);
       const result = generateGrid(config.size, config.rows, categoryWords, seed);
+      console.log('Grid generated successfully:', result.grid.length, 'x', result.grid[0]?.length);
       
       setGameState({
         grid: result.grid,
@@ -615,6 +624,7 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
 
   // Inicializar jogo apenas uma vez quando o componente monta
   useEffect(() => {
+    console.log('useEffect triggered for initializeGame');
     initializeGame();
   }, []); // Remover dependências para evitar loop
 
