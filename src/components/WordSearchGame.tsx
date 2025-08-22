@@ -734,6 +734,13 @@ const WordSearchGame: React.FC = () => {
   useEffect(() => {
     if (language && ['pt', 'en', 'es'].includes(language)) {
       i18n.changeLanguage(language);
+    } else {
+      // Se não há idioma na URL, usar o detectado pelo navegador
+      const detectedLang = navigator.language.split('-')[0];
+      if (detectedLang && ['pt', 'en', 'es'].includes(detectedLang)) {
+        i18n.changeLanguage(detectedLang);
+        setLanguage(detectedLang);
+      }
     }
   }, [language, i18n]);
   const [gridSize, setGridSize] = useState(searchParams.get('size') || 'medium');

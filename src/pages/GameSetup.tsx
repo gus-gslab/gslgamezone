@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Play, Settings, Target, Star, Zap } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface GameConfig {
   language: string;
@@ -13,8 +14,8 @@ interface GameConfig {
 const GameSetup: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { i18n } = useTranslation();
 
-  
   // Configuração inicial baseada na URL ou padrões
   const [config, setConfig] = useState<GameConfig>({
     language: searchParams.get('lang') || 'pt',
@@ -22,6 +23,18 @@ const GameSetup: React.FC = () => {
     difficulty: searchParams.get('difficulty') || 'easy',
     category: searchParams.get('category') || 'animals'
   });
+
+  // Sincronizar idioma com o i18n
+  useEffect(() => {
+    const currentLang = i18n.language || navigator.language.split('-')[0];
+    if (currentLang && ['pt', 'en', 'es'].includes(currentLang)) {
+      i18n.changeLanguage(currentLang);
+      // Atualizar config se não foi especificado na URL
+      if (!searchParams.get('lang')) {
+        setConfig(prev => ({ ...prev, language: currentLang }));
+      }
+    }
+  }, [i18n, searchParams]);
 
   const [selectedPreset, setSelectedPreset] = useState<string>('custom');
 
@@ -32,28 +45,28 @@ const GameSetup: React.FC = () => {
       name: 'Iniciante',
       description: 'Perfeito para começar',
       icon: '🌟',
-      config: { language: 'pt', gridSize: 'small', difficulty: 'easy', category: 'animals' }
+      config: { language: config.language, gridSize: 'small', difficulty: 'easy', category: 'animals' }
     },
     {
       id: 'casual',
       name: 'Casual',
       description: 'Para jogar relaxadamente',
       icon: '😌',
-      config: { language: 'pt', gridSize: 'medium', difficulty: 'easy', category: 'colors' }
+      config: { language: config.language, gridSize: 'medium', difficulty: 'easy', category: 'colors' }
     },
     {
       id: 'challenge',
       name: 'Desafio',
       description: 'Para jogadores experientes',
       icon: '🔥',
-      config: { language: 'pt', gridSize: 'large', difficulty: 'medium', category: 'technology' }
+      config: { language: config.language, gridSize: 'large', difficulty: 'medium', category: 'technology' }
     },
     {
       id: 'expert',
       name: 'Expert',
       description: 'Para os verdadeiros mestres',
       icon: '👑',
-      config: { language: 'pt', gridSize: 'large', difficulty: 'hard', category: 'professions' }
+      config: { language: config.language, gridSize: 'large', difficulty: 'hard', category: 'professions' }
     }
   ];
 
@@ -87,13 +100,17 @@ const GameSetup: React.FC = () => {
   ];
 
   const handlePresetSelect = (preset: any) => {
-    setConfig(preset.config);
+    // Manter o idioma atual ao selecionar preset
+    const updatedConfig = { ...preset.config, language: config.language };
+    setConfig(updatedConfig);
     setSelectedPreset(preset.id);
   };
 
   const handleStartGame = () => {
+    // Garantir que o idioma seja o atual
+    const currentLanguage = config.language || i18n.language || 'pt';
     const params = new URLSearchParams({
-      lang: config.language,
+      lang: currentLanguage,
       size: config.gridSize,
       difficulty: config.difficulty,
       category: config.category
