@@ -1174,27 +1174,27 @@ const WordSearchGame: React.FC = () => {
       {showConfetti && <Confetti width={width} height={height} recycle={false} />}
       
       <motion.div 
-        className="card mb-6"
+        className="card mb-6 md:mb-6 mb-2"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 md:mb-4 mb-1">
           {/* Mobile Header - Simplified */}
-          <div className="md:hidden flex items-center justify-between w-full mb-2 h-[85px]">
+          <div className="md:hidden flex items-center justify-between w-full mb-1 h-[60px]">
             <motion.button
               onClick={handleBackToHome}
-              className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               title="Voltar para Home"
             >
-              <ArrowLeft size={20} className="text-gray-600" />
+              <ArrowLeft size={18} className="text-gray-600" />
             </motion.button>
             
             <div className="flex items-center gap-2">
-              <Target size={20} className="text-blue-600" />
-              <h1 className="text-lg font-bold text-gray-800">{t.title}</h1>
+              <Target size={16} className="text-blue-600" />
+              <h1 className="text-base font-bold text-gray-800">{t.title}</h1>
             </div>
             
             {gameCompleted && (
