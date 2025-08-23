@@ -61,7 +61,7 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
     difficulties: {
       easy: 'Fácil',
       medium: 'Médio',
-      hard: 'Difícil'
+      hard: 'Difícil',
     },
     categories: {
       animals: 'Animais',
@@ -71,8 +71,8 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
       professions: 'Profissões',
       sports: 'Esportes',
       music: 'Música',
-      nature: 'Natureza'
-    }
+      nature: 'Natureza',
+    },
   },
   en: {
     title: 'Word Search - GSL Game Zone',
@@ -90,7 +90,7 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
     difficulties: {
       easy: 'Easy',
       medium: 'Medium',
-      hard: 'Hard'
+      hard: 'Hard',
     },
     categories: {
       animals: 'Animals',
@@ -100,8 +100,8 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
       professions: 'Professions',
       sports: 'Sports',
       music: 'Music',
-      nature: 'Nature'
-    }
+      nature: 'Nature',
+    },
   },
   es: {
     title: 'Sopa de Letras - GSL Game Zone',
@@ -119,7 +119,7 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
     difficulties: {
       easy: 'Fácil',
       medium: 'Medio',
-      hard: 'Difícil'
+      hard: 'Difícil',
     },
     categories: {
       animals: 'Animales',
@@ -129,19 +129,23 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
       professions: 'Profesiones',
       sports: 'Deportes',
       music: 'Música',
-      nature: 'Naturaleza'
-    }
-  }
+      nature: 'Naturaleza',
+    },
+  },
 };
 
 // Função para gerar o texto do resultado
 export function generateShareText(gameResult: GameResult): string {
   const t = SHARE_TRANSLATIONS[gameResult.language] || SHARE_TRANSLATIONS.en;
   const gameUrl = 'https://gslgamezone.com';
-  
-  const difficultyText = t.difficulties[gameResult.difficulty as keyof typeof t.difficulties] || gameResult.difficulty;
-  const categoryText = t.categories[gameResult.category as keyof typeof t.categories] || gameResult.category;
-  
+
+  const difficultyText =
+    t.difficulties[gameResult.difficulty as keyof typeof t.difficulties] ||
+    gameResult.difficulty;
+  const categoryText =
+    t.categories[gameResult.category as keyof typeof t.categories] ||
+    gameResult.category;
+
   return `🎮 ${t.playText}
 
 🏆 ${gameResult.score} ${t.points}
@@ -152,16 +156,19 @@ export function generateShareText(gameResult: GameResult): string {
 }
 
 // Função para criar o modal de compartilhamento
-export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_platform: string) => void): void {
+export function createShareModal(
+  gameResult: GameResult,
+  _onAnalyticsTrack?: (_platform: string) => void
+): void {
   // const t = SHARE_TRANSLATIONS[gameResult.language] || SHARE_TRANSLATIONS.en;
   const shareText = generateShareText(gameResult);
-  
+
   // Remover modal existente se houver
   const existingModal = document.getElementById('share-modal');
   if (existingModal) {
     existingModal.remove();
   }
-  
+
   // Criar modal simples
   const modal = document.createElement('div');
   modal.id = 'share-modal';
@@ -177,7 +184,7 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
     justify-content: center;
     z-index: 9999;
   `;
-  
+
   modal.innerHTML = `
     <div style="
       background: white;
@@ -218,8 +225,17 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
         </button>
         
         <div style="color: white; font-size: 32px; margin-bottom: 8px;">🎉</div>
-        <h3 style="color: white; margin: 0; font-size: 20px; font-weight: 600;">Compartilhar Resultado</h3>
-        <p style="color: rgba(255, 255, 255, 0.8); margin: 5px 0 0 0; font-size: 14px;">Mostre seu desempenho incrível!</p>
+        <h3 style="color: white; margin: 0; font-size: 20px; font-weight: 600;">${
+          SHARE_TRANSLATIONS[gameResult.language]?.shareTitle ||
+          SHARE_TRANSLATIONS.en.shareTitle
+        }</h3>
+        <p style="color: rgba(255, 255, 255, 0.8); margin: 5px 0 0 0; font-size: 14px;">${
+          gameResult.language === 'pt'
+            ? 'Mostre seu desempenho incrível!'
+            : gameResult.language === 'es'
+            ? '¡Muestra tu increíble rendimiento!'
+            : 'Show your amazing performance!'
+        }</p>
       </div>
       
       <!-- Card do resultado -->
@@ -249,7 +265,11 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             </div>
             <div>
               <div style="font-weight: 600; color: #2d3748; font-size: 16px;">GSL Game Zone</div>
-              <div style="color: #718096; font-size: 13px;">Caça-Palavras</div>
+              <div style="color: #718096; font-size: 13px;">${
+                SHARE_TRANSLATIONS[gameResult.language]?.title.split(
+                  ' - '
+                )[0] || SHARE_TRANSLATIONS.en.title.split(' - ')[0]
+              }</div>
             </div>
           </div>
           
@@ -267,8 +287,13 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             ">
               <div style="font-size: 20px; color: #f6ad55;">🏆</div>
               <div style="flex: 1;">
-                <div style="font-size: 16px; font-weight: 700; color: #2d3748; line-height: 1;">${gameResult.score}</div>
-                <div style="font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">pontos</div>
+                <div style="font-size: 16px; font-weight: 700; color: #2d3748; line-height: 1;">${
+                  gameResult.score
+                }</div>
+                <div style="font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.points ||
+                  SHARE_TRANSLATIONS.en.points
+                }</div>
               </div>
             </div>
             
@@ -284,8 +309,13 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             ">
               <div style="font-size: 20px; color: #68d391;">⏱️</div>
               <div style="flex: 1;">
-                <div style="font-size: 16px; font-weight: 700; color: #2d3748; line-height: 1;">${gameResult.time}</div>
-                <div style="font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">tempo</div>
+                <div style="font-size: 16px; font-weight: 700; color: #2d3748; line-height: 1;">${
+                  gameResult.time
+                }</div>
+                <div style="font-size: 9px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.time ||
+                  SHARE_TRANSLATIONS.en.time
+                }</div>
               </div>
             </div>
           </div>
@@ -304,8 +334,15 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             ">
               <div style="font-size: 16px; color: #805ad5;">🎲</div>
               <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600; color: #2d3748; line-height: 1;">${SHARE_TRANSLATIONS[gameResult.language]?.categories[gameResult.category as keyof typeof SHARE_TRANSLATIONS.pt.categories] || gameResult.category}</div>
-                <div style="font-size: 8px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">categoria</div>
+                <div style="font-size: 12px; font-weight: 600; color: #2d3748; line-height: 1;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.categories[
+                    gameResult.category as keyof typeof SHARE_TRANSLATIONS.pt.categories
+                  ] || gameResult.category
+                }</div>
+                <div style="font-size: 8px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.category ||
+                  SHARE_TRANSLATIONS.en.category
+                }</div>
               </div>
             </div>
             
@@ -321,8 +358,15 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             ">
               <div style="font-size: 16px; color: #f6e05e;">⭐</div>
               <div style="flex: 1;">
-                <div style="font-size: 12px; font-weight: 600; color: #2d3748; line-height: 1;">${SHARE_TRANSLATIONS[gameResult.language]?.difficulties[gameResult.difficulty as keyof typeof SHARE_TRANSLATIONS.pt.difficulties] || gameResult.difficulty}</div>
-                <div style="font-size: 8px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">dificuldade</div>
+                <div style="font-size: 12px; font-weight: 600; color: #2d3748; line-height: 1;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.difficulties[
+                    gameResult.difficulty as keyof typeof SHARE_TRANSLATIONS.pt.difficulties
+                  ] || gameResult.difficulty
+                }</div>
+                <div style="font-size: 8px; color: #718096; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 1px;">${
+                  SHARE_TRANSLATIONS[gameResult.language]?.difficulty ||
+                  SHARE_TRANSLATIONS.en.difficulty
+                }</div>
               </div>
             </div>
           </div>
@@ -341,7 +385,9 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
         
         <!-- Botões de compartilhamento -->
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <button onclick="window.open('https://wa.me/?text=${encodeURIComponent(shareText)}', '_blank')" style="
+          <button onclick="window.open('https://wa.me/?text=${encodeURIComponent(
+            shareText
+          )}', '_blank')" style="
             background: #25D366;
             color: white;
             padding: 14px;
@@ -355,7 +401,9 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(37, 211, 102, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(37, 211, 102, 0.2)'">
             WhatsApp
           </button>
-          <button onclick="window.open('https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}', '_blank')" style="
+          <button onclick="window.open('https://twitter.com/intent/tweet?text=${encodeURIComponent(
+            shareText
+          )}', '_blank')" style="
             background: #1DA1F2;
             color: white;
             padding: 14px;
@@ -383,7 +431,9 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(66, 103, 178, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(66, 103, 178, 0.2)'">
             Facebook
           </button>
-          <button onclick="window.open('sms:?body=${encodeURIComponent(shareText)}', '_self')" style="
+          <button onclick="window.open('sms:?body=${encodeURIComponent(
+            shareText
+          )}', '_self')" style="
             background: #8B5CF6;
             color: white;
             padding: 14px;
@@ -397,7 +447,10 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(139, 92, 246, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(139, 92, 246, 0.2)'">
             SMS
           </button>
-          <button onclick="window.open('mailto:?subject=${encodeURIComponent('Resultado do Caça-Palavras - GSL Game Zone')}&body=${encodeURIComponent(shareText)}', '_blank')" style="
+          <button onclick="window.open('mailto:?subject=${encodeURIComponent(
+            SHARE_TRANSLATIONS[gameResult.language]?.title ||
+              SHARE_TRANSLATIONS.en.title
+          )}&body=${encodeURIComponent(shareText)}', '_blank')" style="
             background: #EA4335;
             color: white;
             padding: 14px;
@@ -411,7 +464,10 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(234, 67, 53, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(234, 67, 53, 0.2)'">
             Email
           </button>
-          <button onclick="navigator.clipboard.writeText('${shareText.replace(/'/g, "\\'")}').then(() => alert('Resultado copiado!')).then(() => document.getElementById('share-modal').remove())" style="
+                    <button onclick="navigator.clipboard.writeText('https://gslgamezone.com').then(() => alert('${
+             SHARE_TRANSLATIONS[gameResult.language]?.copySuccess ||
+             SHARE_TRANSLATIONS.en.copySuccess
+           }'))" style="
             background: #FF6B35;
             color: white;
             padding: 14px;
@@ -423,36 +479,45 @@ export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_p
             transition: all 0.2s;
             box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(255, 107, 53, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(255, 107, 53, 0.2)'">
-            Copiar URL
+            ${
+               gameResult.language === 'pt'
+                 ? 'Copiar URL'
+                 : gameResult.language === 'es'
+                 ? 'Copiar URL'
+                 : 'Copy URL'
+             }
           </button>
         </div>
       </div>
     </div>
   `;
-  
+
   document.body.appendChild(modal);
 }
 
 // Função para compartilhamento nativo (Web Share API)
-export async function shareNative(gameResult: GameResult, onAnalyticsTrack?: (platform: string) => void): Promise<boolean> {
+export async function shareNative(
+  gameResult: GameResult,
+  onAnalyticsTrack?: (platform: string) => void
+): Promise<boolean> {
   if (!navigator.share) {
     return false;
   }
-  
+
   try {
     const t = SHARE_TRANSLATIONS[gameResult.language] || SHARE_TRANSLATIONS.en;
     const shareText = generateShareText(gameResult);
-    
+
     await navigator.share({
       title: t.title,
       text: shareText,
-      url: 'https://gslgamezone.com'
+      url: 'https://gslgamezone.com',
     });
-    
+
     if (onAnalyticsTrack) {
       onAnalyticsTrack('native');
     }
-    
+
     return true;
   } catch (error) {
     console.log('Compartilhamento nativo cancelado ou falhou:', error);
@@ -461,7 +526,10 @@ export async function shareNative(gameResult: GameResult, onAnalyticsTrack?: (pl
 }
 
 // Função principal de compartilhamento
-export function shareGameResult(gameResult: GameResult, _onAnalyticsTrack?: (_platform: string) => void): void {
+export function shareGameResult(
+  gameResult: GameResult,
+  _onAnalyticsTrack?: (_platform: string) => void
+): void {
   // Mostrar modal diretamente (removendo Web Share API temporariamente)
-      createShareModal(gameResult, _onAnalyticsTrack);
+  createShareModal(gameResult, _onAnalyticsTrack);
 }
