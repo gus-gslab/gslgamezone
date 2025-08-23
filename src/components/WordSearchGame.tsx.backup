@@ -113,59 +113,54 @@ const SCORING = {
   },
 };
 
-// Função para obter achievements traduzidos
-const getTranslatedAchievements = (language: string): Achievement[] => {
-  const translations =
-    UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
-
-  return [
-    {
-      id: 'first_word',
-      name: translations.achievementNames.first_word,
-      description: translations.achievementDescriptions.first_word,
-      icon: '🎯',
-      unlocked: false,
-      progress: 0,
-      maxProgress: 1,
-    },
-    {
-      id: 'speed_demon',
-      name: translations.achievementNames.speed_demon,
-      description: translations.achievementDescriptions.speed_demon,
-      icon: '⚡',
-      unlocked: false,
-      progress: 0,
-      maxProgress: 1,
-    },
-    {
-      id: 'word_master',
-      name: translations.achievementNames.word_master,
-      description: translations.achievementDescriptions.word_master,
-      icon: '🏆',
-      unlocked: false,
-      progress: 0,
-      maxProgress: 50,
-    },
-    {
-      id: 'streak_champion',
-      name: translations.achievementNames.streak_champion,
-      description: translations.achievementDescriptions.streak_champion,
-      icon: '🔥',
-      unlocked: false,
-      progress: 0,
-      maxProgress: 5,
-    },
-    {
-      id: 'perfectionist',
-      name: translations.achievementNames.perfectionist,
-      description: translations.achievementDescriptions.perfectionist,
-      icon: '💎',
-      unlocked: false,
-      progress: 0,
-      maxProgress: 10,
-    },
-  ];
-};
+// Conquistas
+const ACHIEVEMENTS: Achievement[] = [
+  {
+    id: 'first_word',
+    name: 'Primeira Palavra',
+    description: 'Encontre sua primeira palavra',
+    icon: '🎯',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 1,
+  },
+  {
+    id: 'speed_demon',
+    name: 'Demônio da Velocidade',
+    description: 'Complete um jogo em menos de 2 minutos',
+    icon: '⚡',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 1,
+  },
+  {
+    id: 'word_master',
+    name: 'Mestre das Palavras',
+    description: 'Encontre 50 palavras no total',
+    icon: '🏆',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 50,
+  },
+  {
+    id: 'streak_champion',
+    name: 'Campeão da Sequência',
+    description: 'Encontre 5 palavras consecutivas',
+    icon: '🔥',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 5,
+  },
+  {
+    id: 'perfectionist',
+    name: 'Perfeccionista',
+    description: 'Complete 10 jogos sem erros',
+    icon: '💎',
+    unlocked: false,
+    progress: 0,
+    maxProgress: 10,
+  },
+];
 
 const WORD_CATALOGS = {
   pt: {
@@ -2729,7 +2724,6 @@ const WORD_CATALOGS = {
 const UI_TRANSLATIONS = {
   pt: {
     title: 'Caça-Palavras',
-    subtitle: 'Jogo educativo interativo',
     gridSize: 'Tamanho do Grid',
     wordDifficulty: 'Dificuldade das Palavras',
     category: 'Categoria',
@@ -2771,27 +2765,6 @@ const UI_TRANSLATIONS = {
     bestTime: 'Melhor Tempo',
     maxStreak: 'Sequência Máxima',
     moreAchievements: 'mais conquistas',
-    achievementNames: {
-      first_word: 'Primeira Palavra',
-      speed_demon: 'Demônio da Velocidade',
-      word_master: 'Mestre das Palavras',
-      streak_champion: 'Campeão da Sequência',
-      perfectionist: 'Perfeccionista',
-    },
-    achievementDescriptions: {
-      first_word: 'Encontre sua primeira palavra',
-      speed_demon: 'Complete um jogo em menos de 2 minutos',
-      word_master: 'Encontre 50 palavras no total',
-      streak_champion: 'Encontre 5 palavras consecutivas',
-      perfectionist: 'Complete 10 jogos sem erros',
-    },
-    achievementToast: {
-      first_word: '🏆 Conquista: Primeira Palavra!',
-      speed_demon: '🏆 Conquista: Demônio da Velocidade!',
-      word_master: '🏆 Conquista: Mestre das Palavras!',
-      streak_champion: '🏆 Conquista: Campeão da Sequência!',
-      perfectionist: '🏆 Conquista: Perfeccionista!',
-    },
     shareText: {
       played: 'Joguei Caça-Palavras no GSL Game Zone!',
       result: 'Resultado',
@@ -2803,7 +2776,6 @@ const UI_TRANSLATIONS = {
   },
   en: {
     title: 'Word Search',
-    subtitle: 'Interactive educational game',
     gridSize: 'Grid Size',
     wordDifficulty: 'Word Difficulty',
     category: 'Category',
@@ -2845,27 +2817,6 @@ const UI_TRANSLATIONS = {
     bestTime: 'Best Time',
     maxStreak: 'Max Streak',
     moreAchievements: 'more achievements',
-    achievementNames: {
-      first_word: 'First Word',
-      speed_demon: 'Speed Demon',
-      word_master: 'Word Master',
-      streak_champion: 'Streak Champion',
-      perfectionist: 'Perfectionist',
-    },
-    achievementDescriptions: {
-      first_word: 'Find your first word',
-      speed_demon: 'Complete a game in less than 2 minutes',
-      word_master: 'Find 50 words in total',
-      streak_champion: 'Find 5 consecutive words',
-      perfectionist: 'Complete 10 games without mistakes',
-    },
-    achievementToast: {
-      first_word: '🏆 Achievement: First Word!',
-      speed_demon: '🏆 Achievement: Speed Demon!',
-      word_master: '🏆 Achievement: Word Master!',
-      streak_champion: '🏆 Achievement: Streak Champion!',
-      perfectionist: '🏆 Achievement: Perfectionist!',
-    },
     shareText: {
       played: 'I played Word Search in GSL Game Zone!',
       result: 'Result',
@@ -2877,7 +2828,6 @@ const UI_TRANSLATIONS = {
   },
   es: {
     title: 'Sopa de Letras',
-    subtitle: 'Juego educativo interactivo',
     gridSize: 'Tamaño de Cuadrícula',
     wordDifficulty: 'Dificultad de Palabras',
     category: 'Categoría',
@@ -2919,27 +2869,6 @@ const UI_TRANSLATIONS = {
     bestTime: 'Mejor Tiempo',
     maxStreak: 'Secuencia Máxima',
     moreAchievements: 'más logros',
-    achievementNames: {
-      first_word: 'Primera Palabra',
-      speed_demon: 'Demonio de Velocidad',
-      word_master: 'Maestro de Palabras',
-      streak_champion: 'Campeón de Secuencia',
-      perfectionist: 'Perfeccionista',
-    },
-    achievementDescriptions: {
-      first_word: 'Encuentra tu primera palabra',
-      speed_demon: 'Completa un juego en menos de 2 minutos',
-      word_master: 'Encuentra 50 palabras en total',
-      streak_champion: 'Encuentra 5 palabras consecutivas',
-      perfectionist: 'Completa 10 juegos sin errores',
-    },
-    achievementToast: {
-      first_word: '🏆 Logro: Primera Palabra!',
-      speed_demon: '🏆 Logro: Demonio de Velocidad!',
-      word_master: '🏆 Logro: Maestro de Palabras!',
-      streak_champion: '🏆 Logro: Campeón de Secuencia!',
-      perfectionist: '🏆 Logro: Perfeccionista!',
-    },
     shareText: {
       played: '¡Jugué Sopa de Letras en GSL Game Zone!',
       result: 'Resultado',
@@ -3304,7 +3233,7 @@ const useGameState = (
           totalWordsFound: 0,
           bestTime: 0,
           averageTime: 0,
-          achievements: getTranslatedAchievements(language),
+          achievements: ACHIEVEMENTS,
           currentStreak: 0,
           longestStreak: 0,
         };
@@ -3314,14 +3243,6 @@ const useGameState = (
   useEffect(() => {
     localStorage.setItem('wordSearchStats', JSON.stringify(gameStats));
   }, [gameStats]);
-
-  // Atualizar achievements quando o idioma muda
-  useEffect(() => {
-    setGameStats(prev => ({
-      ...prev,
-      achievements: getTranslatedAchievements(language),
-    }));
-  }, [language]);
 
   const initializeGame = useCallback(() => {
     console.log('Initializing game with:', {
@@ -3487,76 +3408,73 @@ const useGameState = (
     [currentStreak, wordDifficulty]
   );
 
-  const checkAchievements = useCallback(
-    (translations: any) => {
-      setGameStats((prev: GameStats) => {
-        const newStats = { ...prev };
-        const achievements = [...prev.achievements];
+  const checkAchievements = useCallback(() => {
+    setGameStats((prev: GameStats) => {
+      const newStats = { ...prev };
+      const achievements = [...prev.achievements];
 
-        // Primeira palavra
-        const firstWord = achievements.find(
-          (a: Achievement) => a.id === 'first_word'
+      // Primeira palavra
+      const firstWord = achievements.find(
+        (a: Achievement) => a.id === 'first_word'
+      );
+      if (firstWord && !firstWord.unlocked) {
+        firstWord.progress = 1;
+        firstWord.unlocked = true;
+        toast.success('🏆 Conquista: Primeira Palavra!', {
+          duration: 3000,
+          icon: '🎯',
+        });
+      }
+
+      // Mestre das palavras
+      const wordMaster = achievements.find(
+        (a: Achievement) => a.id === 'word_master'
+      );
+      if (wordMaster) {
+        wordMaster.progress = Math.min(
+          prev.totalWordsFound + 1,
+          wordMaster.maxProgress
         );
-        if (firstWord && !firstWord.unlocked) {
-          firstWord.progress = 1;
-          firstWord.unlocked = true;
-          toast.success(translations.achievementToast.first_word, {
+        if (
+          wordMaster.progress >= wordMaster.maxProgress &&
+          !wordMaster.unlocked
+        ) {
+          wordMaster.unlocked = true;
+          toast.success('🏆 Conquista: Mestre das Palavras!', {
             duration: 3000,
-            icon: '🎯',
+            icon: '🏆',
           });
         }
+      }
 
-        // Mestre das palavras
-        const wordMaster = achievements.find(
-          (a: Achievement) => a.id === 'word_master'
+      // Campeão da sequência
+      const streakChampion = achievements.find(
+        (a: Achievement) => a.id === 'streak_champion'
+      );
+      if (streakChampion) {
+        streakChampion.progress = Math.max(
+          streakChampion.progress,
+          currentStreak + 1
         );
-        if (wordMaster) {
-          wordMaster.progress = Math.min(
-            prev.totalWordsFound + 1,
-            wordMaster.maxProgress
-          );
-          if (
-            wordMaster.progress >= wordMaster.maxProgress &&
-            !wordMaster.unlocked
-          ) {
-            wordMaster.unlocked = true;
-            toast.success(translations.achievementToast.word_master, {
-              duration: 3000,
-              icon: '🏆',
-            });
-          }
+        if (
+          streakChampion.progress >= streakChampion.maxProgress &&
+          !streakChampion.unlocked
+        ) {
+          streakChampion.unlocked = true;
+          toast.success('🏆 Conquista: Campeão da Sequência!', {
+            duration: 3000,
+            icon: '🔥',
+          });
         }
+      }
 
-        // Campeão da sequência
-        const streakChampion = achievements.find(
-          (a: Achievement) => a.id === 'streak_champion'
-        );
-        if (streakChampion) {
-          streakChampion.progress = Math.max(
-            streakChampion.progress,
-            currentStreak + 1
-          );
-          if (
-            streakChampion.progress >= streakChampion.maxProgress &&
-            !streakChampion.unlocked
-          ) {
-            streakChampion.unlocked = true;
-            toast.success(translations.achievementToast.streak_champion, {
-              duration: 3000,
-              icon: '🔥',
-            });
-          }
-        }
-
-        newStats.achievements = achievements;
-        return newStats;
-      });
-    },
-    [currentStreak]
-  );
+      newStats.achievements = achievements;
+      return newStats;
+    });
+  }, [currentStreak]);
 
   const updateGameCompletionStats = useCallback(
-    (completionTime: number, finalStreak: number, translations: any) => {
+    (completionTime: number, finalStreak: number) => {
       setGameStats((prev: GameStats) => {
         const newStats = { ...prev };
         newStats.totalGames += 1;
@@ -3581,7 +3499,7 @@ const useGameState = (
         if (speedDemon && !speedDemon.unlocked && completionTime < 120) {
           // menos de 2 minutos
           speedDemon.unlocked = true;
-          toast.success(translations.achievementToast.speed_demon, {
+          toast.success('🏆 Conquista: Demônio da Velocidade!', {
             duration: 3000,
             icon: '⚡',
           });
@@ -3708,10 +3626,7 @@ const WordSearchGame: React.FC = () => {
       // Se não há idioma na URL, usar o detectado pelo navegador
       const detectedLang = navigator.language.split('-')[0];
       if (detectedLang && ['pt', 'en', 'es'].includes(detectedLang)) {
-        console.log(
-          'WordSearchGame: Fallback to browser language',
-          detectedLang
-        );
+        console.log('WordSearchGame: Fallback to browser language', detectedLang);
         i18n.changeLanguage(detectedLang);
         setLanguage(detectedLang);
       }
@@ -3801,7 +3716,7 @@ const WordSearchGame: React.FC = () => {
 
     // Verificar conquistas após um delay maior
     setTimeout(() => {
-      checkAchievements(t);
+      checkAchievements();
     }, 500);
 
     // Track word found
@@ -4007,7 +3922,7 @@ const WordSearchGame: React.FC = () => {
         : 0;
 
       // Atualizar estatísticas finais
-      updateGameCompletionStats(completionTime, currentStreak, t);
+      updateGameCompletionStats(completionTime, currentStreak);
 
       setShowConfetti(true);
       toast.success(
@@ -4144,7 +4059,9 @@ const WordSearchGame: React.FC = () => {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-blue-600 bg-clip-text text-transparent">
                 {t.title}
               </h1>
-              <p className="text-xs text-gray-500 mt-1">{t.subtitle}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                Jogo educativo interativo
+              </p>
             </div>
           </div>
 
@@ -4185,8 +4102,7 @@ const WordSearchGame: React.FC = () => {
               <div className="flex items-center gap-2 bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-2 rounded-lg shadow-sm border border-yellow-200">
                 <Zap size={18} className="text-yellow-600" />
                 <span className="font-semibold text-gray-800">
-                  <span className="text-yellow-700">{score}</span>{' '}
-                  {t.shareText.points}
+                  <span className="text-yellow-700">{score}</span> pts
                 </span>
               </div>
 
@@ -4195,8 +4111,7 @@ const WordSearchGame: React.FC = () => {
                 <div className="flex items-center gap-2 bg-gradient-to-r from-red-100 to-pink-100 px-3 py-2 rounded-lg shadow-sm border border-red-200">
                   <span className="text-lg">🔥</span>
                   <span className="font-semibold text-gray-800">
-                    <span className="text-red-700">{currentStreak}</span>{' '}
-                    {t.maxStreak.toLowerCase()}
+                    <span className="text-red-700">{currentStreak}</span> seq
                   </span>
                 </div>
               )}
@@ -4580,27 +4495,27 @@ const WordSearchGame: React.FC = () => {
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">
                   <div className="text-sm text-gray-600 space-y-1">
                     <div className="flex justify-between">
-                      <span>{t.shareText.score}:</span>
+                      <span>Pontuação Final:</span>
                       <span className="font-bold text-yellow-600">
-                        {score} {t.shareText.points}
+                        {score} pts
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{t.wordsFound}:</span>
+                      <span>Palavras Encontradas:</span>
                       <span>
                         {foundWords.length}/{gameState.words.length}
                       </span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{t.shareText.time}:</span>
+                      <span>Tempo:</span>
                       <span>{getFormattedTime()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{t.maxStreak}:</span>
+                      <span>Sequência Máxima:</span>
                       <span className="text-red-600">{currentStreak}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>{t.wordDifficulty}:</span>
+                      <span>Dificuldade:</span>
                       <span>
                         {
                           t.wordDifficulties[

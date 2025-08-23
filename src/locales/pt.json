@@ -79,6 +79,11 @@
       "games": "Jogos",
       "about": "Sobre",
       "contact": "Contato"
+    },
+    "labels": {
+      "category": "Categoria",
+      "difficulty": "Dificuldade",
+      "time": "Tempo"
     }
   },
   "gameSetup": {
@@ -154,6 +159,86 @@
       "pt": "Português",
       "en": "English",
       "es": "Español"
+    }
+  },
+  "privacy": {
+    "title": "Política de Privacidade",
+    "lastUpdated": "Última atualização: Janeiro 2025",
+    "sections": {
+      "infoCollection": {
+        "title": "1. Informações que Coletamos",
+        "content": "Coletamos informações básicas de uso, incluindo dados de navegação, preferências de idioma e estatísticas de jogo. Não coletamos informações pessoais identificáveis sem seu consentimento explícito."
+      },
+      "infoUsage": {
+        "title": "2. Como Usamos suas Informações",
+        "content": "Utilizamos suas informações para melhorar nossos jogos, personalizar sua experiência, analisar o uso do site e fornecer suporte ao cliente. Nunca vendemos ou compartilhamos seus dados pessoais com terceiros."
+      },
+      "cookies": {
+        "title": "3. Cookies e Tecnologias Similares",
+        "content": "Utilizamos cookies para melhorar sua experiência de navegação, lembrar suas preferências e analisar o tráfego do site. Você pode desativar cookies em seu navegador a qualquer momento."
+      },
+      "analytics": {
+        "title": "4. Google Analytics",
+        "content": "Utilizamos o Google Analytics para entender como os usuários interagem com nosso site. O Google Analytics coleta informações anônimas sobre o uso do site, incluindo páginas visitadas e tempo gasto."
+      },
+      "security": {
+        "title": "5. Segurança dos Dados",
+        "content": "Implementamos medidas de segurança técnicas e organizacionais para proteger suas informações contra acesso não autorizado, alteração, divulgação ou destruição."
+      },
+      "rights": {
+        "title": "6. Seus Direitos",
+        "content": "Você tem o direito de acessar, corrigir ou excluir suas informações pessoais. Você também pode solicitar uma cópia dos dados que temos sobre você ou retirar seu consentimento a qualquer momento."
+      },
+      "children": {
+        "title": "7. Menores de Idade",
+        "content": "Nossos serviços não são destinados a menores de 13 anos. Não coletamos intencionalmente informações pessoais de menores de 13 anos. Se você é pai ou responsável e acredita que seu filho nos forneceu informações pessoais, entre em contato conosco."
+      },
+      "changes": {
+        "title": "8. Alterações nesta Política",
+        "content": "Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos você sobre mudanças significativas através do site ou por email."
+      },
+      "contact": {
+        "title": "9. Contato",
+        "content": "Se você tiver dúvidas sobre esta Política de Privacidade ou sobre como tratamos suas informações, entre em contato conosco em gslgamezone@gmail.com."
+      }
+    }
+  },
+  "terms": {
+    "title": "Termos de Uso",
+    "lastUpdated": "Última atualização: Janeiro 2025",
+    "sections": {
+      "acceptance": {
+        "title": "1. Aceitação dos Termos",
+        "content": "Ao acessar e usar o GSL Game Zone, você concorda em cumprir e estar vinculado a estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não deve usar nossos serviços."
+      },
+      "service": {
+        "title": "2. Descrição do Serviço",
+        "content": "O GSL Game Zone oferece jogos educativos online gratuitos, incluindo caça-palavras e outros jogos interativos. Nossos serviços são destinados a fins educacionais e de entretenimento."
+      },
+      "usage": {
+        "title": "3. Uso Aceitável",
+        "content": "Você concorda em usar nossos serviços apenas para fins legais e de acordo com estes Termos. É proibido usar nossos serviços para qualquer atividade ilegal, prejudicial ou que viole os direitos de terceiros."
+      },
+      "intellectual": {
+        "title": "4. Propriedade Intelectual",
+        "content": "Todo o conteúdo do GSL Game Zone, incluindo jogos, textos, gráficos, logotipos e software, é propriedade da GSL Game Zone ou de nossos licenciadores e está protegido por leis de direitos autorais."
+      },
+      "privacy": {
+        "title": "5. Privacidade",
+        "content": "Sua privacidade é importante para nós. Nossa Política de Privacidade explica como coletamos, usamos e protegemos suas informações pessoais."
+      },
+      "liability": {
+        "title": "6. Limitação de Responsabilidade",
+        "content": "O GSL Game Zone não será responsável por quaisquer danos diretos, indiretos, incidentais ou consequenciais decorrentes do uso de nossos serviços."
+      },
+      "modifications": {
+        "title": "7. Modificações",
+        "content": "Reservamo-nos o direito de modificar estes Termos a qualquer momento. As modificações entrarão em vigor imediatamente após sua publicação no site."
+      },
+      "contact": {
+        "title": "8. Contato",
+        "content": "Se você tiver dúvidas sobre estes Termos, entre em contato conosco em gslgamezone@gmail.com."
+      }
     }
   }
 }

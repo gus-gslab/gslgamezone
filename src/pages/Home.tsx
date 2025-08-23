@@ -262,15 +262,15 @@ const Home: React.FC = () => {
                   
                   <div className="space-y-2 mb-4">
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500 dark:text-dark-textSecondary">Categoria:</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">{t('home.labels.category')}:</span>
                       <span className="font-medium dark:text-dark-text">{game.category}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500 dark:text-dark-textSecondary">Dificuldade:</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">{t('home.labels.difficulty')}:</span>
                       <span className="font-medium dark:text-dark-text">{game.difficulty}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-500 dark:text-dark-textSecondary">Tempo:</span>
+                      <span className="text-gray-500 dark:text-dark-textSecondary">{t('home.labels.time')}:</span>
                       <span className="font-medium dark:text-dark-text">{game.time}</span>
                     </div>
                   </div>
