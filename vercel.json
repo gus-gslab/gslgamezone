@@ -18,7 +18,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/((?!manifest\\.json|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ],
