@@ -152,8 +152,8 @@ export function generateShareText(gameResult: GameResult): string {
 }
 
 // Função para criar o modal de compartilhamento
-export function createShareModal(gameResult: GameResult, onAnalyticsTrack?: (platform: string) => void): void {
-  const t = SHARE_TRANSLATIONS[gameResult.language] || SHARE_TRANSLATIONS.en;
+export function createShareModal(gameResult: GameResult, _onAnalyticsTrack?: (_platform: string) => void): void {
+  // const t = SHARE_TRANSLATIONS[gameResult.language] || SHARE_TRANSLATIONS.en;
   const shareText = generateShareText(gameResult);
   
   // Remover modal existente se houver
@@ -461,7 +461,7 @@ export async function shareNative(gameResult: GameResult, onAnalyticsTrack?: (pl
 }
 
 // Função principal de compartilhamento
-export function shareGameResult(gameResult: GameResult, onAnalyticsTrack?: (platform: string) => void): void {
+export function shareGameResult(gameResult: GameResult, _onAnalyticsTrack?: (_platform: string) => void): void {
   // Mostrar modal diretamente (removendo Web Share API temporariamente)
-  createShareModal(gameResult, onAnalyticsTrack);
+      createShareModal(gameResult, _onAnalyticsTrack);
 }

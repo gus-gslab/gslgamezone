@@ -824,17 +824,17 @@ const useGameState = (language: string, gridSize: string, wordDifficulty: string
 const useTouchHandlers = (gameCompleted: boolean, onCellStart: (row: number, col: number) => void, onCellMove: (row: number, col: number) => void, onCellEnd: () => void) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const handleCellStart = useCallback((row: number, col: number, e: React.MouseEvent | React.TouchEvent) => {
+  const handleCellStart = useCallback((_row: number, _col: number, e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     if (gameCompleted) return;
     setIsSelecting(true);
-    onCellStart(row, col);
+    onCellStart(_row, _col);
   }, [gameCompleted, onCellStart]);
 
-  const handleCellMove = useCallback((row: number, col: number, e: React.MouseEvent | React.TouchEvent) => {
+  const handleCellMove = useCallback((_row: number, _col: number, e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     if (!isSelecting || gameCompleted) return;
-    onCellMove(row, col);
+    onCellMove(_row, _col);
   }, [isSelecting, gameCompleted, onCellMove]);
 
   const handleCellEnd = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
