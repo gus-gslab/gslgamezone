@@ -13,7 +13,8 @@
     "type-check": "tsc --noEmit",
     "deploy": "./scripts/deploy.sh",
     "setup-domain": "./scripts/setup-domain.sh",
-    "deploy-vercel": "./scripts/deploy-vercel.sh"
+    "deploy-vercel": "./scripts/deploy-vercel.sh",
+    "update-docs": "./scripts/update-docs.sh"
   },
   "dependencies": {
     "framer-motion": "^10.16.4",
