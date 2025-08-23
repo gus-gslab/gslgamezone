@@ -150,8 +150,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👨‍💻 Autor
 
 **Gustavo Girard**
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [Gustavo Girard](https://linkedin.com/in/gustavogirard)
+- GitHub: [@seu-usuario](https://github.com/gus-gslab)
+- LinkedIn: [Gustavo Girard](https://linkedin.com/in/gustavodgirard)
 
 ## 🙏 Agradecimentos
 
