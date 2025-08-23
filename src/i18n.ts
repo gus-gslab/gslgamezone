@@ -13,20 +13,29 @@ const resources = {
   es: { translation: es }
 };
 
+// Função para detectar idioma do navegador e mapear para idiomas suportados
+const detectBrowserLanguage = () => {
+  const browserLang = navigator.language || navigator.languages?.[0] || 'en';
+  const langCode = browserLang.split('-')[0]; // Pegar apenas o código do idioma (ex: 'pt' de 'pt-BR')
+  
+  // Mapear para idiomas suportados
+  const supportedLanguages = ['pt', 'en', 'es'];
+  return supportedLanguages.includes(langCode) ? langCode : 'en'; // Default para inglês se não suportado
+};
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
+    lng: detectBrowserLanguage(), // Forçar detecção automática
     fallbackLng: 'en',
     debug: false,
     
     detection: {
-      order: ['localStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
-      caches: ['localStorage'],
-      lookupLocalStorage: 'i18nextLng',
-      lookupFromPathIndex: 0,
-      lookupFromSubdomainIndex: 0,
+      // Priorizar detecção do navegador
+      order: ['navigator', 'htmlTag'],
+      caches: [], // Não cachear para sempre detectar o idioma do navegador
     },
 
     interpolation: {

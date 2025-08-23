@@ -15,10 +15,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game-setup" element={<GameSetup />} />
-                  <Route path="/caca-palavras" element={<WordSearchGame />} />
-        <Route path="/admin-analytics" element={<Dashboard />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
+          <Route path="/setup" element={<GameSetup />} />
+          <Route path="/caca-palavras" element={<WordSearchGame />} />
+          <Route path="/admin-analytics" element={<Dashboard />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
         <Toaster
           position="top-right"

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Play, Settings, Target, Star, Zap } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import SEOHead from '../components/SEOHead';
 
 
 interface GameConfig {
@@ -149,6 +150,11 @@ const GameSetup: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <SEOHead 
+        pageTitle="⚙️ Setup Page | Educational Games Online | GSL Game Zone"
+        pageDescription="Configure your Word Search game! Choose language, difficulty, category and grid size. Customize your educational gaming experience with GSL Game Zone."
+        pageKeywords="game setup, word search configuration, educational games setup, game customization, language selection, difficulty settings"
+      />
       {/* Header */}
       <motion.div 
         className="bg-white shadow-sm border-b border-gray-100"

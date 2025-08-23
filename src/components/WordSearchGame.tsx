@@ -6,6 +6,8 @@ import toast from 'react-hot-toast';
 import Confetti from 'react-confetti';
 import { useWindowSize } from '../hooks/useWindowSize';
 import { useTranslation } from 'react-i18next';
+import SEOHead from './SEOHead';
+import { shareGameResult } from '../utils/shareUtils';
 
 // ===== TYPES =====
 interface GridConfig {
@@ -1104,93 +1106,37 @@ const WordSearchGame: React.FC = () => {
   const handleShare = () => {
     if (!gameState) return;
     
-    const gameUrl = 'https://gslgamezone.com/game-setup';
-    const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
-    const shareText = `🎮 ${t.shareText.played}\n\n🟢 ${t.shareText.result}: ${foundWords.length}/${gameState.words.length} ${t.shareText.wordsFound}\n🔵 ${t.shareText.time}: ${getFormattedTime()}\n🟣 ${t.shareText.score}: ${score} ${t.shareText.points}\n\n🎮 ${gameUrl}`;
+    const gameResult = {
+      wordsFound: foundWords.length,
+      totalWords: gameState.words.length,
+      time: getFormattedTime(),
+      score: score,
+      streak: currentStreak,
+      difficulty: wordDifficulty,
+      category: category,
+      language: language
+    };
     
-    if (navigator.share) {
-      navigator.share({ 
-        title: 'Caça-Palavras - GSL Game Zone', 
-        text: shareText,
-        url: gameUrl
-      });
-      // Track share
+    // Função para tracking de analytics
+    const trackShare = (platform: string) => {
       if (window.gtag) {
         window.gtag('event', 'share', {
-          share_platform: 'native',
+          share_platform: platform,
           event_category: 'Social',
-          event_label: 'native'
+          event_label: platform,
+          game_category: category,
+          game_difficulty: wordDifficulty,
+          game_language: language
         });
-        console.log('Analytics: Share tracked', { platform: 'native' });
+        console.log('Analytics: Share tracked', { platform, category, wordDifficulty, language });
       }
-    } else {
-      // Fallback para navegadores que não suportam Web Share API
-      showShareModal();
-    }
+    };
+    
+    // Usar a função de compartilhamento profissional
+    shareGameResult(gameResult, trackShare);
   };
 
-  const showShareModal = () => {
-    if (!gameState) return;
-    
-    const gameUrl = 'https://gslgamezone.com/game-setup';
-    const t = UI_TRANSLATIONS[language as keyof typeof UI_TRANSLATIONS];
-    const shareText = `🎮 ${t.shareText.played}\n\n🟢 ${t.shareText.result}: ${foundWords.length}/${gameState.words.length} ${t.shareText.wordsFound}\n🔵 ${t.shareText.time}: ${getFormattedTime()}\n🟣 ${t.shareText.score}: ${score} ${t.shareText.points}\n\n🎮 ${gameUrl}`;
-    
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(gameUrl)}`;
-    const smsUrl = `sms:?body=${encodeURIComponent(shareText)}`;
-    
-    const shareModal = document.createElement('div');
-    shareModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-    shareModal.innerHTML = `
-      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4 relative">
-        <button onclick="this.parentElement.parentElement.remove()" class="absolute top-3 right-3 p-1 text-gray-400 hover:text-gray-600 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-        <div class="text-center mb-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">Compartilhar Resultado</h3>
-          <p class="text-sm text-gray-600">Escolha como compartilhar seu resultado!</p>
-        </div>
-        <div class="space-y-3">
-          <a href="${whatsappUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-            <span class="text-xl">📱</span>
-            WhatsApp
-          </a>
-          <a href="${twitterUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-            <span class="text-xl">🐦</span>
-            Twitter
-          </a>
-          <a href="${facebookUrl}" target="_blank" class="flex items-center justify-center gap-3 w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            <span class="text-xl">📘</span>
-            Facebook
-          </a>
-          <a href="${smsUrl}" class="flex items-center justify-center gap-3 w-full p-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
-            <span class="text-xl">💬</span>
-            SMS
-          </a>
-          <button onclick="navigator.clipboard.writeText('${shareText.replace(/'/g, "\\'")}'); this.parentElement.parentElement.parentElement.remove(); alert('Texto copiado!');" class="flex items-center justify-center gap-3 w-full p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
-            <span class="text-xl">📋</span>
-            Copiar Link
-          </button>
-        </div>
-      </div>
-    `;
-    
-    document.body.appendChild(shareModal);
-    
-    // Track share
-    if (window.gtag) {
-      window.gtag('event', 'share', {
-        share_platform: 'modal',
-        event_category: 'Social',
-        event_label: 'modal'
-      });
-      console.log('Analytics: Share tracked', { platform: 'modal' });
-    }
-  };
+
 
 
 
@@ -1264,6 +1210,11 @@ const WordSearchGame: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-4 bg-gray-50 min-h-screen">
+      <SEOHead 
+        pageTitle="🕹️ Word Search | Educational Games | GSL Game Zone"
+        pageDescription="Play the ultimate Word Search game! Find hidden words in the grid with multiple categories, languages and difficulty levels. Educational and fun for all ages."
+        pageKeywords="word search game, educational games, puzzle game, vocabulary, brain training, language learning, word puzzle, hidden words"
+      />
       {showConfetti && <Confetti width={width} height={height} recycle={false} />}
       
       <motion.div 

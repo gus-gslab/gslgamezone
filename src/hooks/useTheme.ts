@@ -30,6 +30,9 @@ export const useTheme = () => {
     } else {
       root.classList.remove('dark');
     }
+    
+    // Disparar evento customizado para notificar mudança de tema
+    window.dispatchEvent(new CustomEvent('themeChange', { detail: { theme } }));
   }, [theme]);
 
   const toggleTheme = () => {

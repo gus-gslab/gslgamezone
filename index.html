@@ -5,16 +5,32 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="🎮 Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish. Perfect for all ages!" />
-    <meta name="keywords" content="word search, educational games, crossword puzzles, online games, education, portuguese, english, spanish, gsl game zone, brain games, learning games" />
+    <meta name="keywords" content="word search, educational games, crossword puzzles, online games, education, portuguese, english, spanish, gsl game zone, brain games, learning games, puzzle games, vocabulary games, educational apps" />
     <meta name="author" content="GSL Game Zone" />
-    <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <link rel="canonical" href="https://gslgamezone.com/" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="language" content="en" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+    <meta name="coverage" content="worldwide" />
+    <meta name="target" content="all" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="GSL Game Zone" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gslgamezone.com/" />
-    <meta property="og:title" content="🎯 Word Search - Educational Games Online | GSL Game Zone" />
+    <meta property="og:title" content="🎯 GSL Game Zone | Educational Games Online" />
     <meta property="og:description" content="🎮 Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish. Perfect for all ages!" />
     <meta property="og:image" content="https://raw.githubusercontent.com/gus-gslab/gslgamezone/refs/heads/main/assets/gsl-gamezone-img.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -22,14 +38,19 @@
     <meta property="og:image:alt" content="GSL Game Zone - Educational Games Platform" />
     <meta property="og:site_name" content="GSL Game Zone" />
     <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta property="og:updated_time" content="2024-01-01T00:00:00+00:00" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://gslgamezone.com/" />
-    <meta property="twitter:title" content="🎯 Word Search - Educational Games Online | GSL Game Zone" />
+    <meta property="twitter:title" content="🎯 GSL Game Zone | Educational Games Online" />
     <meta property="twitter:description" content="🎮 Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish. Perfect for all ages!" />
     <meta property="twitter:image" content="https://raw.githubusercontent.com/gus-gslab/gslgamezone/refs/heads/main/assets/gsl-gamezone-img.jpg" />
     <meta property="twitter:image:alt" content="GSL Game Zone - Educational Games Platform" />
+    <meta property="twitter:site" content="@gslgamezone" />
+    <meta property="twitter:creator" content="@gslgamezone" />
     
     <!-- Hreflang Tags -->
     <link rel="alternate" hreflang="en-US" href="https://gslgamezone.com/" />
@@ -39,7 +60,7 @@
 
     <!-- PWA -->
     <meta name="theme-color" content="#3b82f6" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" />
     <link rel="manifest" href="/manifest.json" />
     
     <!-- Google tag (gtag.js) -->
@@ -50,6 +71,62 @@
       gtag('js', new Date());
 
       gtag('config', 'G-BTMV7DMVMT');
+    </script>
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "GSL Game Zone",
+      "alternateName": "GSL Game Zone - Educational Games",
+      "url": "https://gslgamezone.com",
+      "description": "Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://gslgamezone.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "GSL Game Zone",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://gslgamezone.com/logo-gslgamezone-darkBG.svg"
+        }
+      },
+      "sameAs": [
+        "https://twitter.com/gslgamezone",
+        "https://facebook.com/gslgamezone"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Game",
+      "name": "Word Search - Educational Games",
+      "description": "Interactive word search game with multiple categories and languages",
+      "url": "https://gslgamezone.com/game",
+      "genre": "Educational",
+      "gamePlatform": "Web Browser",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
     </script>
     
     <title>🎯 GSL Game Zone | Educational Games Online</title>

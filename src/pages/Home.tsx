@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Search, Brain, Target, Zap, Star, Users, Clock, Trophy, Menu, X } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
-import LanguageSelector from '../components/LanguageSelector';
+
 import LogoGSLGameZone from '../components/LogoGSLGameZone';
 import LogoGSLGameZoneDark from '../components/LogoGSLGameZoneDark';
 import { ThemeToggle } from '../components/ThemeToggle';
@@ -104,7 +104,6 @@ const Home: React.FC = () => {
               
               <div className="flex items-center space-x-3 ml-4">
                 <ThemeToggle />
-                <LanguageSelector />
               </div>
             </nav>
             
@@ -152,7 +151,6 @@ const Home: React.FC = () => {
                 </a>
                 <div className="flex items-center space-x-4 pt-2 border-t border-gray-200 dark:border-dark-border">
                   <ThemeToggle />
-                  <LanguageSelector />
                 </div>
               </div>
             </motion.div>

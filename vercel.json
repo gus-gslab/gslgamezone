@@ -4,6 +4,18 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/pt/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/en/:path*", 
+      "destination": "/index.html"
+    },
+    {
+      "source": "/es/:path*",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!manifest\\.json|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
       "destination": "/index.html"
     }
