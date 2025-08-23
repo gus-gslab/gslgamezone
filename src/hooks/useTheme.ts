@@ -10,12 +10,7 @@ export const useTheme = () => {
       return savedTheme;
     }
     
-    // Verificar preferência do sistema
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    // Padrão: light mode
+    // Padrão: light mode para todos os usuários
     return 'light';
   });
 

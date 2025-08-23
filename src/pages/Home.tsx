@@ -149,9 +149,7 @@ const Home: React.FC = () => {
                 >
                   {t('home.navigation.contact')}
                 </a>
-                <div className="flex items-center space-x-4 pt-2 border-t border-gray-200 dark:border-dark-border">
-                  <ThemeToggle />
-                </div>
+
               </div>
             </motion.div>
           )}

@@ -20,7 +20,7 @@ const Terms: React.FC = () => {
   const termsContent = {
     pt: {
       title: "Termos de Uso",
-      lastUpdated: "Última atualização: Janeiro 2024",
+      lastUpdated: "Última atualização: Janeiro 2025",
       sections: [
         {
           title: "1. Aceitação dos Termos",
@@ -58,7 +58,7 @@ const Terms: React.FC = () => {
     },
     en: {
       title: "Terms of Service",
-      lastUpdated: "Last updated: January 2024",
+      lastUpdated: "Last updated: January 2025",
       sections: [
         {
           title: "1. Acceptance of Terms",
@@ -96,7 +96,7 @@ const Terms: React.FC = () => {
     },
     es: {
       title: "Términos de Servicio",
-      lastUpdated: "Última actualización: Enero 2024",
+      lastUpdated: "Última actualización: Enero 2025",
       sections: [
         {
           title: "1. Aceptación de los Términos",
@@ -205,7 +205,7 @@ const Terms: React.FC = () => {
 
             <div className="mt-8 pt-6 border-t border-gray-200 dark:border-dark-border text-center">
               <p className="text-sm text-gray-500 dark:text-dark-textSecondary">
-                © 2024 GSL Game Zone. Todos os direitos reservados.
+                © 2025 GSL Game Zone. Todos os direitos reservados.
               </p>
             </div>
           </motion.div>

@@ -20,7 +20,7 @@ const Privacy: React.FC = () => {
   const privacyContent = {
     pt: {
       title: "Política de Privacidade",
-      lastUpdated: "Última atualização: Janeiro 2024",
+      lastUpdated: "Última atualização: Janeiro 2025",
       sections: [
         {
           title: "1. Informações que Coletamos",
@@ -62,7 +62,7 @@ const Privacy: React.FC = () => {
     },
     en: {
       title: "Privacy Policy",
-      lastUpdated: "Last updated: January 2024",
+      lastUpdated: "Last updated: January 2025",
       sections: [
         {
           title: "1. Information We Collect",
@@ -104,7 +104,7 @@ const Privacy: React.FC = () => {
     },
     es: {
       title: "Política de Privacidad",
-      lastUpdated: "Última actualización: Enero 2024",
+      lastUpdated: "Última actualización: Enero 2025",
       sections: [
         {
           title: "1. Información que Recopilamos",
@@ -217,7 +217,7 @@ const Privacy: React.FC = () => {
 
             <div className="mt-8 pt-6 border-t border-gray-200 dark:border-dark-border text-center">
               <p className="text-sm text-gray-500 dark:text-dark-textSecondary">
-                © 2024 GSL Game Zone. Todos os direitos reservados.
+                © 2025 GSL Game Zone. Todos os direitos reservados.
               </p>
             </div>
           </motion.div>
