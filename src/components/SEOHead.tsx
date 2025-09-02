@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getSEOConfig, generateHreflangTags } from '../utils/languageDetection';
+import { 
+  generateOrganizationSchema, 
+  generateWebSiteSchema, 
+  generateWordSearchGameSchema 
+} from '../utils/schemaData';
 
 interface SEOHeadProps {
   pageTitle?: string;
@@ -106,7 +111,32 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     }
     hreflangContainer.innerHTML = hreflangTags;
 
+    // Adicionar dados estruturados Schema.org
+    this.addStructuredData();
+
   }, [i18n.language, pageTitle, pageDescription, pageKeywords, canonicalUrl, seoConfig]);
+
+  // Método para adicionar dados estruturados Schema.org
+  const addStructuredData = () => {
+    // Remover dados estruturados existentes
+    const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
+    existingScripts.forEach(script => script.remove());
+
+    // Gerar e adicionar dados estruturados
+    const schemas = [
+      generateOrganizationSchema(),
+      generateWebSiteSchema(),
+      generateWordSearchGameSchema()
+    ];
+
+    schemas.forEach((schema, index) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.textContent = JSON.stringify(schema, null, 2);
+      script.id = `schema-${index}`;
+      document.head.appendChild(script);
+    });
+  };
 
   return null; // Este componente não renderiza nada visualmente
 };
