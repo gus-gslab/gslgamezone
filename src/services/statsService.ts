@@ -9,16 +9,16 @@ interface GameStats {
 class StatsService {
   private readonly STORAGE_KEY = 'gsl_game_stats';
   private readonly WEEKLY_INCREMENTS = {
-    activePlayers: 12, // +12 jogadores por semana
-    timePlayed: 45, // +45 horas por semana
-    wordsFound: 234, // +234 palavras por semana
+    activePlayers: 3, // +3 jogadores por semana
+    timePlayed: 12, // +12 horas por semana
+    wordsFound: 67, // +67 palavras por semana
   };
 
   private getInitialStats(): GameStats {
     return {
-      activePlayers: 1234,
-      timePlayed: 2567,
-      wordsFound: 45678,
+      activePlayers: 89,
+      timePlayed: 234,
+      wordsFound: 3456,
       averageRating: 4.8,
     };
   }
