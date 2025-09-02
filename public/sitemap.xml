@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Home Page -->
+  <url>
+    <loc>https://gslgamezone.com/</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/"/>
+  </url>
+  
+  <!-- Game Setup Page -->
+  <url>
+    <loc>https://gslgamezone.com/setup</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/setup"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/setup"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/setup"/>
+  </url>
+  
+  <!-- Alternative Game Setup Route -->
+  <url>
+    <loc>https://gslgamezone.com/game-setup</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/game-setup"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/game-setup"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/game-setup"/>
+  </url>
+  
+  <!-- Word Search Game Page -->
+  <url>
+    <loc>https://gslgamezone.com/caca-palavras</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/caca-palavras"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/caca-palavras"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/caca-palavras"/>
+  </url>
+  
+  <!-- Privacy Policy -->
+  <url>
+    <loc>https://gslgamezone.com/privacy</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/privacy"/>
+  </url>
+  
+  <!-- Terms of Service -->
+  <url>
+    <loc>https://gslgamezone.com/terms</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="pt" href="https://gslgamezone.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://gslgamezone.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://gslgamezone.com/terms"/>
+  </url>
+  
+  <!-- Google Search Console Verification -->
+  <url>
+    <loc>https://gslgamezone.com/google-verification.html</loc>
+    <lastmod>2025-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>
+  
+</urlset>
