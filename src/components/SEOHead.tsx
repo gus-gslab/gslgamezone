@@ -112,11 +112,11 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     hreflangContainer.innerHTML = hreflangTags;
 
     // Adicionar dados estruturados Schema.org
-    this.addStructuredData();
+    addStructuredData();
 
   }, [i18n.language, pageTitle, pageDescription, pageKeywords, canonicalUrl, seoConfig]);
 
-  // Método para adicionar dados estruturados Schema.org
+  // Função para adicionar dados estruturados Schema.org
   const addStructuredData = () => {
     // Remover dados estruturados existentes
     const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
