@@ -115,8 +115,7 @@ const SCORING = {
 
 // Função para obter achievements traduzidos
 const getTranslatedAchievements = (language: string): Achievement[] => {
-  const translations =
-    UITRANSLATIONS[language as keyof typeof UITRANSLATIONS];
+  const translations = UITRANSLATIONS[language as keyof typeof UITRANSLATIONS];
 
   return [
     {
@@ -3357,9 +3356,9 @@ const useGameState = (
       category,
     });
     try {
-      const categoryWords = (WORDCATALOGS as any)[language]?.[
-        wordDifficulty
-      ]?.[category];
+      const categoryWords = (WORDCATALOGS as any)[language]?.[wordDifficulty]?.[
+        category
+      ];
       console.log('Category words found:', categoryWords?.length);
       console.log('WORDCATALOGS structure:', {
         hasLanguage: !!WORDCATALOGS[language as keyof typeof WORDCATALOGS],
