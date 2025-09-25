@@ -59,7 +59,6 @@ const SolitaireGame: React.FC = () => {
     foundations: number[];
   }>({ tableau: [], foundations: [] });
   const [showConfetti, setShowConfetti] = useState(false);
-  const [showGameOver, setShowGameOver] = useState(false);
   const [isWon, setIsWon] = useState(false);
   const [difficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
 
@@ -351,11 +350,6 @@ const SolitaireGame: React.FC = () => {
     shareGameResult(gameResult, trackShare);
   };
 
-  // Reiniciar jogo após Game Over
-  const handleGameOverRestart = () => {
-    setShowGameOver(false);
-    newGame();
-  };
 
   // Comprar cartas do stock
   const drawFromStock = () => {
@@ -370,10 +364,6 @@ const SolitaireGame: React.FC = () => {
           waste: [],
           recycles: prev.recycles - 1,
         }));
-      } else if (gameState.waste.length > 0 && gameState.recycles === 0) {
-        // Game Over - sem mais reciclagens disponíveis
-        setShowGameOver(true);
-      }
       return;
     }
 
@@ -974,70 +964,6 @@ const SolitaireGame: React.FC = () => {
         </motion.div>
       )}
 
-      {/* Modal de Game Over */}
-      {showGameOver && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        >
-          <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
-          >
-            <div className="text-6xl mb-4">😞</div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              {navigator.language?.startsWith('pt') ? 'Fim de Jogo!' : 
-               navigator.language?.startsWith('es') ? '¡Fin del Juego!' : 
-               'Game Over!'}
-            </h2>
-            <p className="text-gray-600 mb-6">
-              {navigator.language?.startsWith('pt') ? 'Você esgotou todas as reciclagens disponíveis. Tente novamente!' : 
-               navigator.language?.startsWith('es') ? '¡Has agotado todas las reciclajes disponibles. ¡Inténtalo de nuevo!' : 
-               'You have exhausted all available recycles. Try again!'}
-            </p>
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <div className="grid grid-cols-2 gap-4 text-center">
-                <div>
-                  <div className="text-lg font-bold text-red-600">{gameState.moves}</div>
-                  <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt') ? 'Movimentos' : 
-                     navigator.language?.startsWith('es') ? 'Movimientos' : 
-                     'Moves'}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-lg font-bold text-blue-600">{formatTime(gameState.time)}</div>
-                  <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt') ? 'Tempo' : 
-                     navigator.language?.startsWith('es') ? 'Tiempo' : 
-                     'Time'}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <motion.button
-                onClick={handleGameOverRestart}
-                className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
-                  </svg>
-                  {navigator.language?.startsWith('pt') ? 'Tentar Novamente' : 
-                   navigator.language?.startsWith('es') ? 'Intentar de Nuevo' : 
-                   'Try Again'}
-                </span>
-              </motion.button>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
 
       {/* Sistema de Layout Responsivo Inteligente */}
       <style>{`
