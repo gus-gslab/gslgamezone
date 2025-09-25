@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Home from './pages/Home';
@@ -7,6 +6,8 @@ import GameSetup from './pages/GameSetup';
 import Dashboard from './pages/Dashboard';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import Solitaire from './pages/Solitaire';
+import SolitaireSetup from './pages/SolitaireSetup';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path="/game-setup" element={<GameSetup />} />
           <Route path="/setup" element={<GameSetup />} />
           <Route path="/caca-palavras" element={<WordSearchGame />} />
+          <Route path="/solitaire-setup" element={<SolitaireSetup />} />
+          <Route path="/solitaire" element={<Solitaire />} />
           <Route path="/admin-analytics" element={<Dashboard />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacy" element={<Privacy />} />

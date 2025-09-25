@@ -5,7 +5,7 @@ export const LANGUAGE_CONFIG = {
     domain: 'gslgamezone.com',
     fullUrl: 'https://pt.gslgamezone.com',
     hreflang: 'pt-BR',
-    title: '🎯 GSL Game Zone | Jogos Educativos Online',
+    title: 'GSL Game Zone | Jogos Educativos Online',
     description: 'Jogue Caça-Palavras online grátis! Jogo educativo interativo com múltiplas categorias. Aprenda brincando com palavras em português, inglês e espanhol.',
     keywords: 'caça-palavras, jogo educativo, palavras cruzadas, jogo online, educação, português, inglês, espanhol, gsl game zone'
   },
@@ -14,7 +14,7 @@ export const LANGUAGE_CONFIG = {
     domain: 'gslgamezone.com',
     fullUrl: 'https://en.gslgamezone.com',
     hreflang: 'en-US',
-    title: '🎯 GSL Game Zone | Educational Games Online',
+    title: 'GSL Game Zone | Educational Games Online',
     description: 'Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish.',
     keywords: 'word search, educational games, crossword puzzles, online games, education, portuguese, english, spanish, gsl game zone'
   },
@@ -23,7 +23,7 @@ export const LANGUAGE_CONFIG = {
     domain: 'gslgamezone.com',
     fullUrl: 'https://es.gslgamezone.com',
     hreflang: 'es-ES',
-    title: '🎯 GSL Game Zone | Juegos Educativos Online',
+    title: 'GSL Game Zone | Juegos Educativos Online',
     description: '¡Juega Sopa de Letras online gratis! Juego educativo interactivo con múltiples categorías. Aprende divirtiéndote con palabras en portugués, inglés y español.',
     keywords: 'sopa de letras, juegos educativos, crucigramas, juegos online, educación, portugués, inglés, español, gsl game zone'
   }

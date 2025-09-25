@@ -25,10 +25,10 @@
         "difficulty": "Easy",
         "time": "5-15 min"
       },
-      "puzzle": {
-        "title": "Puzzle",
-        "description": "Assemble images by sliding pieces",
-        "category": "Logic",
+      "solitaire": {
+        "title": "Solitaire",
+        "description": "Play the classic card game",
+        "category": "Strategy",
         "difficulty": "Medium",
         "time": "10-30 min"
       },
@@ -48,6 +48,56 @@
       },
       "comingSoon": "Coming Soon",
       "playNow": "Play Now"
+    },
+    "solitaire": {
+      "title": "Solitaire",
+      "subtitle": "Classic Card Game",
+      "gameName": "Klondike Solitaire",
+      "newGame": "New Game",
+      "pause": "Pause",
+      "resume": "Resume",
+      "hint": "Hint",
+      "autoComplete": "Auto-complete",
+      "moves": "Moves",
+      "time": "Time",
+      "score": "Score",
+      "foundations": "Foundations",
+      "tableau": "Tableau",
+      "stock": "Stock",
+      "waste": "Waste",
+      "congratulations": "Congratulations!",
+      "youWon": "You won the game!",
+      "playAgain": "Play Again",
+      "settings": {
+        "title": "Settings",
+        "difficulty": "Difficulty",
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard",
+        "autoComplete": "Auto-complete",
+        "hints": "Hints",
+        "animations": "Animations",
+        "sound": "Sound"
+      },
+      "stats": {
+        "title": "Statistics",
+        "gamesPlayed": "Games Played",
+        "gamesWon": "Games Won",
+        "bestTime": "Best Time",
+        "totalMoves": "Total Moves",
+        "averageMoves": "Average Moves",
+        "winRate": "Win Rate"
+      },
+      "rules": {
+        "title": "Game Rules",
+        "objective": "Objective: Organize all cards in the foundations by suit, from Ace to King.",
+        "howToPlay": "How to Play:",
+        "step1": "1. Click the stock to reveal cards",
+        "step2": "2. Drag cards to organize them",
+        "step3": "3. Organize cards in descending sequence and alternating colors",
+        "step4": "4. Move cards to foundations when possible",
+        "step5": "5. Complete all foundations to win!"
+      }
     },
     "about": {
       "title": "Why Educational Games?",

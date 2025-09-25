@@ -25,10 +25,10 @@
         "difficulty": "Fácil",
         "time": "5-15 min"
       },
-      "puzzle": {
-        "title": "Rompecabezas",
-        "description": "Ensambla imágenes deslizando piezas",
-        "category": "Lógica",
+      "solitaire": {
+        "title": "Solitaire",
+        "description": "Juega el clásico juego de cartas",
+        "category": "Estrategia",
         "difficulty": "Medio",
         "time": "10-30 min"
       },
@@ -48,6 +48,56 @@
       },
       "comingSoon": "Próximamente",
       "playNow": "Jugar Ahora"
+    },
+    "solitaire": {
+      "title": "Solitaire",
+      "subtitle": "Juego de Cartas Clásico",
+      "gameName": "Klondike Solitaire",
+      "newGame": "Nuevo Juego",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "hint": "Pista",
+      "autoComplete": "Auto-completar",
+      "moves": "Movimientos",
+      "time": "Tiempo",
+      "score": "Puntuación",
+      "foundations": "Fundaciones",
+      "tableau": "Tableau",
+      "stock": "Stock",
+      "waste": "Descartes",
+      "congratulations": "¡Felicitaciones!",
+      "youWon": "¡Ganaste el juego!",
+      "playAgain": "Jugar de Nuevo",
+      "settings": {
+        "title": "Configuración",
+        "difficulty": "Dificultad",
+        "easy": "Fácil",
+        "medium": "Medio",
+        "hard": "Difícil",
+        "autoComplete": "Auto-completar",
+        "hints": "Pistas",
+        "animations": "Animaciones",
+        "sound": "Sonido"
+      },
+      "stats": {
+        "title": "Estadísticas",
+        "gamesPlayed": "Juegos Jugados",
+        "gamesWon": "Juegos Ganados",
+        "bestTime": "Mejor Tiempo",
+        "totalMoves": "Total de Movimientos",
+        "averageMoves": "Promedio de Movimientos",
+        "winRate": "Tasa de Victoria"
+      },
+      "rules": {
+        "title": "Reglas del Juego",
+        "objective": "Objetivo: Organizar todas las cartas en las fundaciones por palo, del As al Rey.",
+        "howToPlay": "Cómo Jugar:",
+        "step1": "1. Haz clic en el stock para revelar cartas",
+        "step2": "2. Arrastra cartas para organizarlas",
+        "step3": "3. Organiza cartas en secuencia descendente y colores alternados",
+        "step4": "4. Mueve cartas a las fundaciones cuando sea posible",
+        "step5": "5. ¡Completa todas las fundaciones para ganar!"
+      }
     },
     "about": {
       "title": "¿Por qué Juegos Educativos?",

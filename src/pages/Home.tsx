@@ -42,17 +42,17 @@ const Home: React.FC = () => {
       time: t('home.games.wordSearch.time'),
     },
     {
-      id: 'coming-soon-1',
-      title: t('home.games.puzzle.title'),
-      description: t('home.games.puzzle.description'),
+      id: 'solitaire',
+      title: t('home.games.solitaire.title'),
+      description: t('home.games.solitaire.description'),
       icon: Brain,
       color: 'from-purple-500 to-pink-600',
-      status: 'coming-soon',
-      players: t('home.games.comingSoon'),
-      rating: 0,
-      category: t('home.games.puzzle.category'),
-      difficulty: t('home.games.puzzle.difficulty'),
-      time: t('home.games.puzzle.time'),
+      status: 'active',
+      players: '2K+',
+      rating: 4.9,
+      category: t('home.games.solitaire.category'),
+      difficulty: t('home.games.solitaire.difficulty'),
+      time: t('home.games.solitaire.time'),
     },
     {
       id: 'coming-soon-2',
@@ -350,7 +350,11 @@ const Home: React.FC = () => {
 
                   {game.status === 'active' ? (
                     <a
-                      href="/game-setup"
+                      href={
+                        game.id === 'solitaire'
+                          ? '/solitaire-setup'
+                          : '/game-setup'
+                      }
                       className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white py-3 px-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 block text-center"
                     >
                       {t('home.games.playNow')}
