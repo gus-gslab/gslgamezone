@@ -19,6 +19,28 @@
   .btn-primary {
     @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium dark:bg-dark-accent dark:hover:bg-dark-accentHover;
   }
+
+  /* Estilos específicos para mobile do Solitaire */
+  @media (max-width: 639px) {
+    .mobile-solitaire-foundations {
+      gap: 4px !important;
+    }
+    
+    .mobile-solitaire-stock-waste {
+      gap: 1rem !important;
+      margin-bottom: 1.5rem !important;
+    }
+    
+    .mobile-solitaire-tableau {
+      gap: 0 !important;
+      grid-template-columns: repeat(7, 1fr) !important;
+    }
+    
+    .mobile-solitaire-cards {
+      width: 3rem !important;
+      height: 4rem !important;
+    }
+  }
   
   .btn-secondary {
     @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium dark:bg-dark-card dark:text-dark-text dark:hover:bg-dark-border dark:border dark:border-dark-border;

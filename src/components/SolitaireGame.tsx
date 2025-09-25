@@ -1182,13 +1182,13 @@ const SolitaireGame: React.FC = () => {
       `}</style>
 
       <div className="h-screen bg-green-800 game-container overflow-hidden">
-        <div className="h-full flex flex-col">
+        <div className="h-full flex flex-col gap-6 sm:gap-2">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-green-900 rounded-xl mb-8 header-responsive"
+            className="bg-green-900 rounded-xl mb-2 header-responsive"
             style={{
               paddingLeft: '16px',
               paddingRight: '16px',
@@ -1235,11 +1235,14 @@ const SolitaireGame: React.FC = () => {
           >
             {/* Foundations, Stock and Waste */}
             <div
-              className="flex justify-between items-center mb-6 stock-waste"
+              className="flex justify-between items-center mb-3 stock-waste mobile-solitaire-stock-waste"
               style={{ gap: '2rem' }}
             >
               {/* Foundations */}
-              <div className="flex foundations" style={{ gap: '12px' }}>
+              <div
+                className="flex foundations mobile-solitaire-foundations"
+                style={{ gap: '12px' }}
+              >
                 {gameState.foundations.map((foundation, index) => (
                   <div
                     key={index}
@@ -1486,16 +1489,14 @@ const SolitaireGame: React.FC = () => {
                         )}
                       </div>
                     </div>
-                  ) : (
-                    <div className="text-green-200 text-sm">Empty</div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             </div>
 
             {/* Tableau */}
             <div
-              className="grid grid-cols-7 gap-0.5 mt-8 tableau-responsive justify-center flex-1"
+              className="grid grid-cols-7 gap-0.5 mt-8 tableau-responsive justify-center flex-1 mobile-solitaire-tableau"
               style={{ gridTemplateColumns: 'repeat(7, 60px)' }}
             >
               {gameState.tableau.map((column, columnIndex) => (
