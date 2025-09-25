@@ -113,7 +113,9 @@ export const canMoveSequence = (
 
   // Se a coluna tem cartas, valida apenas a primeira carta do bloco
   const topCard = targetColumn.faceUp[targetColumn.faceUp.length - 1];
-  return firstCard.color !== topCard.color && firstCard.value === topCard.value - 1;
+  return (
+    firstCard.color !== topCard.color && firstCard.value === topCard.value - 1
+  );
 };
 
 // Verificar se uma coluna do tableau está correta
@@ -123,7 +125,7 @@ export const validateTableauColumn = (column: TableauColumn): boolean => {
   console.log(
     'Validating tableau column:',
     column.faceUp.map(
-      c => `${c.rank}${getCardSymbol(c.suit)} (${c.color}, ${c.value})`
+      c => `${c.rank}${getCardSymbol(c)} (${c.color}, ${c.value})`
     )
   );
 

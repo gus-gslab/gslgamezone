@@ -4,10 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Settings,
   Play,
-  Clock,
   Target,
-  Zap,
-  Brain,
   RotateCcw,
   HelpCircle,
   ArrowLeft,

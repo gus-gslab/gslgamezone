@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Confetti from 'react-confetti';
+import { ArrowLeft } from 'lucide-react';
 import SEOHead from './SEOHead';
 import { validateTableauColumn } from '../utils/cardUtils';
 
@@ -10,6 +11,7 @@ interface Card {
   suit: 'hearts' | 'diamonds' | 'clubs' | 'spades';
   rank: string;
   value: number;
+  color: 'red' | 'black';
   isFaceUp: boolean;
   id: string;
 }
@@ -32,10 +34,12 @@ interface GameState {
   selectedCard: Card | null;
   selectedSource: 'waste' | 'tableau' | 'foundation' | null;
   selectedIndex: number;
+  selectedSequence: Card[] | null;
   moves: number;
   time: number;
   recycles: number;
   isWon: boolean;
+  isGameStarted: boolean;
   config: {
     drawCount: 1 | 3;
     maxRecycles: number;
@@ -55,10 +59,7 @@ const SolitaireGame: React.FC = () => {
   }>({ tableau: [], foundations: [] });
   const [showConfetti, setShowConfetti] = useState(false);
   const [isWon, setIsWon] = useState(false);
-  const [showHints, setShowHints] = useState(false);
-  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>(
-    'medium'
-  );
+  const [difficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
 
   const [gameState, setGameState] = useState<GameState>({
     foundations: [
@@ -69,16 +70,18 @@ const SolitaireGame: React.FC = () => {
     ],
     tableau: Array(7)
       .fill(null)
-      .map(() => ({ faceDown: [], faceUp: [] })),
+      .map(() => ({ faceDown: [] as Card[], faceUp: [] as Card[] })),
     stock: [],
     waste: [],
     selectedCard: null,
     selectedSource: null,
     selectedIndex: -1,
+    selectedSequence: null,
     moves: 0,
     time: 0,
     recycles: Infinity,
     isWon: false,
+    isGameStarted: false,
     config: {
       drawCount: 1,
       maxRecycles: Infinity,
@@ -199,6 +202,7 @@ const SolitaireGame: React.FC = () => {
           suit,
           rank,
           value: index + 1,
+          color: suit === 'hearts' || suit === 'diamonds' ? 'red' : 'black',
           isFaceUp: false,
           id: `${suit}-${rank}-${Math.random().toString(36).substr(2, 9)}`,
         });
@@ -269,15 +273,15 @@ const SolitaireGame: React.FC = () => {
       { suit: 'clubs', cards: [] },
       { suit: 'spades', cards: [] },
     ];
-    const tableau = Array(7)
+    const tableau: TableauColumn[] = Array(7)
       .fill(null)
-      .map(() => ({ faceDown: [], faceUp: [] }));
+      .map(() => ({ faceDown: [] as Card[], faceUp: [] as Card[] }));
     let cardIndex = 0;
 
     // Distribuir cartas no tableau
     for (let col = 0; col < 7; col++) {
       for (let row = 0; row <= col; row++) {
-        const card = { ...deck[cardIndex++], isFaceUp: row === col };
+        const card: Card = { ...deck[cardIndex++], isFaceUp: row === col };
         if (row === col) {
           tableau[col].faceUp.push(card);
         } else {
@@ -287,17 +291,19 @@ const SolitaireGame: React.FC = () => {
     }
 
     setGameState({
-      foundations,
+      foundations: foundations as Foundation[],
       tableau,
       stock: deck.slice(cardIndex),
       waste: [],
       selectedCard: null,
       selectedSource: null,
       selectedIndex: -1,
+      selectedSequence: null,
       moves: 0,
       time: 0,
       recycles: gameState.config.maxRecycles,
       isWon: false,
+      isGameStarted: true,
       config: gameState.config,
     });
 
@@ -371,12 +377,12 @@ const SolitaireGame: React.FC = () => {
   };
 
   // Validar destinos possíveis para uma carta
-  const validateDropTargets = (card: Card, source: string, index: number) => {
+  const validateDropTargets = (card: Card, _source: string, _index: number) => {
     const validTableau: number[] = [];
     const validFoundations: number[] = [];
 
     // Validar tableau - permitir todas as colunas por enquanto
-    gameState.tableau.forEach((column, columnIndex) => {
+    gameState.tableau.forEach((_column, columnIndex) => {
       validTableau.push(columnIndex);
     });
 
@@ -572,7 +578,7 @@ const SolitaireGame: React.FC = () => {
     // Adicionar sequência ao destino
     console.log('📦 Adicionando cartas ao destino:', {
       targetColumn: targetColumnIndex,
-      cardsToAdd: sequenceToMove.map(c => `${c.rank} de ${c.suit}`),
+      cardsToAdd: sequenceToMove.map((c: Card) => `${c.rank} de ${c.suit}`),
       beforeLength: newTableau[targetColumnIndex].faceUp.length,
     });
 
@@ -622,59 +628,6 @@ const SolitaireGame: React.FC = () => {
         }));
         break;
     }
-  };
-
-  // Função de hints
-  const getHint = () => {
-    setShowHints(true);
-
-    // Encontrar movimentos possíveis
-    const possibleMoves = [];
-
-    // Verificar movimentos do waste para fundações
-    if (gameState.waste.length > 0) {
-      const topWasteCard = gameState.waste[gameState.waste.length - 1];
-      for (let i = 0; i < gameState.foundations.length; i++) {
-        if (canPlaceOnFoundation(topWasteCard, gameState.foundations[i])) {
-          possibleMoves.push({
-            type: 'waste-to-foundation',
-            card: topWasteCard,
-            target: i,
-            description: `${topWasteCard.rank} de ${topWasteCard.suit} → Fundação ${gameState.foundations[i].suit}`,
-          });
-        }
-      }
-    }
-
-    // Verificar movimentos do tableau para fundações
-    gameState.tableau.forEach((column, colIndex) => {
-      if (column.faceUp.length > 0) {
-        const topCard = column.faceUp[column.faceUp.length - 1];
-        for (let i = 0; i < gameState.foundations.length; i++) {
-          if (canPlaceOnFoundation(topCard, gameState.foundations[i])) {
-            possibleMoves.push({
-              type: 'tableau-to-foundation',
-              card: topCard,
-              source: colIndex,
-              target: i,
-              description: `${topCard.rank} de ${topCard.suit} → Fundação ${gameState.foundations[i].suit}`,
-            });
-          }
-        }
-      }
-    });
-
-    if (possibleMoves.length > 0) {
-      const randomMove =
-        possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-      alert(`💡 Dica: ${randomMove.description}`);
-    } else {
-      alert(
-        '💡 Nenhuma dica disponível no momento. Tente virar cartas ou reorganizar o tableau.'
-      );
-    }
-
-    setTimeout(() => setShowHints(false), 1000);
   };
 
   // Double-click para mover automaticamente para fundação
@@ -825,7 +778,7 @@ const SolitaireGame: React.FC = () => {
     console.log('🔍 Validating entire tableau...');
     gameState.tableau.forEach((column, index) => {
       console.log(`Column ${index}:`);
-      validateTableauColumn(column);
+      validateTableauColumn(column as any);
     });
   };
 
@@ -866,52 +819,64 @@ const SolitaireGame: React.FC = () => {
       <style>{`
         /* Mobile First - Base styles */
         .game-container {
-          padding: 0.5rem;
+          padding: 0.25rem;
           max-width: 100vw;
           overflow-x: auto;
         }
 
         .header-responsive {
           flex-direction: column;
-          gap: 0.5rem;
-          padding: 0.75rem;
+          gap: 0.25rem;
+          padding: 0.5rem;
+          margin-bottom: 0.5rem;
         }
 
         .header-stats {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           text-align: center;
         }
 
         .header-buttons {
           flex-direction: row;
-          gap: 0.5rem;
+          gap: 0.25rem;
           justify-content: center;
         }
 
         .top-section {
           flex-direction: column;
           gap: 0.5rem;
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
         }
 
         .stock-waste {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.25rem;
           justify-content: center;
         }
         
         @media (max-width: 640px) {
           .stock-waste {
-            gap: 0.0625rem;
+            gap: 0.03125rem;
           }
           .foundations {
-            gap: 0.125rem;
+            gap: 0.0625rem;
+          }
+          .game-container {
+            padding: 0.125rem;
+          }
+          .header-responsive {
+            padding: 0.25rem;
+            margin-bottom: 0.25rem;
+          }
+          .top-section {
+            gap: 0.0625rem;
+            margin-bottom: 0.25rem;
           }
         }
 
         .foundations {
           display: flex;
-          gap: 0.25rem;
+          gap: 0.125rem;
           justify-content: center;
           flex-wrap: nowrap;
         }
@@ -968,17 +933,17 @@ const SolitaireGame: React.FC = () => {
         /* Small Mobile (320px-480px) */
         @media (min-width: 320px) {
           .card-responsive {
-            width: 2.75rem;
-            height: 3.75rem;
+            width: 2.25rem;
+            height: 3rem;
           }
           .card-rank {
-            font-size: 0.65rem;
-          }
-          .card-suit {
             font-size: 0.55rem;
           }
+          .card-suit {
+            font-size: 0.45rem;
+          }
           .card-suit-large {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
           }
         }
 
@@ -1224,32 +1189,40 @@ const SolitaireGame: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="bg-green-900 rounded-xl mb-8 header-responsive"
-            style={{ paddingLeft: '32px', paddingRight: '32px' }}
+            style={{
+              paddingLeft: '16px',
+              paddingRight: '16px',
+              paddingTop: '16px',
+              paddingBottom: '16px',
+            }}
           >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-white text-xl sm:text-2xl font-bold">
-                  Classic Klondike Solitaire
-                </h1>
-                <div className="text-white text-sm header-stats">
-                  Moves: {gameState.moves} | Time: {formatTime(gameState.time)}
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-2 sm:gap-3">
+                <motion.button
+                  onClick={() => navigate('/')}
+                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <ArrowLeft size={18} className="text-gray-600" />
+                </motion.button>
+                <div className="flex flex-col gap-0.5">
+                  <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
+                    Solitaire
+                  </h1>
+                  <div className="text-white text-sm sm:text-base">
+                    Moves: {gameState.moves} | Time:{' '}
+                    {formatTime(gameState.time)}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex gap-2 header-buttons self-end">
-                <button
-                  onClick={newGame}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors"
-                >
-                  New Game
-                </button>
-                <button
-                  onClick={() => navigate('/solitaire-setup')}
-                  className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold transition-colors"
-                >
-                  Setup
-                </button>
-              </div>
+              <button
+                onClick={newGame}
+                className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
+              >
+                New Game
+              </button>
             </div>
           </motion.div>
 
@@ -1262,15 +1235,15 @@ const SolitaireGame: React.FC = () => {
           >
             {/* Foundations, Stock and Waste */}
             <div
-              className="flex justify-between items-center mb-6 stock-waste"
-              style={{ gap: '2rem' }}
+              className="flex justify-between items-center mt-6 stock-waste"
+              style={{ gap: '1rem' }}
             >
               {/* Foundations */}
-              <div className="flex foundations" style={{ gap: '12px' }}>
+              <div className="flex foundations" style={{ gap: '4px' }}>
                 {gameState.foundations.map((foundation, index) => (
                   <div
                     key={index}
-                    className={`w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-200 ${
+                    className={`w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-200 ${
                       validDropTargets.foundations.includes(index) ? '' : ''
                     }`}
                     onClick={() =>
@@ -1280,11 +1253,11 @@ const SolitaireGame: React.FC = () => {
                     onDrop={e => handleDropFoundation(e, index)}
                   >
                     {foundation.cards.length > 0 ? (
-                      <div className="relative w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28">
+                      <div className="relative w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24">
                         {foundation.cards.map((card, cardIndex) => (
                           <div
                             key={card.id}
-                            className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200"
+                            className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200"
                             style={{
                               top:
                                 cardIndex > 0
@@ -1380,7 +1353,7 @@ const SolitaireGame: React.FC = () => {
               <div className="flex gap-4">
                 {/* Stock */}
                 <div
-                  className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center border-2 border-white"
+                  className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center border-2 border-white"
                   style={{
                     background: '#b91c1c',
                     backgroundImage: `
@@ -1399,7 +1372,7 @@ const SolitaireGame: React.FC = () => {
 
                 {/* Waste */}
                 <div
-                  className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200"
+                  className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200"
                   onClick={() =>
                     gameState.waste.length > 0 &&
                     selectCard(
@@ -1426,7 +1399,7 @@ const SolitaireGame: React.FC = () => {
                   }
                 >
                   {gameState.waste.length > 0 ? (
-                    <div className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md border-2 border-gray-200">
+                    <div className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md border-2 border-gray-200">
                       {/* Número no canto superior esquerdo */}
                       <div
                         className="absolute top-1 left-1 font-bold text-sm sm:text-lg"
@@ -1522,8 +1495,8 @@ const SolitaireGame: React.FC = () => {
 
             {/* Tableau */}
             <div
-              className="grid grid-cols-7 gap-0.5 mt-8 tableau-responsive justify-center flex-1"
-              style={{ gridTemplateColumns: 'repeat(7, 60px)' }}
+              className="grid grid-cols-7 gap-0 mt-8 tableau-responsive justify-center flex-1"
+              style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}
             >
               {gameState.tableau.map((column, columnIndex) => (
                 <div
@@ -1538,7 +1511,7 @@ const SolitaireGame: React.FC = () => {
                   {column.faceDown.map((card, cardIndex) => (
                     <div
                       key={card.id}
-                      className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 border-2 border-white"
+                      className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 border-2 border-white"
                       style={{
                         background: '#b91c1c',
                         backgroundImage: `
@@ -1557,7 +1530,7 @@ const SolitaireGame: React.FC = () => {
                   {column.faceUp.map((card, cardIndex) => (
                     <div
                       key={card.id}
-                      className={`w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200 ${
+                      className={`w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200 ${
                         gameState.selectedCard?.id === card.id
                           ? 'card-selected'
                           : ''
@@ -1645,7 +1618,7 @@ const SolitaireGame: React.FC = () => {
                   {column.faceUp.length === 0 &&
                     column.faceDown.length === 0 && (
                       <div
-                        className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg cursor-pointer bg-green-900 hover:bg-green-800 transition-all duration-200"
+                        className="w-12 h-16 sm:w-14 sm:h-20 md:w-16 md:h-24 rounded-lg cursor-pointer bg-green-900 hover:bg-green-800 transition-all duration-200"
                         onClick={() =>
                           gameState.selectedCard && moveToTableau(columnIndex)
                         }
