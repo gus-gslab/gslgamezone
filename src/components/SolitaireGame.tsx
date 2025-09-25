@@ -333,6 +333,7 @@ const SolitaireGame: React.FC = () => {
       accuracy: 100, // Solitaire sempre é 100% se ganhou
       wordsFound: 0, // Não aplicável ao Solitaire
       totalWords: 0, // Não aplicável ao Solitaire
+      streak: 0, // Não aplicável ao Solitaire
       category: 'card games',
       date: new Date().toISOString(),
     };
@@ -639,32 +640,6 @@ const SolitaireGame: React.FC = () => {
     }));
   };
 
-  // Aplicar efeitos da dificuldade
-  const applyDifficultyEffects = () => {
-    switch (difficulty) {
-      case 'easy':
-        // Easy: Mais tempo, dicas mais frequentes
-        setGameState(prev => ({
-          ...prev,
-          recycles: Infinity, // Reciclagem infinita
-        }));
-        break;
-      case 'medium':
-        // Medium: Configuração padrão
-        setGameState(prev => ({
-          ...prev,
-          recycles: 3, // 3 reciclagens
-        }));
-        break;
-      case 'hard':
-        // Hard: Menos tempo, sem reciclagem
-        setGameState(prev => ({
-          ...prev,
-          recycles: 0, // Sem reciclagem
-        }));
-        break;
-    }
-  };
 
   // Double-click para mover automaticamente para fundação
   const handleDoubleClick = (card: Card) => {
