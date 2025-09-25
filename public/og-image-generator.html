@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OG Image Generator</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 1200px;
+            height: 630px;
+        }
+        
+        .card {
+            position: absolute;
+            top: 80px;
+            left: 100px;
+            width: 1000px;
+            height: 470px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.95) 100%);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .logo {
+            position: absolute;
+            top: 40px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            background: #3b82f6;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+        
+        .title {
+            position: absolute;
+            top: 40px;
+            left: 120px;
+            font-size: 48px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .subtitle {
+            position: absolute;
+            top: 70px;
+            left: 120px;
+            font-size: 24px;
+            color: #6b7280;
+        }
+        
+        .main-title {
+            position: absolute;
+            top: 200px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 64px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .main-subtitle {
+            position: absolute;
+            top: 240px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 28px;
+            color: #6b7280;
+        }
+        
+        .features {
+            position: absolute;
+            top: 300px;
+            left: 50px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .feature-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        
+        .feature-text {
+            font-size: 20px;
+            color: #374151;
+        }
+        
+        .game-preview {
+            position: absolute;
+            top: 300px;
+            right: 100px;
+            width: 200px;
+            height: 120px;
+            background: #f3f4f6;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            align-items: center;
+            justify-items: center;
+        }
+        
+        .grid-cell {
+            width: 40px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #1f2937;
+        }
+        
+        .highlighted {
+            background: rgba(59, 130, 246, 0.3);
+            border-radius: 3px;
+        }
+        
+        .cta-button {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 60px;
+            background: #3b82f6;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .url {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            color: #6b7280;
+        }
+        
+        .decorative {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .deco1 {
+            top: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .deco2 {
+            bottom: 20px;
+            right: 20px;
+            width: 160px;
+            height: 160px;
+        }
+        
+        .deco3 {
+            bottom: 100px;
+            left: 50px;
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Decorative elements -->
+        <div class="decorative deco1"></div>
+        <div class="decorative deco2"></div>
+        <div class="decorative deco3"></div>
+        
+        <!-- Main card -->
+        <div class="card">
+            <!-- Logo -->
+            <div class="logo">🎯</div>
+            
+            <!-- Title -->
+            <div class="title">GSL Game Zone</div>
+            <div class="subtitle">Educational Games</div>
+            
+            <!-- Main title -->
+            <div class="main-title">Word Search</div>
+            <div class="main-subtitle">Interactive Educational Game</div>
+            
+            <!-- Features -->
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-dot" style="background: #10b981;"></div>
+                    <div class="feature-text">3 Languages (PT/EN/ES)</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-dot" style="background: #f59e0b;"></div>
+                    <div class="feature-text">Multiple Categories</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-dot" style="background: #8b5cf6;"></div>
+                    <div class="feature-text">Scoring & Achievements</div>
+                </div>
+            </div>
+            
+            <!-- Game preview -->
+            <div class="game-preview">
+                <div class="grid-cell highlighted">G</div>
+                <div class="grid-cell highlighted">A</div>
+                <div class="grid-cell highlighted">M</div>
+                <div class="grid-cell">E</div>
+                <div class="grid-cell highlighted">W</div>
+                <div class="grid-cell highlighted">O</div>
+                <div class="grid-cell highlighted">R</div>
+                <div class="grid-cell">D</div>
+                <div class="grid-cell highlighted">S</div>
+                <div class="grid-cell highlighted">E</div>
+                <div class="grid-cell highlighted">A</div>
+                <div class="grid-cell">R</div>
+            </div>
+            
+            <!-- CTA Button -->
+            <div class="cta-button">Play Now - Free!</div>
+            
+            <!-- URL -->
+            <div class="url">gslgamezone.com</div>
+        </div>
+    </div>
+</body>
+</html>

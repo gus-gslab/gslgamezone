@@ -1,0 +1,45 @@
+{
+  "name": "GSL Game Zone | Educational Games",
+  "short_name": "GSL Game Zone",
+  "description": "Play Word Search online for free! Interactive educational game with multiple categories. Learn while having fun with words in Portuguese, English and Spanish.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["education", "games", "puzzle"],
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/favicon-16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/192-GSLGameZone-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/512-GSLGameZone-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/180-GSLGameZone-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

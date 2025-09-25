@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://gslgamezone.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow admin areas (if any)
+Disallow: /admin/
+Disallow: /private/
+
+# Allow important pages
+Allow: /
+Allow: /privacy
+Allow: /terms
+Allow: /caca-palavras
+Allow: /setup
+Allow: /game-setup
+
+# Google Search Console verification
+Allow: /google-verification.html
