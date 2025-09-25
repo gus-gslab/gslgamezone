@@ -404,7 +404,7 @@ export function createShareModal(
           <button onclick="window.open('https://twitter.com/intent/tweet?text=${encodeURIComponent(
             shareText
           )}', '_blank')" style="
-            background: #1DA1F2;
+            background: #000000;
             color: white;
             padding: 14px;
             border: none;
@@ -413,9 +413,9 @@ export function createShareModal(
             font-weight: 600;
             font-size: 14px;
             transition: all 0.2s;
-            box-shadow: 0 2px 4px rgba(29, 161, 242, 0.2);
-          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(29, 161, 242, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(29, 161, 242, 0.2)'">
-            Twitter
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+          " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.2)'">
+            X
           </button>
           <button onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://gslgamezone.com', '_blank')" style="
             background: #4267B2;
@@ -465,9 +465,9 @@ export function createShareModal(
             Email
           </button>
                     <button onclick="navigator.clipboard.writeText('https://gslgamezone.com').then(() => alert('${
-             SHARE_TRANSLATIONS[gameResult.language]?.copySuccess ||
-             SHARE_TRANSLATIONS.en.copySuccess
-           }'))" style="
+                      SHARE_TRANSLATIONS[gameResult.language]?.copySuccess ||
+                      SHARE_TRANSLATIONS.en.copySuccess
+                    }'))" style="
             background: #FF6B35;
             color: white;
             padding: 14px;
@@ -480,12 +480,12 @@ export function createShareModal(
             box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
           " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(255, 107, 53, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 4px rgba(255, 107, 53, 0.2)'">
             ${
-               gameResult.language === 'pt'
-                 ? 'Copiar URL'
-                 : gameResult.language === 'es'
-                 ? 'Copiar URL'
-                 : 'Copy URL'
-             }
+              gameResult.language === 'pt'
+                ? 'Copiar URL'
+                : gameResult.language === 'es'
+                ? 'Copiar URL'
+                : 'Copy URL'
+            }
           </button>
         </div>
       </div>

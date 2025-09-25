@@ -5,6 +5,7 @@ import Confetti from 'react-confetti';
 import { ArrowLeft } from 'lucide-react';
 import SEOHead from './SEOHead';
 import { validateTableauColumn } from '../utils/cardUtils';
+import { shareGameResult } from '../utils/shareUtils';
 
 // Tipos e Interfaces
 interface Card {
@@ -306,9 +307,44 @@ const SolitaireGame: React.FC = () => {
       isGameStarted: true,
       config: gameState.config,
     });
+  };
 
-    // Aplicar efeitos da dificuldade
-    setTimeout(() => applyDifficultyEffects(), 100);
+  const handleShare = () => {
+    if (!gameState.isWon) return;
+
+    // Detectar idioma do browser
+    const browserLanguage =
+      navigator.language || navigator.languages?.[0] || 'en';
+    const language = browserLanguage.startsWith('pt')
+      ? 'pt'
+      : browserLanguage.startsWith('es')
+      ? 'es'
+      : 'en';
+
+    const gameResult = {
+      gameType: 'solitaire',
+      moves: gameState.moves,
+      time: gameState.time,
+      recycles: gameState.recycles,
+      difficulty: 'classic', // Solitaire sempre é clássico
+      language: language, // Idioma detectado do browser
+      score: gameState.moves, // Usar movimentos como score
+      totalTime: gameState.time,
+      accuracy: 100, // Solitaire sempre é 100% se ganhou
+      wordsFound: 0, // Não aplicável ao Solitaire
+      totalWords: 0, // Não aplicável ao Solitaire
+      category: 'card games',
+      date: new Date().toISOString(),
+    };
+
+    // Função de tracking (opcional)
+    const trackShare = (platform: string) => {
+      console.log(`Compartilhado no ${platform}`);
+      // Aqui você pode adicionar analytics se necessário
+    };
+
+    // Usar a função de compartilhamento profissional
+    shareGameResult(gameResult, trackShare);
   };
 
   // Comprar cartas do stock
@@ -815,6 +851,109 @@ const SolitaireGame: React.FC = () => {
         />
       )}
 
+      {/* Tela de Vitória */}
+      {gameState.isWon && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
+          >
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              {navigator.language?.startsWith('pt')
+                ? 'Parabéns!'
+                : navigator.language?.startsWith('es')
+                ? '¡Felicidades!'
+                : 'Congratulations!'}
+            </h2>
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <div className="text-lg font-bold text-green-600">
+                    {gameState.moves}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Movimentos'
+                      : navigator.language?.startsWith('es')
+                      ? 'Movimientos'
+                      : 'Moves'}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-blue-600">
+                    {formatTime(gameState.time)}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Tempo'
+                      : navigator.language?.startsWith('es')
+                      ? 'Tiempo'
+                      : 'Time'}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <motion.button
+                onClick={handleShare}
+                className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                  </svg>
+                  {navigator.language?.startsWith('pt')
+                    ? 'Compartilhar Resultado'
+                    : navigator.language?.startsWith('es')
+                    ? 'Compartir Resultado'
+                    : 'Share Result'}
+                </span>
+              </motion.button>
+
+              <motion.button
+                onClick={newGame}
+                className="bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {navigator.language?.startsWith('pt')
+                    ? 'Novo Jogo'
+                    : navigator.language?.startsWith('es')
+                    ? 'Nuevo Juego'
+                    : 'New Game'}
+                </span>
+              </motion.button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       {/* Sistema de Layout Responsivo Inteligente */}
       <style>{`
         /* Mobile First - Base styles */
@@ -1182,13 +1321,13 @@ const SolitaireGame: React.FC = () => {
       `}</style>
 
       <div className="h-screen bg-green-800 game-container overflow-hidden">
-        <div className="h-full flex flex-col gap-6 sm:gap-2">
+        <div className="h-full flex flex-col gap-8">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-green-900 rounded-xl mb-2 header-responsive"
+            className="bg-green-900 rounded-xl mb-2 sm:mb-0 header-responsive"
             style={{
               paddingLeft: '16px',
               paddingRight: '16px',
