@@ -1294,7 +1294,7 @@ const SolitaireGame: React.FC = () => {
       <style>{`
         /* Mobile First - Base styles */
         .game-container {
-          padding: 0.25rem;
+          padding: 0;
           max-width: 100vw;
           overflow-x: auto;
         }
@@ -1303,7 +1303,6 @@ const SolitaireGame: React.FC = () => {
           flex-direction: column;
           gap: 0.25rem;
           padding: 0.5rem;
-          margin-bottom: 0.5rem;
         }
 
         .header-stats {
@@ -1320,7 +1319,6 @@ const SolitaireGame: React.FC = () => {
         .top-section {
           flex-direction: column;
           gap: 0.5rem;
-          margin-bottom: 0.5rem;
         }
 
         .stock-waste {
@@ -1337,15 +1335,13 @@ const SolitaireGame: React.FC = () => {
             gap: 0.0625rem;
           }
           .game-container {
-            padding: 0.125rem;
+            padding: 0;
           }
           .header-responsive {
             padding: 0.25rem;
-            margin-bottom: 0.25rem;
           }
           .top-section {
             gap: 0.0625rem;
-            margin-bottom: 0.25rem;
           }
         }
 
@@ -1425,7 +1421,7 @@ const SolitaireGame: React.FC = () => {
         /* Mobile (480px-640px) */
         @media (min-width: 480px) {
           .game-container {
-            padding: 1rem;
+            padding: 0;
           }
           .header-responsive {
             flex-direction: row;
@@ -1459,7 +1455,7 @@ const SolitaireGame: React.FC = () => {
         /* Tablet (640px-768px) */
         @media (min-width: 640px) {
           .game-container {
-            padding: 1.5rem;
+            padding: 0;
           }
           .tableau-responsive {
             gap: 0.75rem;
@@ -1482,7 +1478,7 @@ const SolitaireGame: React.FC = () => {
         /* Large Tablet (768px-1024px) */
         @media (min-width: 768px) {
           .game-container {
-            padding: 2rem;
+            padding: 0;
           }
           .tableau-responsive {
             gap: 1rem;
@@ -1505,7 +1501,7 @@ const SolitaireGame: React.FC = () => {
         /* Desktop (1024px+) */
         @media (min-width: 1024px) {
           .game-container {
-            padding: 2.5rem;
+            padding: 0;
           }
           .tableau-responsive {
             gap: 1.25rem;
@@ -1664,74 +1660,74 @@ const SolitaireGame: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="bg-green-900 w-full header-responsive"
           style={{
-            paddingLeft: '16px',
-            paddingRight: '16px',
-            paddingTop: '16px',
-            paddingBottom: '16px',
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            paddingTop: '24px',
+            paddingBottom: '24px',
           }}
         >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-start gap-2 sm:gap-3">
-                <motion.button
-                  onClick={() => navigate('/solitaire-setup')}
-                  className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <ArrowLeft size={18} className="text-gray-600" />
-                </motion.button>
-                <div className="flex flex-col gap-0.5">
-                  <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
-                    {t('solitaire.title')}
-                  </h1>
-                  <div className="text-white text-xs sm:text-sm">
-                    {t('solitaire.movesLabel')}: {gameState.moves} |{' '}
-                    {t('solitaire.timeLabel')}: {formatTime(gameState.time)}
-                  </div>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex items-start gap-2 sm:gap-3">
+              <motion.button
+                onClick={() => navigate('/solitaire-setup')}
+                className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ArrowLeft size={18} className="text-gray-600" />
+              </motion.button>
+              <div className="flex flex-col gap-0.5">
+                <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
+                  {t('solitaire.title')}
+                </h1>
+                <div className="text-white text-xs sm:text-sm">
+                  {t('solitaire.movesLabel')}: {gameState.moves} |{' '}
+                  {t('solitaire.timeLabel')}: {formatTime(gameState.time)}
                 </div>
               </div>
-
-              <div className="flex gap-2">
-                {/* Botão de Zoom */}
-                <motion.button
-                  onClick={toggleCardZoom}
-                  className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm flex items-center gap-1 mobile-hide-zoom"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  title={
-                    cardZoom === 'normal'
-                      ? 'Zoom Normal'
-                      : cardZoom === 'large'
-                      ? 'Zoom Grande'
-                      : 'Zoom Extra Grande'
-                  }
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  {cardZoom === 'normal'
-                    ? 'A'
-                    : cardZoom === 'large'
-                    ? 'A+'
-                    : 'A++'}
-                </motion.button>
-
-                <button
-                  onClick={newGame}
-                  className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
-                >
-                  {t('solitaire.newGame')}
-                </button>
-              </div>
             </div>
+
+            <div className="flex gap-2">
+              {/* Botão de Zoom */}
+              <motion.button
+                onClick={toggleCardZoom}
+                className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm flex items-center gap-1 mobile-hide-zoom"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                title={
+                  cardZoom === 'normal'
+                    ? 'Zoom Normal'
+                    : cardZoom === 'large'
+                    ? 'Zoom Grande'
+                    : 'Zoom Extra Grande'
+                }
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {cardZoom === 'normal'
+                  ? 'A'
+                  : cardZoom === 'large'
+                  ? 'A+'
+                  : 'A++'}
+              </motion.button>
+
+              <button
+                onClick={newGame}
+                className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
+              >
+                {t('solitaire.newGame')}
+              </button>
+            </div>
+          </div>
         </motion.div>
 
         {/* Game Board */}
@@ -1740,495 +1736,489 @@ const SolitaireGame: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="p-0 flex-1 flex flex-col"
+          style={{ marginTop: '24px' }}
         >
-            {/* Foundations, Stock and Waste */}
+          {/* Foundations, Stock and Waste */}
+          <div
+            className="flex justify-between items-center mb-3 stock-waste mobile-solitaire-stock-waste"
+            style={{ gap: '2rem' }}
+          >
+            {/* Foundations */}
             <div
-              className="flex justify-between items-center mb-3 stock-waste mobile-solitaire-stock-waste"
-              style={{ gap: '2rem' }}
+              className="flex foundations mobile-solitaire-foundations"
+              style={{ gap: '12px' }}
             >
-              {/* Foundations */}
-              <div
-                className="flex foundations mobile-solitaire-foundations"
-                style={{ gap: '12px' }}
-              >
-                {gameState.foundations.map((foundation, index) => (
-                  <div
-                    key={index}
-                    className={`${getFoundationClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-200 ${
-                      validDropTargets.foundations.includes(index) ? '' : ''
-                    }`}
-                    onClick={() =>
-                      gameState.selectedCard && moveToFoundation(index)
-                    }
-                    onDragOver={handleDragOver}
-                    onDrop={e => handleDropFoundation(e, index)}
-                  >
-                    {foundation.cards.length > 0 ? (
-                      <div className="relative w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28">
-                        {foundation.cards.map((card, cardIndex) => (
+              {gameState.foundations.map((foundation, index) => (
+                <div
+                  key={index}
+                  className={`${getFoundationClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-900 hover:shadow-lg transition-all duration-200 ${
+                    validDropTargets.foundations.includes(index) ? '' : ''
+                  }`}
+                  onClick={() =>
+                    gameState.selectedCard && moveToFoundation(index)
+                  }
+                  onDragOver={handleDragOver}
+                  onDrop={e => handleDropFoundation(e, index)}
+                >
+                  {foundation.cards.length > 0 ? (
+                    <div className="relative w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28">
+                      {foundation.cards.map((card, cardIndex) => (
+                        <div
+                          key={card.id}
+                          className={`${getFoundationClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200`}
+                          style={{
+                            top:
+                              cardIndex > 0
+                                ? `${-2 - cardIndex * getFoundationOverlap()}px`
+                                : '-2px',
+                            left: '-2px',
+                            zIndex: cardIndex + 10,
+                          }}
+                        >
+                          {/* Número no canto superior esquerdo */}
                           <div
-                            key={card.id}
-                            className={`${getFoundationClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200`}
+                            className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                              cardZoom === 'large'
+                                ? 'large'
+                                : cardZoom === 'xlarge'
+                                ? 'xlarge'
+                                : ''
+                            }`}
                             style={{
-                              top:
-                                cardIndex > 0
-                                  ? `${
-                                      -2 - cardIndex * getFoundationOverlap()
-                                    }px`
-                                  : '-2px',
-                              left: '-2px',
-                              zIndex: cardIndex + 10,
+                              color:
+                                card.suit === 'hearts' ||
+                                card.suit === 'diamonds'
+                                  ? '#dc2626'
+                                  : '#000000',
                             }}
                           >
-                            {/* Número no canto superior esquerdo */}
-                            <div
-                              className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
-                                cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'xlarge'
-                                  ? 'xlarge'
-                                  : ''
-                              }`}
-                              style={{
-                                color:
-                                  card.suit === 'hearts' ||
-                                  card.suit === 'diamonds'
-                                    ? '#dc2626'
-                                    : '#000000',
-                              }}
-                            >
-                              {card.rank}
-                            </div>
-
-                            {/* Naipe no canto superior direito */}
-                            <div
-                              className={`absolute top-1 right-1 card-symbol-corner ${
-                                cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'xlarge'
-                                  ? 'xlarge'
-                                  : ''
-                              }`}
-                              style={{
-                                color:
-                                  card.suit === 'hearts' ||
-                                  card.suit === 'diamonds'
-                                    ? '#dc2626'
-                                    : '#000000',
-                              }}
-                            >
-                              {getCardSymbol(card.suit)}
-                            </div>
-
-                            {/* Símbolo do naipe grande no centro */}
-                            <div
-                              className={`card-symbol-center ${
-                                cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'xlarge'
-                                  ? 'xlarge'
-                                  : ''
-                              }`}
-                              style={{
-                                color:
-                                  card.suit === 'hearts' ||
-                                  card.suit === 'diamonds'
-                                    ? '#dc2626'
-                                    : '#000000',
-                              }}
-                            >
-                              {getCardSymbol(card.suit)}
-                            </div>
-
-                            {/* Número invertido no canto inferior direito */}
-                            <div
-                              className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
-                                cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'xlarge'
-                                  ? 'xlarge'
-                                  : ''
-                              } transform rotate-180`}
-                              style={{
-                                color:
-                                  card.suit === 'hearts' ||
-                                  card.suit === 'diamonds'
-                                    ? '#dc2626'
-                                    : '#000000',
-                              }}
-                            >
-                              {card.rank}
-                            </div>
-
-                            {/* Naipe invertido no canto inferior esquerdo */}
-                            <div
-                              className={`absolute bottom-1 left-1 card-symbol-bottom ${
-                                cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'xlarge'
-                                  ? 'xlarge'
-                                  : ''
-                              } transform rotate-180`}
-                              style={{
-                                color:
-                                  card.suit === 'hearts' ||
-                                  card.suit === 'diamonds'
-                                    ? '#dc2626'
-                                    : '#000000',
-                              }}
-                            >
-                              {getCardSymbol(card.suit)}
-                            </div>
+                            {card.rank}
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div
-                        className={`${getSymbolSize()} ${getCardColor(
-                          foundation.suit
-                        )}`}
-                      >
-                        {getCardSymbol(foundation.suit)}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
 
-              {/* Stock and Waste - Right Side */}
-              <div className="flex gap-4">
-                {/* Stock */}
-                <div
-                  className={`${getCardClasses()} mobile-solitaire-cards rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center ${getBorderSize()} border-white`}
-                  style={{
-                    background: '#b91c1c',
-                    backgroundImage: `
-                      repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px),
-                      repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)
-                    `,
-                    boxShadow:
-                      '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
-                  }}
-                  onClick={drawFromStock}
-                >
-                  <div className="text-white text-sm font-bold">
-                    {gameState.stock.length}
-                  </div>
-                </div>
+                          {/* Naipe no canto superior direito */}
+                          <div
+                            className={`absolute top-1 right-1 card-symbol-corner ${
+                              cardZoom === 'large'
+                                ? 'large'
+                                : cardZoom === 'xlarge'
+                                ? 'xlarge'
+                                : ''
+                            }`}
+                            style={{
+                              color:
+                                card.suit === 'hearts' ||
+                                card.suit === 'diamonds'
+                                  ? '#dc2626'
+                                  : '#000000',
+                            }}
+                          >
+                            {getCardSymbol(card.suit)}
+                          </div>
 
-                {/* Waste */}
-                <div
-                  className={`${getCardClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200`}
-                  onClick={() =>
-                    gameState.waste.length > 0 &&
-                    selectCard(
-                      gameState.waste[gameState.waste.length - 1],
-                      'waste',
-                      0
-                    )
-                  }
-                  draggable={gameState.waste.length > 0}
-                  onDoubleClick={() =>
-                    gameState.waste.length > 0 &&
-                    handleDoubleClick(
-                      gameState.waste[gameState.waste.length - 1]
-                    )
-                  }
-                  onDragStart={e =>
-                    gameState.waste.length > 0 &&
-                    handleDragStart(
-                      e,
-                      gameState.waste[gameState.waste.length - 1],
-                      'waste',
-                      0
-                    )
-                  }
-                >
-                  {gameState.waste.length > 0 ? (
-                    <div
-                      className={`${getCardClasses()} mobile-solitaire-cards bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md ${getBorderSize()} border-gray-200`}
-                    >
-                      {/* Número no canto superior esquerdo */}
-                      <div
-                        className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        }`}
-                        style={{
-                          color:
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'hearts' ||
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {gameState.waste[gameState.waste.length - 1].rank}
-                      </div>
+                          {/* Símbolo do naipe grande no centro */}
+                          <div
+                            className={`card-symbol-center ${
+                              cardZoom === 'large'
+                                ? 'large'
+                                : cardZoom === 'xlarge'
+                                ? 'xlarge'
+                                : ''
+                            }`}
+                            style={{
+                              color:
+                                card.suit === 'hearts' ||
+                                card.suit === 'diamonds'
+                                  ? '#dc2626'
+                                  : '#000000',
+                            }}
+                          >
+                            {getCardSymbol(card.suit)}
+                          </div>
 
-                      {/* Naipe no canto superior direito */}
-                      <div
-                        className="absolute top-1 right-1 text-sm sm:text-lg"
-                        style={{
-                          color:
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'hearts' ||
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(
-                          gameState.waste[gameState.waste.length - 1].suit
-                        )}
-                      </div>
+                          {/* Número invertido no canto inferior direito */}
+                          <div
+                            className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                              cardZoom === 'large'
+                                ? 'large'
+                                : cardZoom === 'xlarge'
+                                ? 'xlarge'
+                                : ''
+                            } transform rotate-180`}
+                            style={{
+                              color:
+                                card.suit === 'hearts' ||
+                                card.suit === 'diamonds'
+                                  ? '#dc2626'
+                                  : '#000000',
+                            }}
+                          >
+                            {card.rank}
+                          </div>
 
-                      {/* Símbolo do naipe grande no centro */}
-                      <div
-                        className="text-3xl sm:text-5xl font-bold"
-                        style={{
-                          color:
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'hearts' ||
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(
-                          gameState.waste[gameState.waste.length - 1].suit
-                        )}
-                      </div>
-
-                      {/* Número invertido no canto inferior direito */}
-                      <div
-                        className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        } transform rotate-180`}
-                        style={{
-                          color:
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'hearts' ||
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {gameState.waste[gameState.waste.length - 1].rank}
-                      </div>
-
-                      {/* Naipe invertido no canto inferior esquerdo */}
-                      <div
-                        className={`absolute bottom-1 left-1 card-symbol-bottom ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        } transform rotate-180`}
-                        style={{
-                          color:
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'hearts' ||
-                            gameState.waste[gameState.waste.length - 1].suit ===
-                              'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(
-                          gameState.waste[gameState.waste.length - 1].suit
-                        )}
-                      </div>
+                          {/* Naipe invertido no canto inferior esquerdo */}
+                          <div
+                            className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                              cardZoom === 'large'
+                                ? 'large'
+                                : cardZoom === 'xlarge'
+                                ? 'xlarge'
+                                : ''
+                            } transform rotate-180`}
+                            style={{
+                              color:
+                                card.suit === 'hearts' ||
+                                card.suit === 'diamonds'
+                                  ? '#dc2626'
+                                  : '#000000',
+                            }}
+                          >
+                            {getCardSymbol(card.suit)}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-
-            {/* Tableau */}
-            <div
-              className="grid grid-cols-7 mt-8 justify-center flex-1 mobile-solitaire-tableau"
-              style={{
-                gridTemplateColumns: `repeat(7, ${getColumnWidth()}px)`,
-                gap: `${getColumnGap()}px`,
-              }}
-            >
-              {gameState.tableau.map((column, columnIndex) => (
-                <div
-                  key={columnIndex}
-                  className={`card-stack relative min-h-[600px] h-auto ${
-                    validDropTargets.tableau.includes(columnIndex) ? '' : ''
-                  }`}
-                  onDragOver={handleDragOver}
-                  onDrop={e => handleDrop(e, columnIndex)}
-                >
-                  {/* Cartas viradas para baixo */}
-                  {column.faceDown.map((card, cardIndex) => (
+                  ) : (
                     <div
-                      key={card.id}
-                      className={`${getCardClasses()} mobile-solitaire-cards rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 ${getBorderSize()} border-white`}
-                      style={{
-                        background: '#b91c1c',
-                        backgroundImage: `
-                          repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px),
-                          repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)
-                        `,
-                        boxShadow:
-                          '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
-                        top: `${cardIndex * getCardSpacing()}px`,
-                        zIndex: cardIndex + 10,
-                      }}
-                    ></div>
-                  ))}
-
-                  {/* Cartas viradas para cima */}
-                  {column.faceUp.map((card, cardIndex) => (
-                    <div
-                      key={card.id}
-                      className={`${getCardClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200 ${
-                        gameState.selectedCard?.id === card.id
-                          ? 'card-selected'
-                          : ''
-                      }`}
-                      style={{
-                        top: `${
-                          (column.faceDown.length + cardIndex) *
-                          getCardSpacing()
-                        }px`,
-                        zIndex: column.faceDown.length + cardIndex + 20,
-                      }}
-                      onClick={() => selectCard(card, 'tableau', columnIndex)}
-                      onDoubleClick={() => handleDoubleClick(card)}
-                      draggable={true}
-                      onDragStart={e =>
-                        handleDragStart(e, card, 'tableau', columnIndex)
-                      }
-                      onDragEnd={handleDragEnd}
+                      className={`${getSymbolSize()} ${getCardColor(
+                        foundation.suit
+                      )}`}
                     >
-                      {/* Número no canto superior esquerdo */}
-                      <div
-                        className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        }`}
-                        style={{
-                          color:
-                            card.suit === 'hearts' || card.suit === 'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {card.rank}
-                      </div>
-
-                      {/* Naipe no canto superior direito */}
-                      <div
-                        className={`absolute top-1 right-1 card-symbol-corner ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        }`}
-                        style={{
-                          color:
-                            card.suit === 'hearts' || card.suit === 'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(card.suit)}
-                      </div>
-
-                      {/* Símbolo do naipe grande no centro */}
-                      <div
-                        className={`card-symbol-center ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        }`}
-                        style={{
-                          color:
-                            card.suit === 'hearts' || card.suit === 'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(card.suit)}
-                      </div>
-
-                      {/* Número invertido no canto inferior direito */}
-                      <div
-                        className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        } transform rotate-180`}
-                        style={{
-                          color:
-                            card.suit === 'hearts' || card.suit === 'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {card.rank}
-                      </div>
-
-                      {/* Naipe invertido no canto inferior esquerdo */}
-                      <div
-                        className={`absolute bottom-1 left-1 card-symbol-bottom ${
-                          cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'xlarge'
-                            ? 'xlarge'
-                            : ''
-                        } transform rotate-180`}
-                        style={{
-                          color:
-                            card.suit === 'hearts' || card.suit === 'diamonds'
-                              ? '#dc2626'
-                              : '#000000',
-                        }}
-                      >
-                        {getCardSymbol(card.suit)}
-                      </div>
+                      {getCardSymbol(foundation.suit)}
                     </div>
-                  ))}
-
-                  {/* Área de drop para coluna vazia */}
-                  {column.faceUp.length === 0 &&
-                    column.faceDown.length === 0 && (
-                      <div
-                        className={`${getCardClasses()} rounded-lg cursor-pointer bg-green-900 hover:bg-green-800 transition-all duration-200`}
-                        onClick={() =>
-                          gameState.selectedCard && moveToTableau(columnIndex)
-                        }
-                      ></div>
-                    )}
+                  )}
                 </div>
               ))}
             </div>
-          </motion.div>
-        </div>
+
+            {/* Stock and Waste - Right Side */}
+            <div className="flex gap-4">
+              {/* Stock */}
+              <div
+                className={`${getCardClasses()} mobile-solitaire-cards rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center ${getBorderSize()} border-white`}
+                style={{
+                  background: '#b91c1c',
+                  backgroundImage: `
+                      repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px),
+                      repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)
+                    `,
+                  boxShadow:
+                    '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
+                }}
+                onClick={drawFromStock}
+              >
+                <div className="text-white text-sm font-bold">
+                  {gameState.stock.length}
+                </div>
+              </div>
+
+              {/* Waste */}
+              <div
+                className={`${getCardClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200`}
+                onClick={() =>
+                  gameState.waste.length > 0 &&
+                  selectCard(
+                    gameState.waste[gameState.waste.length - 1],
+                    'waste',
+                    0
+                  )
+                }
+                draggable={gameState.waste.length > 0}
+                onDoubleClick={() =>
+                  gameState.waste.length > 0 &&
+                  handleDoubleClick(gameState.waste[gameState.waste.length - 1])
+                }
+                onDragStart={e =>
+                  gameState.waste.length > 0 &&
+                  handleDragStart(
+                    e,
+                    gameState.waste[gameState.waste.length - 1],
+                    'waste',
+                    0
+                  )
+                }
+              >
+                {gameState.waste.length > 0 ? (
+                  <div
+                    className={`${getCardClasses()} mobile-solitaire-cards bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md ${getBorderSize()} border-gray-200`}
+                  >
+                    {/* Número no canto superior esquerdo */}
+                    <div
+                      className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      }`}
+                      style={{
+                        color:
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'hearts' ||
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {gameState.waste[gameState.waste.length - 1].rank}
+                    </div>
+
+                    {/* Naipe no canto superior direito */}
+                    <div
+                      className="absolute top-1 right-1 text-sm sm:text-lg"
+                      style={{
+                        color:
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'hearts' ||
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(
+                        gameState.waste[gameState.waste.length - 1].suit
+                      )}
+                    </div>
+
+                    {/* Símbolo do naipe grande no centro */}
+                    <div
+                      className="text-3xl sm:text-5xl font-bold"
+                      style={{
+                        color:
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'hearts' ||
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(
+                        gameState.waste[gameState.waste.length - 1].suit
+                      )}
+                    </div>
+
+                    {/* Número invertido no canto inferior direito */}
+                    <div
+                      className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      } transform rotate-180`}
+                      style={{
+                        color:
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'hearts' ||
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {gameState.waste[gameState.waste.length - 1].rank}
+                    </div>
+
+                    {/* Naipe invertido no canto inferior esquerdo */}
+                    <div
+                      className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      } transform rotate-180`}
+                      style={{
+                        color:
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'hearts' ||
+                          gameState.waste[gameState.waste.length - 1].suit ===
+                            'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(
+                        gameState.waste[gameState.waste.length - 1].suit
+                      )}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+
+          {/* Tableau */}
+          <div
+            className="grid grid-cols-7 mt-8 justify-center flex-1 mobile-solitaire-tableau"
+            style={{
+              gridTemplateColumns: `repeat(7, ${getColumnWidth()}px)`,
+              gap: `${getColumnGap()}px`,
+            }}
+          >
+            {gameState.tableau.map((column, columnIndex) => (
+              <div
+                key={columnIndex}
+                className={`card-stack relative min-h-[600px] h-auto ${
+                  validDropTargets.tableau.includes(columnIndex) ? '' : ''
+                }`}
+                onDragOver={handleDragOver}
+                onDrop={e => handleDrop(e, columnIndex)}
+              >
+                {/* Cartas viradas para baixo */}
+                {column.faceDown.map((card, cardIndex) => (
+                  <div
+                    key={card.id}
+                    className={`${getCardClasses()} mobile-solitaire-cards rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 ${getBorderSize()} border-white`}
+                    style={{
+                      background: '#b91c1c',
+                      backgroundImage: `
+                          repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px),
+                          repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px)
+                        `,
+                      boxShadow:
+                        '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
+                      top: `${cardIndex * getCardSpacing()}px`,
+                      zIndex: cardIndex + 10,
+                    }}
+                  ></div>
+                ))}
+
+                {/* Cartas viradas para cima */}
+                {column.faceUp.map((card, cardIndex) => (
+                  <div
+                    key={card.id}
+                    className={`${getCardClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200 ${
+                      gameState.selectedCard?.id === card.id
+                        ? 'card-selected'
+                        : ''
+                    }`}
+                    style={{
+                      top: `${
+                        (column.faceDown.length + cardIndex) * getCardSpacing()
+                      }px`,
+                      zIndex: column.faceDown.length + cardIndex + 20,
+                    }}
+                    onClick={() => selectCard(card, 'tableau', columnIndex)}
+                    onDoubleClick={() => handleDoubleClick(card)}
+                    draggable={true}
+                    onDragStart={e =>
+                      handleDragStart(e, card, 'tableau', columnIndex)
+                    }
+                    onDragEnd={handleDragEnd}
+                  >
+                    {/* Número no canto superior esquerdo */}
+                    <div
+                      className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      }`}
+                      style={{
+                        color:
+                          card.suit === 'hearts' || card.suit === 'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {card.rank}
+                    </div>
+
+                    {/* Naipe no canto superior direito */}
+                    <div
+                      className={`absolute top-1 right-1 card-symbol-corner ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      }`}
+                      style={{
+                        color:
+                          card.suit === 'hearts' || card.suit === 'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(card.suit)}
+                    </div>
+
+                    {/* Símbolo do naipe grande no centro */}
+                    <div
+                      className={`card-symbol-center ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      }`}
+                      style={{
+                        color:
+                          card.suit === 'hearts' || card.suit === 'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(card.suit)}
+                    </div>
+
+                    {/* Número invertido no canto inferior direito */}
+                    <div
+                      className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      } transform rotate-180`}
+                      style={{
+                        color:
+                          card.suit === 'hearts' || card.suit === 'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {card.rank}
+                    </div>
+
+                    {/* Naipe invertido no canto inferior esquerdo */}
+                    <div
+                      className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                        cardZoom === 'large'
+                          ? 'large'
+                          : cardZoom === 'xlarge'
+                          ? 'xlarge'
+                          : ''
+                      } transform rotate-180`}
+                      style={{
+                        color:
+                          card.suit === 'hearts' || card.suit === 'diamonds'
+                            ? '#dc2626'
+                            : '#000000',
+                      }}
+                    >
+                      {getCardSymbol(card.suit)}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Área de drop para coluna vazia */}
+                {column.faceUp.length === 0 && column.faceDown.length === 0 && (
+                  <div
+                    className={`${getCardClasses()} rounded-lg cursor-pointer bg-green-900 hover:bg-green-900 transition-all duration-200`}
+                    onClick={() =>
+                      gameState.selectedCard && moveToTableau(columnIndex)
+                    }
+                  ></div>
+                )}
+              </div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </>
   );
