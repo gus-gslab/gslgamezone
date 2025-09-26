@@ -53,7 +53,7 @@ interface GameState {
 
 const SolitaireGame: React.FC = () => {
   const navigate = useNavigate();
-  const { t, i18n, ready } = useTranslation();
+  const { t } = useTranslation();
 
   // Estado para validação dinâmica
   const [validDropTargets, setValidDropTargets] = useState<{
