@@ -996,17 +996,6 @@ const SolitaireGame: React.FC = () => {
     }
   };
 
-  // Obter tamanho do símbolo pequeno nos cantos
-  const getSmallSymbolSize = () => {
-    switch (cardZoom) {
-      case 'large':
-        return 'text-sm sm:text-lg'; // A+ - mesmo tamanho dos números
-      case 'xlarge':
-        return 'text-sm sm:text-lg'; // A++ - mesmo tamanho dos números
-      default:
-        return 'text-sm sm:text-lg'; // A - mesmo tamanho dos números
-    }
-  };
 
   // Obter tamanho da borda baseado no zoom
   const getBorderSize = () => {
@@ -1869,8 +1858,6 @@ const SolitaireGame: React.FC = () => {
                               className={`absolute top-1 right-1 card-symbol-corner ${
                                 cardZoom === 'large'
                                   ? 'large'
-                                  : cardZoom === 'large'
-                                  ? 'large'
                                   : cardZoom === 'xlarge'
                                   ? 'xlarge'
                                   : ''
@@ -1930,8 +1917,6 @@ const SolitaireGame: React.FC = () => {
                             <div
                               className={`absolute bottom-1 left-1 card-symbol-bottom ${
                                 cardZoom === 'large'
-                                  ? 'large'
-                                  : cardZoom === 'large'
                                   ? 'large'
                                   : cardZoom === 'xlarge'
                                   ? 'xlarge'
@@ -2101,8 +2086,6 @@ const SolitaireGame: React.FC = () => {
                         className={`absolute bottom-1 left-1 card-symbol-bottom ${
                           cardZoom === 'large'
                             ? 'large'
-                            : cardZoom === 'large'
-                            ? 'large'
                             : cardZoom === 'xlarge'
                             ? 'xlarge'
                             : ''
@@ -2211,8 +2194,6 @@ const SolitaireGame: React.FC = () => {
                         className={`absolute top-1 right-1 card-symbol-corner ${
                           cardZoom === 'large'
                             ? 'large'
-                            : cardZoom === 'large'
-                            ? 'large'
                             : cardZoom === 'xlarge'
                             ? 'xlarge'
                             : ''
@@ -2269,8 +2250,6 @@ const SolitaireGame: React.FC = () => {
                       <div
                         className={`absolute bottom-1 left-1 card-symbol-bottom ${
                           cardZoom === 'large'
-                            ? 'large'
-                            : cardZoom === 'large'
                             ? 'large'
                             : cardZoom === 'xlarge'
                             ? 'xlarge'
