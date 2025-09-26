@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Search,
@@ -23,9 +23,21 @@ import { useStats } from '../hooks/useStats';
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Remover o useEffect que força a detecção de idioma
-  // O i18n já detecta automaticamente e reage às mudanças
+  const { scrollY } = useScroll();
+  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 1]);
+  const headerBlur = useTransform(scrollY, [0, 100], [8, 12]);
+
+  // Detectar scroll para header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const games = [
     {
@@ -108,14 +120,102 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-dark-bg dark:to-dark-bg light-container">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-dark-bg dark:to-dark-bg light-container relative overflow-hidden">
       <SEOHead />
       {/* Efeitos de luz no background */}
       <div className="light-effect-1"></div>
       <div className="light-effect-2"></div>
       <div className="light-effect-3"></div>
+
+      {/* Background blur com cores pastéis */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Círculo azul-roxo misturado */}
+        <motion.div
+          className="absolute top-20 left-10 w-[800px] h-[800px] bg-gradient-to-br from-blue-300/40 to-purple-300/40 dark:from-blue-400/30 dark:to-purple-400/30 rounded-full blur-3xl"
+          animate={{
+            x: [0, 50, -30, 0],
+            y: [0, -40, 30, 0],
+            scale: [1, 1.2, 0.9, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        ></motion.div>
+
+        {/* Círculo roxo-rosa misturado */}
+        <motion.div
+          className="absolute top-40 right-20 w-[700px] h-[700px] bg-gradient-to-br from-purple-300/40 to-pink-300/40 dark:from-purple-400/30 dark:to-pink-400/30 rounded-full blur-3xl"
+          animate={{
+            x: [0, -40, 25, 0],
+            y: [0, 50, -35, 0],
+            scale: [1, 1.15, 0.95, 1],
+            rotate: [0, -180, -360],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        ></motion.div>
+
+        {/* Círculo verde-azul misturado */}
+        <motion.div
+          className="absolute bottom-40 left-1/4 w-[650px] h-[650px] bg-gradient-to-br from-green-300/40 to-blue-300/40 dark:from-green-400/30 dark:to-blue-400/30 rounded-full blur-3xl"
+          animate={{
+            x: [0, 35, -25, 0],
+            y: [0, -45, 40, 0],
+            scale: [1, 1.18, 0.92, 1],
+            rotate: [0, 90, 180, 270, 360],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        ></motion.div>
+
+        {/* Círculo rosa-amarelo misturado */}
+        <motion.div
+          className="absolute bottom-20 right-1/3 w-[600px] h-[600px] bg-gradient-to-br from-pink-300/40 to-yellow-300/40 dark:from-pink-400/30 dark:to-yellow-400/30 rounded-full blur-3xl"
+          animate={{
+            x: [0, -50, 30, 0],
+            y: [0, 35, -25, 0],
+            scale: [1, 1.25, 0.88, 1],
+            rotate: [0, -90, -180, -270, -360],
+          }}
+          transition={{
+            duration: 16,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        ></motion.div>
+
+        {/* Círculo amarelo-verde misturado */}
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-[550px] h-[550px] bg-gradient-to-br from-yellow-300/40 to-green-300/40 dark:from-yellow-400/30 dark:to-green-400/30 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"
+          animate={{
+            x: [0, 25, -20, 0],
+            y: [0, -30, 25, 0],
+            scale: [1, 1.3, 0.85, 1],
+            rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360],
+          }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        ></motion.div>
+      </div>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 dark:bg-dark-header dark:border-transparent light-content">
+      <motion.header
+        className="fixed top-0 left-0 right-0 z-50 shadow-sm border-b border-gray-200 dark:border-transparent light-content dark:bg-dark-header/95"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
@@ -141,7 +241,7 @@ const Home: React.FC = () => {
                 {t('home.navigation.about')}
               </a>
               <a
-                href="#contact"
+                href="mailto:gslgamezone@gmail.com"
                 className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent font-medium text-sm"
               >
                 {t('home.navigation.contact')}
@@ -188,7 +288,7 @@ const Home: React.FC = () => {
                   {t('home.navigation.about')}
                 </a>
                 <a
-                  href="#contact"
+                  href="mailto:gslgamezone@gmail.com"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-gray-700 hover:text-blue-600 transition-colors dark:text-dark-text dark:hover:text-dark-accent"
                 >
@@ -198,46 +298,74 @@ const Home: React.FC = () => {
             </motion.div>
           )}
         </div>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 light-content">
+      <section className="pt-32 pb-48 px-4 sm:px-6 lg:px-8 light-content">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-dark-text mb-6">
-              {t('home.hero.title')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-glow bg-clip-text text-transparent">
-                {t('home.hero.titleHighlight')}
-              </span>
-            </h2>
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-dark-text mb-6">
+              Free Educational Games Online. Learn Math, Logic & Language by
+              Playing
+            </h1>
             <p className="text-xl text-gray-600 dark:text-dark-textSecondary mb-8 max-w-3xl mx-auto">
-              {t('home.hero.description')}
+              Discover a collection of fun and interactive games designed to
+              make learning easy and engaging for kids, parents, and teachers.
+              Play instantly on desktop or mobile
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#games"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
+                className="px-8 py-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-dark-card dark:to-dark-border text-gray-700 dark:text-dark-text rounded-lg font-semibold hover:text-blue-600 dark:hover:text-dark-accent hover:shadow-lg hover:scale-105 transition-all duration-300"
               >
                 {t('home.hero.cta')}
               </a>
-              <a
+              <motion.a
                 href="#about"
-                className="px-8 py-4 border-2 border-gray-300 dark:border-dark-border text-gray-700 dark:text-dark-text rounded-lg font-semibold hover:border-blue-600 dark:hover:border-dark-accent hover:text-blue-600 dark:hover:text-dark-accent transition-all duration-200"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 relative overflow-hidden group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {t('home.hero.learnMore')}
-              </a>
+                <span className="relative z-10 flex items-center justify-center">
+                  {t('home.hero.learnMore')}
+                  <motion.svg
+                    className="ml-2 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    animate={{ x: [0, 4, 0] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    }}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </motion.svg>
+                </span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                />
+              </motion.a>
             </div>
           </motion.div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white dark:bg-dark-bg light-content">
+      <section className="py-16 bg-gray-50 dark:bg-dark-header/95 light-content">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -267,7 +395,7 @@ const Home: React.FC = () => {
       {/* Games Section */}
       <section
         id="games"
-        className="py-20 px-4 sm:px-6 lg:px-8 dark:bg-dark-bg light-content"
+        className="py-32 px-4 sm:px-6 lg:px-8 dark:bg-dark-bg light-content"
       >
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -377,7 +505,7 @@ const Home: React.FC = () => {
       {/* About Section */}
       <section
         id="about"
-        className="py-20 bg-white dark:bg-dark-card light-content"
+        className="py-32 bg-gray-50 dark:bg-dark-header/95 light-content"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -404,6 +532,10 @@ const Home: React.FC = () => {
                 <li className="flex items-center text-gray-700 dark:text-dark-text">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
                   {t('home.about.benefits.vocabulary')}
+                </li>
+                <li className="flex items-center text-gray-700 dark:text-dark-text">
+                  <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
+                  {t('home.about.benefits.problemSolving')}
                 </li>
                 <li className="flex items-center text-gray-700 dark:text-dark-text">
                   <div className="w-2 h-2 bg-blue-600 dark:bg-dark-accent rounded-full mr-3"></div>
@@ -451,6 +583,125 @@ const Home: React.FC = () => {
               </div>
             </motion.div>
           </div>
+
+          {/* FAQ Section */}
+          <div className="mt-20">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
+              <h4 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
+                FAQ
+              </h4>
+              <p className="text-lg text-gray-600 dark:text-dark-textSecondary">
+                Frequently Asked Questions
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Left Column */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="space-y-8"
+              >
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    1. What are the benefits of online educational games for
+                    kids?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Online educational games help children develop cognitive
+                    skills like memory and focus, while also building
+                    problem-solving and critical thinking. Unlike traditional
+                    study methods, games make learning interactive and fun,
+                    keeping kids motivated to practice daily.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    2. Are free educational games effective for learning math
+                    and logic?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Yes. Free educational math and logic games allow children to
+                    practice addition, subtraction, puzzles, and reasoning
+                    skills in a playful way. These activities strengthen
+                    classroom concepts and help students apply what they learn
+                    in real situations.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    3. Do educational games improve vocabulary and language
+                    skills?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Educational games that involve words, spelling, and reading
+                    encourage kids to expand vocabulary, improve comprehension,
+                    and develop communication skills. They provide repeated
+                    exposure to new words in a fun context, which is proven to
+                    accelerate language learning.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Right Column */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="space-y-8"
+              >
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    4. What age group can play educational games online?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Most educational games are designed for kids from preschool
+                    to middle school (ages 4 to 12), but many titles are also
+                    fun for teenagers and even adults. Games can be filtered by
+                    age and skill level, making them accessible to learners of
+                    all backgrounds.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    5. Are online educational games safe for kids?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Yes. The educational games on our platform are safe,
+                    ad-free, and require no downloads or sign-ups. Parents and
+                    teachers can let children play knowing the environment is
+                    secure, focused on learning, and free of distractions.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                  <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
+                    6. How do teachers use educational games in the classroom?
+                  </h5>
+                  <p className="text-gray-600 dark:text-dark-textSecondary">
+                    Teachers integrate educational games to review lessons,
+                    encourage teamwork, and keep students engaged. By combining
+                    interactive play with curriculum goals, games help students
+                    retain knowledge longer and enjoy the learning process. Many
+                    educators use them as warm-up activities or homework
+                    alternatives.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -479,17 +730,19 @@ const Home: React.FC = () => {
               <ul className="space-y-2 text-gray-400">
                 <li>
                   <a
-                    href="/caca-palavras"
+                    href="/game-setup"
                     className="hover:text-white transition-colors"
                   >
                     {t('home.games.wordSearch.title')}
                   </a>
                 </li>
                 <li>
-                  <span className="text-gray-600">
-                    {t('home.games.puzzle.title')} ({t('home.games.comingSoon')}
-                    )
-                  </span>
+                  <a
+                    href="/solitaire-setup"
+                    className="hover:text-white transition-colors"
+                  >
+                    {t('home.games.solitaire.title')}
+                  </a>
                 </li>
                 <li>
                   <span className="text-gray-600">
@@ -521,7 +774,7 @@ const Home: React.FC = () => {
                 </li>
                 <li>
                   <a
-                    href="#contact"
+                    href="mailto:gslgamezone@gmail.com"
                     className="hover:text-white transition-colors"
                   >
                     {t('home.navigation.contact')}

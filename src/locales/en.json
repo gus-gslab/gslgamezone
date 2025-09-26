@@ -100,13 +100,14 @@
       }
     },
     "about": {
-      "title": "Why Educational Games?",
-      "description": "We believe that learning should be fun and engaging. Our games are developed based on proven educational principles, combining fun with skill development.",
+      "title": "Why Choose Free Educational Games Online?",
+      "description": "Educational games combine fun with proven learning principles. They boost memory, focus, and problem-solving skills, making them ideal for kids, parents, and teachers.",
       "benefits": {
-        "cognitive": "Cognitive development and memory",
-        "concentration": "Improved concentration and focus",
-        "vocabulary": "Vocabulary and language learning",
-        "motor": "Motor skills development"
+        "cognitive": "Cognitive development and memory improvement",
+        "concentration": "Better focus and concentration through interactive play",
+        "vocabulary": "Vocabulary, language, and reading skills growth",
+        "problemSolving": "Problem-solving, logic, and critical thinking",
+        "motor": "Motor skills and hand-eye coordination"
       },
       "stats": {
         "title": "Impressive Statistics",

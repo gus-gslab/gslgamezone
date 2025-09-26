@@ -8,12 +8,12 @@ export const useStats = () => {
   );
 
   useEffect(() => {
-    // Atualiza as estatísticas a cada hora para simular crescimento em tempo real
+    // Atualiza as estatísticas a cada 30 minutos para simular crescimento em tempo real
     const interval = setInterval(() => {
       const updatedStats = statsService.getStats();
       setStats(updatedStats);
       setFormattedStats(statsService.formatStats(updatedStats));
-    }, 60 * 60 * 1000); // 1 hora
+    }, 30 * 60 * 1000); // 30 minutos
 
     return () => clearInterval(interval);
   }, []);

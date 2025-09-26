@@ -9,9 +9,9 @@ interface GameStats {
 class StatsService {
   private readonly STORAGE_KEY = 'gsl_game_stats';
   private readonly WEEKLY_INCREMENTS = {
-    activePlayers: 3, // +3 jogadores por semana
-    timePlayed: 12, // +12 horas por semana
-    wordsFound: 67, // +67 palavras por semana
+    activePlayers: 5, // +5 jogadores por semana
+    timePlayed: 18, // +18 horas por semana
+    wordsFound: 120, // +120 palavras por semana
   };
 
   private getInitialStats(): GameStats {
@@ -43,23 +43,32 @@ class StatsService {
   private calculateWeeklyGrowth(stats: GameStats): GameStats {
     const now = new Date();
     const lastUpdate = new Date(stats.lastUpdate || 0);
-    const weeksSinceUpdate = Math.floor(
-      (now.getTime() - lastUpdate.getTime()) / (7 * 24 * 60 * 60 * 1000)
+    const daysSinceUpdate = Math.floor(
+      (now.getTime() - lastUpdate.getTime()) / (24 * 60 * 60 * 1000)
     );
 
-    if (weeksSinceUpdate === 0) {
+    if (daysSinceUpdate === 0) {
       return stats;
     }
 
+    // Crescimento diário mais sutil
+    const dailyIncrements = {
+      activePlayers: 0.7, // ~5 por semana
+      timePlayed: 2.5, // ~18 por semana
+      wordsFound: 17, // ~120 por semana
+    };
+
     return {
       ...stats,
-      activePlayers:
-        stats.activePlayers +
-        this.WEEKLY_INCREMENTS.activePlayers * weeksSinceUpdate,
-      timePlayed:
-        stats.timePlayed + this.WEEKLY_INCREMENTS.timePlayed * weeksSinceUpdate,
-      wordsFound:
-        stats.wordsFound + this.WEEKLY_INCREMENTS.wordsFound * weeksSinceUpdate,
+      activePlayers: Math.floor(
+        stats.activePlayers + dailyIncrements.activePlayers * daysSinceUpdate
+      ),
+      timePlayed: Math.floor(
+        stats.timePlayed + dailyIncrements.timePlayed * daysSinceUpdate
+      ),
+      wordsFound: Math.floor(
+        stats.wordsFound + dailyIncrements.wordsFound * daysSinceUpdate
+      ),
       averageRating: stats.averageRating, // mantém constante
       lastUpdate: now.getTime(),
     };
@@ -97,6 +106,31 @@ class StatsService {
 
   public resetStats(): void {
     localStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  // Função para simular crescimento mais rápido (para demonstração)
+  public simulateGrowth(days: number = 7): GameStats {
+    const stats = this.getStats();
+    const dailyIncrements = {
+      activePlayers: 0.7,
+      timePlayed: 2.5,
+      wordsFound: 17,
+    };
+
+    return {
+      ...stats,
+      activePlayers: Math.floor(
+        stats.activePlayers + dailyIncrements.activePlayers * days
+      ),
+      timePlayed: Math.floor(
+        stats.timePlayed + dailyIncrements.timePlayed * days
+      ),
+      wordsFound: Math.floor(
+        stats.wordsFound + dailyIncrements.wordsFound * days
+      ),
+      averageRating: stats.averageRating,
+      lastUpdate: Date.now(),
+    };
   }
 }
 

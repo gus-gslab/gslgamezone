@@ -100,13 +100,14 @@
       }
     },
     "about": {
-      "title": "¿Por qué Juegos Educativos?",
-      "description": "Creemos que el aprendizaje debe ser divertido y atractivo. Nuestros juegos se desarrollan basándose en principios educativos probados, combinando diversión con desarrollo de habilidades.",
+      "title": "¿Por qué Elegir Juegos Educativos Gratuitos en Línea?",
+      "description": "Los juegos educativos combinan diversión con principios de aprendizaje probados. Estimulan la memoria, el enfoque y las habilidades de resolución de problemas, haciéndolos ideales para niños, padres y maestros.",
       "benefits": {
-        "cognitive": "Desarrollo cognitivo y memoria",
-        "concentration": "Mejora de la concentración y enfoque",
-        "vocabulary": "Aprendizaje de vocabulario y lenguaje",
-        "motor": "Desarrollo de habilidades motoras"
+        "cognitive": "Desarrollo cognitivo y mejora de la memoria",
+        "concentration": "Mejor enfoque y concentración a través del juego interactivo",
+        "vocabulary": "Crecimiento de vocabulario, lenguaje y habilidades de lectura",
+        "problemSolving": "Resolución de problemas, lógica y pensamiento crítico",
+        "motor": "Habilidades motoras y coordinación ojo-mano"
       },
       "stats": {
         "title": "Estadísticas Impresionantes",

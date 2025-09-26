@@ -100,13 +100,14 @@
       }
     },
     "about": {
-      "title": "Por que Jogos Educativos?",
-      "description": "Acreditamos que o aprendizado deve ser divertido e envolvente. Nossos jogos são desenvolvidos com base em princípios educacionais comprovados, combinando diversão com desenvolvimento de habilidades.",
+      "title": "Por que Escolher Jogos Educativos Gratuitos Online?",
+      "description": "Jogos educativos combinam diversão com princípios de aprendizado comprovados. Eles estimulam memória, foco e habilidades de resolução de problemas, tornando-os ideais para crianças, pais e professores.",
       "benefits": {
-        "cognitive": "Desenvolvimento cognitivo e memória",
-        "concentration": "Melhoria da concentração e foco",
-        "vocabulary": "Aprendizado de vocabulário e linguagem",
-        "motor": "Desenvolvimento de habilidades motoras"
+        "cognitive": "Desenvolvimento cognitivo e melhoria da memória",
+        "concentration": "Melhor foco e concentração através de jogos interativos",
+        "vocabulary": "Crescimento de vocabulário, linguagem e habilidades de leitura",
+        "problemSolving": "Resolução de problemas, lógica e pensamento crítico",
+        "motor": "Habilidades motoras e coordenação olho-mão"
       },
       "stats": {
         "title": "Estatísticas Impressionantes",
