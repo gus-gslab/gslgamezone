@@ -576,7 +576,7 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="space-y-8"
               >
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     1. What are the benefits of online educational games for
                     kids?
@@ -590,7 +590,7 @@ const Home: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     2. Are free educational games effective for learning math
                     and logic?
@@ -604,7 +604,7 @@ const Home: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     3. Do educational games improve vocabulary and language
                     skills?
@@ -627,7 +627,7 @@ const Home: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="space-y-8"
               >
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     4. What age group can play educational games online?
                   </h5>
@@ -640,7 +640,7 @@ const Home: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     5. Are online educational games safe for kids?
                   </h5>
@@ -652,7 +652,7 @@ const Home: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6">
+                <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
                     6. How do teachers use educational games in the classroom?
                   </h5>
