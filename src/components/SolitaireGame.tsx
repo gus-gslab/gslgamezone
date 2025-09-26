@@ -1657,20 +1657,19 @@ const SolitaireGame: React.FC = () => {
       `}</style>
 
       <div className="h-screen bg-green-800 game-container overflow-hidden">
-        <div className="h-full flex flex-col gap-8">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-green-900 rounded-xl mb-2 sm:mb-0 header-responsive"
-            style={{
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              paddingTop: '16px',
-              paddingBottom: '16px',
-            }}
-          >
+        {/* Header - Fixed at top */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-green-900 w-full header-responsive"
+          style={{
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            paddingTop: '16px',
+            paddingBottom: '16px',
+          }}
+        >
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-2 sm:gap-3">
                 <motion.button
@@ -1733,15 +1732,15 @@ const SolitaireGame: React.FC = () => {
                 </button>
               </div>
             </div>
-          </motion.div>
+        </motion.div>
 
-          {/* Game Board */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="p-0 flex-1 flex flex-col"
-          >
+        {/* Game Board */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="p-0 flex-1 flex flex-col"
+        >
             {/* Foundations, Stock and Waste */}
             <div
               className="flex justify-between items-center mb-3 stock-waste mobile-solitaire-stock-waste"
