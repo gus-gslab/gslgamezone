@@ -24,7 +24,6 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-
   const games = [
     {
       id: 'caca-palavras',
@@ -307,40 +306,21 @@ const Home: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="#games"
-                className="px-8 py-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-dark-card dark:to-dark-border text-gray-700 dark:text-dark-text rounded-lg font-semibold hover:text-blue-600 dark:hover:text-dark-accent hover:shadow-lg hover:scale-105 transition-all duration-300"
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-card dark:to-dark-border text-white dark:text-dark-text rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
               >
                 {t('home.hero.cta')}
               </a>
               <motion.a
                 href="#about"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-dark-accent dark:to-dark-accentHover text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 relative overflow-hidden group"
+                className="px-8 py-4 bg-gradient-to-r from-white to-gray-50 dark:from-dark-accent dark:to-dark-accentHover text-gray-700 dark:text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105 relative overflow-hidden group"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <span className="relative z-10 flex items-center justify-center">
                   {t('home.hero.learnMore')}
-                  <motion.svg
-                    className="ml-2 h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                    }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </motion.svg>
                 </span>
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-r from-gray-100/50 to-gray-200/50 dark:from-white/10 dark:to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
                 />
