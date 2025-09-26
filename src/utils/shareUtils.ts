@@ -10,6 +10,12 @@ interface GameResult {
   difficulty: string;
   category: string;
   language: string;
+  gameType?: string;
+  gameName?: string;
+  moves?: number;
+  recycles?: number;
+  totalTime?: string;
+  accuracy?: number;
 }
 
 interface ShareTranslations {

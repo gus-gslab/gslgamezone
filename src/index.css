@@ -6,7 +6,7 @@
   html {
     font-family: 'Inter', system-ui, sans-serif;
   }
-  
+
   body {
     @apply bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-dark-text;
     -webkit-font-smoothing: antialiased;
@@ -20,48 +20,136 @@
     @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium dark:bg-dark-accent dark:hover:bg-dark-accentHover;
   }
 
-  /* Estilos específicos para mobile do Solitaire */
+  /* Esconder botão de zoom no mobile */
   @media (max-width: 639px) {
-    .mobile-solitaire-foundations {
-      gap: 4px !important;
-    }
-    
-    .mobile-solitaire-stock-waste {
-      gap: 1rem !important;
-      margin-bottom: 1.5rem !important;
-    }
-    
-    .mobile-solitaire-tableau {
-      gap: 0 !important;
-      grid-template-columns: repeat(7, 1fr) !important;
-    }
-    
-    .mobile-solitaire-cards {
-      width: 3rem !important;
-      height: 4rem !important;
+    .mobile-hide-zoom {
+      display: none !important;
     }
   }
-  
+
+  /* Estilos específicos para símbolos dos naipes */
+  .card-symbol-center {
+    font-size: 2.5rem !important; /* text-4xl */
+    font-weight: bold !important;
+  }
+
+  .card-symbol-center.large {
+    font-size: 3rem !important; /* text-5xl */
+  }
+
+  .card-symbol-center.xlarge {
+    font-size: 4rem !important; /* Aumentado para A++ */
+  }
+
+  .card-symbol-corner {
+    font-size: 0.875rem !important; /* text-sm */
+  }
+
+  @media (min-width: 640px) {
+    .card-symbol-corner {
+      font-size: 1.125rem !important; /* text-lg */
+    }
+  }
+
+  /* Ajustes específicos para A+ (large) */
+  .card-symbol-corner.large {
+    font-size: 1.3rem !important; /* Ajustado para A+ */
+  }
+
+  .card-symbol-bottom.large {
+    font-size: 1.3rem !important; /* Ajustado para A+ */
+  }
+
+  /* Números (ranks) para A+ */
+  .card-rank.large {
+    font-size: 1.3rem !important; /* Ajustado para A+ */
+  }
+
+  /* Ajustes específicos para A++ (xlarge) */
+  .card-symbol-corner.xlarge {
+    font-size: 1.6rem !important; /* Ajustado para A++ */
+  }
+
+  .card-symbol-bottom.xlarge {
+    font-size: 1.6rem !important; /* Ajustado para A++ */
+  }
+
+  /* Números (ranks) para A++ */
+  .card-rank.xlarge {
+    font-size: 1.6rem !important; /* Ajustado para A++ */
+  }
+
+  /* Símbolos da parte de baixo da carta - mesmo tamanho dos números */
+  .card-symbol-bottom {
+    font-size: 0.875rem !important; /* text-sm */
+    font-weight: bold !important;
+  }
+
+  @media (min-width: 640px) {
+    .card-symbol-bottom {
+      font-size: 1.125rem !important; /* text-lg */
+    }
+  }
+
+  /* CSS MOBILE - DEVE VIR DEPOIS DO DESKTOP PARA SOBRESCREVER */
+  @media (max-width: 639px) {
+    /* Ajustes específicos para mobile - símbolos das cartas */
+    .card-symbol-center,
+    .card-symbol-center.large,
+    .card-symbol-center.xlarge {
+      font-size: 1.2rem !important; /* 1.2rem para mobile */
+    }
+
+    .card-symbol-corner {
+      font-size: 0.75rem !important; /* text-xs para mobile */
+    }
+
+    .card-symbol-bottom {
+      font-size: 0.75rem !important; /* text-xs para mobile */
+    }
+
+    /* Ajustes para tamanho das cartas no mobile */
+    .mobile-solitaire-cards {
+      width: 3rem !important; /* 48px */
+      height: 4rem !important; /* 64px */
+    }
+
+    /* Ajustes para gaps no mobile */
+    .mobile-solitaire-tableau {
+      gap: 10px !important;
+      grid-template-columns: repeat(7, 1fr) !important;
+    }
+
+    .mobile-solitaire-foundations {
+      gap: 6px !important;
+    }
+
+    .mobile-solitaire-stock-waste {
+      gap: 1.5rem !important;
+      margin-bottom: 2rem !important;
+    }
+  }
+
   .btn-secondary {
     @apply bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium dark:bg-dark-card dark:text-dark-text dark:hover:bg-dark-border dark:border dark:border-dark-border;
   }
-  
+
   .card {
     @apply bg-white rounded-lg shadow-md p-6 dark:bg-dark-card dark:border dark:border-dark-border dark:shadow-lg dark:shadow-purple-900/20;
   }
-  
+
   .grid-cell {
     @apply w-8 h-8 border border-gray-300 flex items-center justify-center text-sm font-bold cursor-pointer select-none transition-colors duration-150 touch-manipulation dark:border-dark-border dark:bg-dark-card dark:text-dark-text;
   }
-  
+
   .grid-cell-found {
     @apply bg-success-200 text-success-800 dark:bg-success-600 dark:text-white;
   }
-  
+
   .grid-cell-selected {
     @apply bg-primary-200 text-primary-800 dark:bg-dark-accent dark:text-white;
   }
-  
+
   .grid-cell-default {
     @apply bg-white hover:bg-gray-100 dark:bg-dark-card dark:hover:bg-dark-border;
   }
@@ -71,43 +159,48 @@
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .text-shadow-dark {
     text-shadow: 0 2px 4px rgba(139, 92, 246, 0.3);
   }
-  
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
+
   /* Scrollbar personalizada para dark mode */
   .dark ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   .dark ::-webkit-scrollbar-track {
-    background: #1A0033;
+    background: #1a0033;
   }
-  
+
   .dark ::-webkit-scrollbar-thumb {
-    background: #4C1D95;
+    background: #4c1d95;
     border-radius: 4px;
   }
-  
+
   .dark ::-webkit-scrollbar-thumb:hover {
-    background: #8B5CF6;
+    background: #8b5cf6;
   }
 }
 
 /* Custom animations */
 @keyframes celebrate {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
 }
 
 .animate-celebrate {
@@ -129,12 +222,17 @@ html {
 
 /* Transições suaves para mudança de tema */
 * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Efeitos de luz para dark mode */
 .dark .light-effect-1 {
-  background: radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+  background: radial-gradient(
+    circle at 20% 80%,
+    rgba(139, 92, 246, 0.15) 0%,
+    transparent 50%
+  );
   position: absolute;
   width: 100%;
   height: 100%;
@@ -145,7 +243,11 @@ html {
 }
 
 .dark .light-effect-2 {
-  background: radial-gradient(circle at 80% 20%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+  background: radial-gradient(
+    circle at 80% 20%,
+    rgba(192, 132, 252, 0.1) 0%,
+    transparent 50%
+  );
   position: absolute;
   width: 100%;
   height: 100%;
@@ -156,7 +258,11 @@ html {
 }
 
 .dark .light-effect-3 {
-  background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(168, 85, 247, 0.08) 0%,
+    transparent 70%
+  );
   position: absolute;
   width: 100%;
   height: 100%;
@@ -167,7 +273,11 @@ html {
 }
 
 .dark .light-effect-4 {
-  background: radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
+  background: radial-gradient(
+    circle at 10% 10%,
+    rgba(139, 92, 246, 0.12) 0%,
+    transparent 40%
+  );
   position: absolute;
   width: 100%;
   height: 100%;
@@ -178,7 +288,11 @@ html {
 }
 
 .dark .light-effect-5 {
-  background: radial-gradient(circle at 90% 90%, rgba(192, 132, 252, 0.1) 0%, transparent 40%);
+  background: radial-gradient(
+    circle at 90% 90%,
+    rgba(192, 132, 252, 0.1) 0%,
+    transparent 40%
+  );
   position: absolute;
   width: 100%;
   height: 100%;
@@ -208,7 +322,11 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle at center,
+    rgba(139, 92, 246, 0.1) 0%,
+    transparent 70%
+  );
   border-radius: 0.75rem;
   pointer-events: none;
   z-index: 0;
@@ -217,6 +335,10 @@ html {
 
 /* Efeito de brilho no gradiente dos cards */
 .dark .group:hover .card-gradient {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(192, 132, 252, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.2) 0%,
+    rgba(192, 132, 252, 0.1) 100%
+  );
   transition: all 0.3s ease;
 }

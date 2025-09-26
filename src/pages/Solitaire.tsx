@@ -4,6 +4,8 @@ import SEOHead from '../components/SEOHead';
 import SolitaireGame from '../components/SolitaireGame';
 
 const Solitaire: React.FC = () => {
+  console.log('🎮 Componente Solitaire carregado');
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100">
       <SEOHead

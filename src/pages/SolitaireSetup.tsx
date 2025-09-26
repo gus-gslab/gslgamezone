@@ -14,7 +14,6 @@ import SEOHead from '../components/SEOHead';
 interface SolitaireConfig {
   difficulty: 'easy' | 'medium' | 'hard';
   autoComplete: boolean;
-  hints: boolean;
   animations: boolean;
   sound: boolean;
   drawCount: 1 | 3;
@@ -30,9 +29,8 @@ const SolitaireSetup: React.FC = () => {
   const [config, setConfig] = useState<SolitaireConfig>({
     difficulty: 'medium',
     autoComplete: false,
-    hints: true,
     animations: true,
-    sound: false,
+    sound: true,
     drawCount: 3,
   });
 
@@ -61,20 +59,28 @@ const SolitaireSetup: React.FC = () => {
   ];
 
   const handleStartGame = () => {
+    console.log('🚀 Iniciando jogo com configuração:', config);
+
     // Salvar configurações no localStorage
     localStorage.setItem('solitaire-config', JSON.stringify(config));
+    console.log('💾 Configuração salva no localStorage');
 
-    // Navegar para o jogo
-    navigate('/solitaire');
+    // Teste: verificar se a navegação funciona
+    console.log('🧭 Navegando para /solitaire');
+    try {
+      navigate('/solitaire');
+      console.log('✅ Navegação executada com sucesso');
+    } catch (error) {
+      console.error('❌ Erro na navegação:', error);
+    }
   };
 
   const handleReset = () => {
     setConfig({
       difficulty: 'medium',
       autoComplete: false,
-      hints: true,
       animations: true,
-      sound: false,
+      sound: true,
       drawCount: 3,
     });
   };
@@ -239,30 +245,6 @@ const SolitaireSetup: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Hints */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-800">Hints</div>
-                    <div className="text-sm text-gray-500">
-                      Show possible moves
-                    </div>
-                  </div>
-                  <button
-                    onClick={() =>
-                      setConfig({ ...config, hints: !config.hints })
-                    }
-                    className={`w-12 h-6 rounded-full transition-all ${
-                      config.hints ? 'bg-purple-500' : 'bg-gray-300'
-                    }`}
-                  >
-                    <div
-                      className={`w-5 h-5 bg-white rounded-full transition-all ${
-                        config.hints ? 'translate-x-6' : 'translate-x-0.5'
-                      }`}
-                    />
-                  </button>
-                </div>
-
                 {/* Animations */}
                 <div className="flex items-center justify-between">
                   <div>
@@ -359,12 +341,6 @@ const SolitaireSetup: React.FC = () => {
                   <span className="text-sm text-gray-600">Auto-complete:</span>
                   <span className="font-medium">
                     {config.autoComplete ? 'On' : 'Off'}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Hints:</span>
-                  <span className="font-medium">
-                    {config.hints ? 'On' : 'Off'}
                   </span>
                 </div>
               </div>

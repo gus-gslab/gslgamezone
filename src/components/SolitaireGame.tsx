@@ -59,8 +59,147 @@ const SolitaireGame: React.FC = () => {
     foundations: number[];
   }>({ tableau: [], foundations: [] });
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showGameOver, setShowGameOver] = useState(false);
   const [isWon, setIsWon] = useState(false);
-  const [difficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  // Carregar zoom do localStorage
+  const loadCardZoom = () => {
+    try {
+      const savedZoom = localStorage.getItem('solitaire-card-zoom');
+      if (savedZoom && ['normal', 'large', 'xlarge'].includes(savedZoom)) {
+        return savedZoom as 'normal' | 'large' | 'xlarge';
+      }
+    } catch (error) {
+      console.error('Erro ao carregar zoom:', error);
+    }
+    return 'normal';
+  };
+
+  const [cardZoom, setCardZoom] = useState<'normal' | 'large' | 'xlarge'>(
+    loadCardZoom()
+  );
+
+  // Função para alternar zoom das cartas
+  const toggleCardZoom = () => {
+    const nextZoom =
+      cardZoom === 'normal'
+        ? 'large'
+        : cardZoom === 'large'
+        ? 'xlarge'
+        : 'normal';
+    setCardZoom(nextZoom);
+    localStorage.setItem('solitaire-card-zoom', nextZoom);
+  };
+
+  // Obter classes CSS baseadas no zoom
+  const getCardClasses = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 'w-20 h-28 sm:w-22 sm:h-32 md:w-24 md:h-36';
+      case 'xlarge':
+        return 'w-20 h-32 sm:w-24 sm:h-40 md:w-28 md:h-44';
+      default:
+        return 'w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28';
+    }
+  };
+
+  const getFoundationClasses = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 'w-20 h-28 sm:w-22 sm:h-32 md:w-24 md:h-36';
+      case 'xlarge':
+        return 'w-20 h-32 sm:w-24 sm:h-40 md:w-28 md:h-44';
+      default:
+        return 'w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28';
+    }
+  };
+
+  // Obter espaçamento proporcional baseado no zoom
+  const getCardSpacing = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 34; // 34px = 1.55x do normal (22px) - 20% maior
+      case 'xlarge':
+        return 44; // 44px = 2x do normal (22px)
+      default:
+        return 22; // 22px normal
+    }
+  };
+
+  // Obter sobreposição proporcional para fundações
+  const getFoundationOverlap = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 1.8; // 1.8px = 1.8x do normal (1px) - 20% maior
+      case 'xlarge':
+        return 3; // 3px = 3x do normal (1px)
+      default:
+        return 1; // 1px normal
+    }
+  };
+
+  // Obter largura das colunas proporcional ao zoom
+  const getColumnWidth = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 96; // 96px = largura da carta w-24 (96px) no desktop
+      case 'xlarge':
+        return 112; // 112px = largura da carta w-28 (112px) no desktop
+      default:
+        return 64; // 64px = largura da carta w-16 (64px) no tablet
+    }
+  };
+
+  // Obter gap entre colunas proporcional ao zoom
+  const getColumnGap = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 20; // 20px - gap proporcional
+      case 'xlarge':
+        return 24; // 24px - gap proporcional
+      default:
+        return 16; // 16px - gap proporcional
+    }
+  };
+
+  // Carregar dificuldade do localStorage
+  const loadDifficulty = () => {
+    try {
+      const savedConfig = localStorage.getItem('solitaire-config');
+      if (savedConfig) {
+        const parsedConfig = JSON.parse(savedConfig);
+        return parsedConfig.difficulty || 'medium';
+      }
+    } catch (error) {
+      console.error('Erro ao carregar dificuldade:', error);
+    }
+    return 'medium';
+  };
+
+  const [difficulty] = useState<'easy' | 'medium' | 'hard'>(loadDifficulty());
+
+  // Aplicar efeitos da dificuldade
+  const applyDifficultyEffects = () => {
+    switch (difficulty) {
+      case 'easy':
+        setGameState(prev => ({
+          ...prev,
+          recycles: Infinity, // Reciclagem infinita
+        }));
+        break;
+      case 'medium':
+        setGameState(prev => ({
+          ...prev,
+          recycles: 10, // 10 reciclagens
+        }));
+        break;
+      case 'hard':
+        setGameState(prev => ({
+          ...prev,
+          recycles: 5, // Máximo 5 reciclagens
+        }));
+        break;
+    }
+  };
 
   const [gameState, setGameState] = useState<GameState>({
     foundations: [
@@ -95,12 +234,19 @@ const SolitaireGame: React.FC = () => {
   // Timer
   useEffect(() => {
     const timer = setInterval(() => {
-      if (!isWon && !gameState.isWon) {
+      if (!isWon && !gameState.isWon && !showGameOver) {
         setGameState(prev => ({ ...prev, time: prev.time + 1 }));
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [isWon, gameState.isWon]);
+  }, [isWon, gameState.isWon, showGameOver]);
+
+  // Aplicar efeitos da dificuldade quando o jogo inicia
+  useEffect(() => {
+    if (gameState.isGameStarted) {
+      applyDifficultyEffects();
+    }
+  }, [gameState.isGameStarted, difficulty]);
 
   // Verificar vitória
   useEffect(() => {
@@ -267,6 +413,57 @@ const SolitaireGame: React.FC = () => {
     return card.suit === foundation.suit && card.value === topCard.value + 1;
   };
 
+  // Comprar cartas do stock
+  const drawFromStock = () => {
+    if (gameState.stock.length === 0) {
+      // Stock vazio - reciclar waste para stock
+      if (gameState.waste.length === 0) return;
+
+      // Verificar se ainda há recycles disponíveis
+      if (gameState.recycles <= 0) {
+        // Game Over apenas no modo Hard
+        if (difficulty === 'hard') {
+          setShowGameOver(true);
+        }
+        return;
+      }
+
+      // Reciclar waste para stock
+      setGameState(prev => ({
+        ...prev,
+        stock: [...prev.waste]
+          .reverse()
+          .map(card => ({ ...card, isFaceUp: false })),
+        waste: [],
+        recycles: prev.recycles - 1,
+        moves: prev.moves + 1,
+      }));
+      return;
+    }
+
+    // Comprar cartas do stock
+    const cardsToDraw = Math.min(
+      gameState.config.drawCount,
+      gameState.stock.length
+    );
+    const drawnCards = gameState.stock
+      .slice(0, cardsToDraw)
+      .map(card => ({ ...card, isFaceUp: true }));
+
+    setGameState(prev => ({
+      ...prev,
+      stock: prev.stock.slice(cardsToDraw),
+      waste: [...prev.waste, ...drawnCards],
+      moves: prev.moves + 1,
+    }));
+  };
+
+  // Função para reiniciar após Game Over
+  const handleGameOverRestart = () => {
+    setShowGameOver(false);
+    newGame();
+  };
+
   // Iniciar novo jogo
   const newGame = () => {
     const deck = shuffleDeck(createDeck());
@@ -323,20 +520,69 @@ const SolitaireGame: React.FC = () => {
       ? 'es'
       : 'en';
 
+    // Mapear dificuldade para texto localizado
+    const getDifficultyText = (diff: string, lang: string) => {
+      if (lang === 'pt') {
+        switch (diff) {
+          case 'easy':
+            return 'Fácil';
+          case 'medium':
+            return 'Médio';
+          case 'hard':
+            return 'Difícil';
+          default:
+            return 'Clássico';
+        }
+      } else if (lang === 'es') {
+        switch (diff) {
+          case 'easy':
+            return 'Fácil';
+          case 'medium':
+            return 'Medio';
+          case 'hard':
+            return 'Difícil';
+          default:
+            return 'Clásico';
+        }
+      } else {
+        switch (diff) {
+          case 'easy':
+            return 'Easy';
+          case 'medium':
+            return 'Medium';
+          case 'hard':
+            return 'Hard';
+          default:
+            return 'Classic';
+        }
+      }
+    };
+
     const gameResult = {
       gameType: 'solitaire',
+      gameName:
+        language === 'pt'
+          ? 'Solitaire'
+          : language === 'es'
+          ? 'Solitario'
+          : 'Solitaire',
       moves: gameState.moves,
-      time: formatTime(gameState.time), // Converter para string
+      time: formatTime(gameState.time),
       recycles: gameState.recycles,
-      difficulty: 'classic', // Solitaire sempre é clássico
-      language: language, // Idioma detectado do browser
-      score: gameState.moves, // Usar movimentos como score
-      totalTime: formatTime(gameState.time), // Converter para string
-      accuracy: 100, // Solitaire sempre é 100% se ganhou
-      wordsFound: 0, // Não aplicável ao Solitaire
-      totalWords: 0, // Não aplicável ao Solitaire
-      streak: 0, // Não aplicável ao Solitaire
-      category: 'card games',
+      difficulty: getDifficultyText(difficulty, language),
+      language: language,
+      score: gameState.moves,
+      totalTime: formatTime(gameState.time),
+      accuracy: 100,
+      wordsFound: 0,
+      totalWords: 0,
+      streak: 0,
+      category:
+        language === 'pt'
+          ? 'Jogos de Cartas'
+          : language === 'es'
+          ? 'Juegos de Cartas'
+          : 'Card Games',
       date: new Date().toISOString(),
     };
 
@@ -348,39 +594,6 @@ const SolitaireGame: React.FC = () => {
 
     // Usar a função de compartilhamento profissional
     shareGameResult(gameResult, trackShare);
-  };
-
-
-  // Comprar cartas do stock
-  const drawFromStock = () => {
-    if (gameState.stock.length === 0) {
-      if (gameState.waste.length > 0 && gameState.recycles > 0) {
-        // Reciclar waste para stock
-        setGameState(prev => ({
-          ...prev,
-          stock: prev.waste
-            .map(card => ({ ...card, isFaceUp: false }))
-            .reverse(),
-          waste: [],
-          recycles: prev.recycles - 1,
-        }));
-      return;
-    }
-
-    const cardsToDraw = Math.min(
-      gameState.config.drawCount,
-      gameState.stock.length
-    );
-    const drawnCards = gameState.stock
-      .slice(0, cardsToDraw)
-      .map(card => ({ ...card, isFaceUp: true }));
-
-    setGameState(prev => ({
-      ...prev,
-      stock: prev.stock.slice(cardsToDraw),
-      waste: [...prev.waste, ...drawnCards],
-      moves: prev.moves + 1,
-    }));
   };
 
   // Selecionar carta
@@ -771,6 +984,42 @@ const SolitaireGame: React.FC = () => {
     }
   };
 
+  // Obter tamanho do símbolo baseado no zoom
+  const getSymbolSize = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 'text-4xl'; // A+ - símbolos maiores
+      case 'xlarge':
+        return 'text-5xl'; // A++ - símbolos ainda maiores
+      default:
+        return 'text-3xl'; // A - tamanho normal
+    }
+  };
+
+  // Obter tamanho do símbolo pequeno nos cantos
+  const getSmallSymbolSize = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 'text-sm sm:text-lg'; // A+ - mesmo tamanho dos números
+      case 'xlarge':
+        return 'text-sm sm:text-lg'; // A++ - mesmo tamanho dos números
+      default:
+        return 'text-sm sm:text-lg'; // A - mesmo tamanho dos números
+    }
+  };
+
+  // Obter tamanho da borda baseado no zoom
+  const getBorderSize = () => {
+    switch (cardZoom) {
+      case 'large':
+        return 'border-4'; // A+ - borda mais grossa
+      case 'xlarge':
+        return 'border-4'; // A++ - borda mais grossa
+      default:
+        return 'border-2'; // A - borda normal
+    }
+  };
+
   // Obter cor da carta
   const getCardColor = (suit: string) => {
     return suit === 'hearts' || suit === 'diamonds'
@@ -792,33 +1041,6 @@ const SolitaireGame: React.FC = () => {
       console.log(`Column ${index}:`);
       validateTableauColumn(column as any);
     });
-  };
-
-  // Aplicar efeitos da dificuldade
-  const applyDifficultyEffects = () => {
-    switch (difficulty) {
-      case 'easy':
-        // Easy: Mais tempo, dicas mais frequentes
-        setGameState(prev => ({
-          ...prev,
-          recycles: Infinity, // Reciclagem infinita
-        }));
-        break;
-      case 'medium':
-        // Medium: Configuração padrão
-        setGameState(prev => ({
-          ...prev,
-          recycles: 3, // 3 reciclagens
-        }));
-        break;
-      case 'hard':
-        // Hard: Menos tempo, sem reciclagem
-        setGameState(prev => ({
-          ...prev,
-          recycles: 0, // Sem reciclagem
-        }));
-        break;
-    }
   };
 
   // Inicializar jogo
@@ -847,6 +1069,87 @@ const SolitaireGame: React.FC = () => {
         pageDescription="Play classic Klondike Solitaire online. Free solitaire card game."
         pageKeywords="solitaire, card game, klondike, free online game"
       />
+
+      {/* Modal Game Over */}
+      {showGameOver && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
+          >
+            <div className="text-6xl mb-4">😞</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Game Over!
+            </h2>
+            <p className="text-gray-600 mb-6">
+              {navigator.language?.startsWith('pt')
+                ? 'Você esgotou todas as reciclagens disponíveis. Tente novamente!'
+                : navigator.language?.startsWith('es')
+                ? '¡Has agotado todos los reciclajes disponibles. ¡Inténtalo de nuevo!'
+                : 'You have exhausted all available recycles. Try again!'}
+            </p>
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <div className="text-lg font-bold text-red-600">
+                    {gameState.moves}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Movimentos'
+                      : navigator.language?.startsWith('es')
+                      ? 'Movimientos'
+                      : 'Moves'}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-blue-600">
+                    {formatTime(gameState.time)}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Tempo'
+                      : navigator.language?.startsWith('es')
+                      ? 'Tiempo'
+                      : 'Time'}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <motion.button
+              onClick={handleGameOverRestart}
+              className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200 w-full"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="flex items-center justify-center gap-2">
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                {navigator.language?.startsWith('pt')
+                  ? 'Tentar Novamente'
+                  : navigator.language?.startsWith('es')
+                  ? 'Intentar de Nuevo'
+                  : 'Try Again'}
+              </span>
+            </motion.button>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Confetes na vitória */}
       {showConfetti && (
@@ -964,6 +1267,92 @@ const SolitaireGame: React.FC = () => {
         </motion.div>
       )}
 
+      {/* Modal de Game Over */}
+      {showGameOver && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        >
+          <motion.div
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-2xl p-8 max-w-md mx-4 text-center shadow-2xl"
+          >
+            <div className="text-6xl mb-4">😞</div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              {navigator.language?.startsWith('pt')
+                ? 'Fim de Jogo!'
+                : navigator.language?.startsWith('es')
+                ? '¡Fin del Juego!'
+                : 'Game Over!'}
+            </h2>
+            <p className="text-gray-600 mb-6">
+              {navigator.language?.startsWith('pt')
+                ? 'Você esgotou todas as reciclagens disponíveis. Tente novamente!'
+                : navigator.language?.startsWith('es')
+                ? '¡Has agotado todas las reciclajes disponibles. ¡Inténtalo de nuevo!'
+                : 'You have exhausted all available recycles. Try again!'}
+            </p>
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <div className="text-lg font-bold text-red-600">
+                    {gameState.moves}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Movimentos'
+                      : navigator.language?.startsWith('es')
+                      ? 'Movimientos'
+                      : 'Moves'}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-blue-600">
+                    {formatTime(gameState.time)}
+                  </div>
+                  <div className="text-xs text-gray-600">
+                    {navigator.language?.startsWith('pt')
+                      ? 'Tempo'
+                      : navigator.language?.startsWith('es')
+                      ? 'Tiempo'
+                      : 'Time'}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <motion.button
+                onClick={handleGameOverRestart}
+                className="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {navigator.language?.startsWith('pt')
+                    ? 'Tentar Novamente'
+                    : navigator.language?.startsWith('es')
+                    ? 'Intentar de Nuevo'
+                    : 'Try Again'}
+                </span>
+              </motion.button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
 
       {/* Sistema de Layout Responsivo Inteligente */}
       <style>{`
@@ -1360,19 +1749,53 @@ const SolitaireGame: React.FC = () => {
                   <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
                     Solitaire
                   </h1>
-                  <div className="text-white text-sm sm:text-base">
+                  <div className="text-white text-xs sm:text-sm">
                     Moves: {gameState.moves} | Time:{' '}
                     {formatTime(gameState.time)}
                   </div>
                 </div>
               </div>
 
-              <button
-                onClick={newGame}
-                className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
-              >
-                New Game
-              </button>
+              <div className="flex gap-2">
+                {/* Botão de Zoom */}
+                <motion.button
+                  onClick={toggleCardZoom}
+                  className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors text-sm flex items-center gap-1 mobile-hide-zoom"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  title={
+                    cardZoom === 'normal'
+                      ? 'Zoom Normal'
+                      : cardZoom === 'large'
+                      ? 'Zoom Grande'
+                      : 'Zoom Extra Grande'
+                  }
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {cardZoom === 'normal'
+                    ? 'A'
+                    : cardZoom === 'large'
+                    ? 'A+'
+                    : 'A++'}
+                </motion.button>
+
+                <button
+                  onClick={newGame}
+                  className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
+                >
+                  New Game
+                </button>
+              </div>
             </div>
           </motion.div>
 
@@ -1396,7 +1819,7 @@ const SolitaireGame: React.FC = () => {
                 {gameState.foundations.map((foundation, index) => (
                   <div
                     key={index}
-                    className={`w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-200 ${
+                    className={`${getFoundationClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-200 ${
                       validDropTargets.foundations.includes(index) ? '' : ''
                     }`}
                     onClick={() =>
@@ -1410,18 +1833,26 @@ const SolitaireGame: React.FC = () => {
                         {foundation.cards.map((card, cardIndex) => (
                           <div
                             key={card.id}
-                            className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200"
+                            className={`${getFoundationClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200`}
                             style={{
                               top:
                                 cardIndex > 0
-                                  ? `${-8 - cardIndex * 1}px`
+                                  ? `${
+                                      -8 - cardIndex * getFoundationOverlap()
+                                    }px`
                                   : '0px',
                               zIndex: cardIndex + 10,
                             }}
                           >
                             {/* Número no canto superior esquerdo */}
                             <div
-                              className="absolute top-1 left-1 font-bold text-sm sm:text-lg"
+                              className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                                cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'xlarge'
+                                  ? 'xlarge'
+                                  : ''
+                              }`}
                               style={{
                                 color:
                                   card.suit === 'hearts' ||
@@ -1435,7 +1866,15 @@ const SolitaireGame: React.FC = () => {
 
                             {/* Naipe no canto superior direito */}
                             <div
-                              className="absolute top-1 right-1 text-sm sm:text-lg"
+                              className={`absolute top-1 right-1 card-symbol-corner ${
+                                cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'xlarge'
+                                  ? 'xlarge'
+                                  : ''
+                              }`}
                               style={{
                                 color:
                                   card.suit === 'hearts' ||
@@ -1449,7 +1888,13 @@ const SolitaireGame: React.FC = () => {
 
                             {/* Símbolo do naipe grande no centro */}
                             <div
-                              className="text-3xl sm:text-5xl font-bold"
+                              className={`card-symbol-center ${
+                                cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'xlarge'
+                                  ? 'xlarge'
+                                  : ''
+                              }`}
                               style={{
                                 color:
                                   card.suit === 'hearts' ||
@@ -1463,7 +1908,13 @@ const SolitaireGame: React.FC = () => {
 
                             {/* Número invertido no canto inferior direito */}
                             <div
-                              className="absolute bottom-1 right-1 font-bold text-sm sm:text-lg transform rotate-180"
+                              className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                                cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'xlarge'
+                                  ? 'xlarge'
+                                  : ''
+                              } transform rotate-180`}
                               style={{
                                 color:
                                   card.suit === 'hearts' ||
@@ -1477,7 +1928,15 @@ const SolitaireGame: React.FC = () => {
 
                             {/* Naipe invertido no canto inferior esquerdo */}
                             <div
-                              className="absolute bottom-1 left-1 text-sm sm:text-lg transform rotate-180"
+                              className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                                cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'large'
+                                  ? 'large'
+                                  : cardZoom === 'xlarge'
+                                  ? 'xlarge'
+                                  : ''
+                              } transform rotate-180`}
                               style={{
                                 color:
                                   card.suit === 'hearts' ||
@@ -1493,7 +1952,9 @@ const SolitaireGame: React.FC = () => {
                       </div>
                     ) : (
                       <div
-                        className={`text-2xl ${getCardColor(foundation.suit)}`}
+                        className={`${getSymbolSize()} ${getCardColor(
+                          foundation.suit
+                        )}`}
                       >
                         {getCardSymbol(foundation.suit)}
                       </div>
@@ -1506,7 +1967,7 @@ const SolitaireGame: React.FC = () => {
               <div className="flex gap-4">
                 {/* Stock */}
                 <div
-                  className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center border-2 border-white"
+                  className={`${getCardClasses()} mobile-solitaire-cards rounded-lg cursor-pointer transition-all duration-200 flex items-center justify-center ${getBorderSize()} border-white`}
                   style={{
                     background: '#b91c1c',
                     backgroundImage: `
@@ -1525,7 +1986,7 @@ const SolitaireGame: React.FC = () => {
 
                 {/* Waste */}
                 <div
-                  className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200"
+                  className={`${getCardClasses()} mobile-solitaire-cards bg-green-900 rounded-lg flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200`}
                   onClick={() =>
                     gameState.waste.length > 0 &&
                     selectCard(
@@ -1552,10 +2013,18 @@ const SolitaireGame: React.FC = () => {
                   }
                 >
                   {gameState.waste.length > 0 ? (
-                    <div className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md border-2 border-gray-200">
+                    <div
+                      className={`${getCardClasses()} mobile-solitaire-cards bg-white rounded-lg flex flex-col items-center justify-center relative shadow-md ${getBorderSize()} border-gray-200`}
+                    >
                       {/* Número no canto superior esquerdo */}
                       <div
-                        className="absolute top-1 left-1 font-bold text-sm sm:text-lg"
+                        className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        }`}
                         style={{
                           color:
                             gameState.waste[gameState.waste.length - 1].suit ===
@@ -1607,7 +2076,13 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Número invertido no canto inferior direito */}
                       <div
-                        className="absolute bottom-1 right-1 font-bold text-sm sm:text-lg transform rotate-180"
+                        className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        } transform rotate-180`}
                         style={{
                           color:
                             gameState.waste[gameState.waste.length - 1].suit ===
@@ -1623,7 +2098,15 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Naipe invertido no canto inferior esquerdo */}
                       <div
-                        className="absolute bottom-1 left-1 text-sm sm:text-lg transform rotate-180"
+                        className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        } transform rotate-180`}
                         style={{
                           color:
                             gameState.waste[gameState.waste.length - 1].suit ===
@@ -1646,8 +2129,11 @@ const SolitaireGame: React.FC = () => {
 
             {/* Tableau */}
             <div
-              className="grid grid-cols-7 gap-0.5 mt-8 tableau-responsive justify-center flex-1 mobile-solitaire-tableau"
-              style={{ gridTemplateColumns: 'repeat(7, 60px)' }}
+              className="grid grid-cols-7 mt-8 justify-center flex-1 mobile-solitaire-tableau"
+              style={{
+                gridTemplateColumns: `repeat(7, ${getColumnWidth()}px)`,
+                gap: `${getColumnGap()}px`,
+              }}
             >
               {gameState.tableau.map((column, columnIndex) => (
                 <div
@@ -1662,7 +2148,7 @@ const SolitaireGame: React.FC = () => {
                   {column.faceDown.map((card, cardIndex) => (
                     <div
                       key={card.id}
-                      className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 border-2 border-white"
+                      className={`${getCardClasses()} mobile-solitaire-cards rounded-lg absolute cursor-pointer hover:shadow-xl transition-all duration-200 ${getBorderSize()} border-white`}
                       style={{
                         background: '#b91c1c',
                         backgroundImage: `
@@ -1671,7 +2157,7 @@ const SolitaireGame: React.FC = () => {
                         `,
                         boxShadow:
                           '0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)',
-                        top: `${cardIndex * 22}px`,
+                        top: `${cardIndex * getCardSpacing()}px`,
                         zIndex: cardIndex + 10,
                       }}
                     ></div>
@@ -1681,13 +2167,16 @@ const SolitaireGame: React.FC = () => {
                   {column.faceUp.map((card, cardIndex) => (
                     <div
                       key={card.id}
-                      className={`w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md border-2 border-gray-200 ${
+                      className={`${getCardClasses()} mobile-solitaire-cards rounded-lg flex flex-col items-center justify-center absolute cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-2xl bg-white shadow-md ${getBorderSize()} border-gray-200 ${
                         gameState.selectedCard?.id === card.id
                           ? 'card-selected'
                           : ''
                       }`}
                       style={{
-                        top: `${(column.faceDown.length + cardIndex) * 22}px`,
+                        top: `${
+                          (column.faceDown.length + cardIndex) *
+                          getCardSpacing()
+                        }px`,
                         zIndex: column.faceDown.length + cardIndex + 20,
                       }}
                       onClick={() => selectCard(card, 'tableau', columnIndex)}
@@ -1700,7 +2189,13 @@ const SolitaireGame: React.FC = () => {
                     >
                       {/* Número no canto superior esquerdo */}
                       <div
-                        className="absolute top-1 left-1 font-bold text-sm sm:text-lg"
+                        className={`absolute top-1 left-1 font-bold text-sm sm:text-lg card-rank ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        }`}
                         style={{
                           color:
                             card.suit === 'hearts' || card.suit === 'diamonds'
@@ -1713,7 +2208,15 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Naipe no canto superior direito */}
                       <div
-                        className="absolute top-1 right-1 text-sm sm:text-lg"
+                        className={`absolute top-1 right-1 card-symbol-corner ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        }`}
                         style={{
                           color:
                             card.suit === 'hearts' || card.suit === 'diamonds'
@@ -1726,7 +2229,13 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Símbolo do naipe grande no centro */}
                       <div
-                        className="text-3xl sm:text-5xl font-bold"
+                        className={`card-symbol-center ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        }`}
                         style={{
                           color:
                             card.suit === 'hearts' || card.suit === 'diamonds'
@@ -1739,7 +2248,13 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Número invertido no canto inferior direito */}
                       <div
-                        className="absolute bottom-1 right-1 font-bold text-sm sm:text-lg transform rotate-180"
+                        className={`absolute bottom-1 right-1 font-bold text-sm sm:text-lg card-rank ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        } transform rotate-180`}
                         style={{
                           color:
                             card.suit === 'hearts' || card.suit === 'diamonds'
@@ -1752,7 +2267,15 @@ const SolitaireGame: React.FC = () => {
 
                       {/* Naipe invertido no canto inferior esquerdo */}
                       <div
-                        className="absolute bottom-1 left-1 text-sm sm:text-lg transform rotate-180"
+                        className={`absolute bottom-1 left-1 card-symbol-bottom ${
+                          cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'large'
+                            ? 'large'
+                            : cardZoom === 'xlarge'
+                            ? 'xlarge'
+                            : ''
+                        } transform rotate-180`}
                         style={{
                           color:
                             card.suit === 'hearts' || card.suit === 'diamonds'
