@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Settings,
   Play,
@@ -21,6 +22,7 @@ interface SolitaireConfig {
 
 const SolitaireSetup: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleBackToHome = () => {
     navigate('/');
@@ -37,23 +39,23 @@ const SolitaireSetup: React.FC = () => {
   const difficulties = [
     {
       value: 'easy',
-      name: 'Easy',
+      name: t('solitaireSetup.difficulty.easy.name'),
       icon: '🟢',
-      description: 'More time, easier moves',
+      description: t('solitaireSetup.difficulty.easy.description'),
       color: 'from-green-400 to-green-600',
     },
     {
       value: 'medium',
-      name: 'Medium',
+      name: t('solitaireSetup.difficulty.medium.name'),
       icon: '🟡',
-      description: 'Balanced challenge',
+      description: t('solitaireSetup.difficulty.medium.description'),
       color: 'from-yellow-400 to-yellow-600',
     },
     {
       value: 'hard',
-      name: 'Hard',
+      name: t('solitaireSetup.difficulty.hard.name'),
       icon: '🔴',
-      description: 'Maximum challenge',
+      description: t('solitaireSetup.difficulty.hard.description'),
       color: 'from-red-400 to-red-600',
     },
   ];
@@ -88,9 +90,13 @@ const SolitaireSetup: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
       <SEOHead
-        pageTitle="Solitaire Setup | Configure Your Game | GSL Game Zone"
-        pageDescription="Configure your Solitaire game! Choose difficulty, settings and preferences. Customize your card game experience with GSL Game Zone."
-        pageKeywords="solitaire setup, card game configuration, solitaire settings, game customization, GSL Game Zone"
+        pageTitle={`${t('solitaireSetup.title')} | ${t(
+          'solitaireSetup.subtitle'
+        )} | GSL Game Zone`}
+        pageDescription={`${t(
+          'solitaireSetup.title'
+        )}! Escolha dificuldade, configurações e preferências. Personalize sua experiência de jogo de cartas com GSL Game Zone.`}
+        pageKeywords="configuração paciência, configuração jogo cartas, configurações paciência, personalização jogo, GSL Game Zone"
       />
 
       {/* Header */}
@@ -116,15 +122,19 @@ const SolitaireSetup: React.FC = () => {
               </div>
               <div>
                 <h1 className="text-lg font-bold text-gray-800">
-                  Solitaire Setup
+                  {t('solitaireSetup.title')}
                 </h1>
-                <p className="text-xs text-gray-500">Klondike Solitaire</p>
+                <p className="text-xs text-gray-500">
+                  {t('solitaireSetup.subtitle')}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <Target size={14} />
-                <span className="text-xs font-medium">Klondike Solitaire</span>
+                <span className="text-xs font-medium">
+                  {t('solitaireSetup.subtitle')}
+                </span>
               </div>
             </div>
           </div>
@@ -143,7 +153,7 @@ const SolitaireSetup: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Difficulty
+                {t('solitaireSetup.difficulty.title')}
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {difficulties.map(diff => (
@@ -182,13 +192,13 @@ const SolitaireSetup: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Game Settings
+                {t('solitaireSetup.gameSettings.title')}
               </h2>
               <div className="space-y-4">
                 {/* Draw Count */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cards to Draw
+                    {t('solitaireSetup.gameSettings.drawCount.label')}
                   </label>
                   <div className="flex gap-2">
                     <button
@@ -199,7 +209,7 @@ const SolitaireSetup: React.FC = () => {
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      1 Card
+                      {t('solitaireSetup.gameSettings.drawCount.one')}
                     </button>
                     <button
                       onClick={() => setConfig({ ...config, drawCount: 3 })}
@@ -209,7 +219,7 @@ const SolitaireSetup: React.FC = () => {
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      3 Cards
+                      {t('solitaireSetup.gameSettings.drawCount.three')}
                     </button>
                   </div>
                 </div>
@@ -218,10 +228,12 @@ const SolitaireSetup: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium text-gray-800">
-                      Auto-complete
+                      {t('solitaireSetup.gameSettings.autoComplete.label')}
                     </div>
                     <div className="text-sm text-gray-500">
-                      Automatically move cards to foundations
+                      {t(
+                        'solitaireSetup.gameSettings.autoComplete.description'
+                      )}
                     </div>
                   </div>
                   <button
@@ -248,9 +260,11 @@ const SolitaireSetup: React.FC = () => {
                 {/* Animations */}
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-medium text-gray-800">Animations</div>
+                    <div className="font-medium text-gray-800">
+                      {t('solitaireSetup.gameSettings.animations.label')}
+                    </div>
                     <div className="text-sm text-gray-500">
-                      Smooth card movements
+                      {t('solitaireSetup.gameSettings.animations.description')}
                     </div>
                   </div>
                   <button
@@ -273,10 +287,10 @@ const SolitaireSetup: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-medium text-gray-800">
-                      Sound Effects
+                      {t('solitaireSetup.gameSettings.sound.label')}
                     </div>
                     <div className="text-sm text-gray-500">
-                      Audio feedback for moves
+                      {t('solitaireSetup.gameSettings.sound.description')}
                     </div>
                   </div>
                   <button
@@ -315,11 +329,13 @@ const SolitaireSetup: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                Game Preview
+                {t('solitaireSetup.preview.title')}
               </h2>
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Difficulty:</span>
+                  <span className="text-sm text-gray-600">
+                    {t('solitaireSetup.preview.difficulty')}
+                  </span>
                   <span className="font-medium">
                     {
                       difficulties.find(d => d.value === config.difficulty)
@@ -332,15 +348,24 @@ const SolitaireSetup: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Draw Count:</span>
+                  <span className="text-sm text-gray-600">
+                    {t('solitaireSetup.preview.drawCount')}
+                  </span>
                   <span className="font-medium">
-                    {config.drawCount} Card{config.drawCount > 1 ? 's' : ''}
+                    {config.drawCount}{' '}
+                    {config.drawCount === 1
+                      ? t('solitaireSetup.gameSettings.drawCount.one')
+                      : t('solitaireSetup.gameSettings.drawCount.three')}
                   </span>
                 </div>
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-gray-600">Auto-complete:</span>
+                  <span className="text-sm text-gray-600">
+                    {t('solitaireSetup.preview.autoComplete')}
+                  </span>
                   <span className="font-medium">
-                    {config.autoComplete ? 'On' : 'Off'}
+                    {config.autoComplete
+                      ? t('solitaireSetup.preview.on')
+                      : t('solitaireSetup.preview.off')}
                   </span>
                 </div>
               </div>
@@ -354,9 +379,11 @@ const SolitaireSetup: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <div className="text-center text-white mb-4">
-                <h3 className="text-lg font-semibold mb-2">Ready to Play!</h3>
+                <h3 className="text-lg font-semibold mb-2">
+                  {t('solitaireSetup.actions.readyToPlay')}
+                </h3>
                 <p className="text-purple-100 text-sm">
-                  Start your Solitaire game with these settings
+                  {t('solitaireSetup.actions.description')}
                 </p>
               </div>
 
@@ -368,7 +395,7 @@ const SolitaireSetup: React.FC = () => {
               >
                 <div className="flex items-center justify-center gap-2">
                   <Play size={16} />
-                  Start Game
+                  {t('solitaireSetup.actions.startGame')}
                 </div>
               </motion.button>
             </motion.div>
@@ -385,11 +412,11 @@ const SolitaireSetup: React.FC = () => {
                 className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
               >
                 <RotateCcw size={16} />
-                Reset
+                {t('solitaireSetup.actions.reset')}
               </button>
               <button className="flex-1 px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors flex items-center justify-center gap-2">
                 <HelpCircle size={16} />
-                Help
+                {t('solitaireSetup.actions.help')}
               </button>
             </motion.div>
           </div>

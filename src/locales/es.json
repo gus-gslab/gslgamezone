@@ -3,9 +3,9 @@
     "title": "GSL Game Zone",
     "subtitle": "Juegos Educativos",
     "hero": {
-      "title": "Aprende de Forma",
-      "titleHighlight": "Divertida",
-      "description": "Nuestra colección de juegos educativos fue creada para hacer del aprendizaje una experiencia atractiva e interactiva para todas las edades.",
+      "title": "Juegos Educativos Gratuitos Online",
+      "titleHighlight": "Aprende Matemáticas, Lógica y Lenguaje Jugando",
+      "description": "Descubre una colección de juegos divertidos e interactivos diseñados para hacer el aprendizaje fácil y atractivo para niños, padres y maestros. Juega instantáneamente en escritorio o móvil.",
       "cta": "Comenzar a Jugar",
       "learnMore": "Saber Más"
     },
@@ -25,13 +25,6 @@
         "difficulty": "Fácil",
         "time": "5-15 min"
       },
-      "solitaire": {
-        "title": "Solitaire",
-        "description": "Juega el clásico juego de cartas",
-        "category": "Estrategia",
-        "difficulty": "Medio",
-        "time": "10-30 min"
-      },
       "memory": {
         "title": "Juego de Memoria",
         "description": "Encuentra pares de cartas iguales",
@@ -46,58 +39,15 @@
         "difficulty": "Difícil",
         "time": "15-45 min"
       },
+      "solitaire": {
+        "title": "Paciencia",
+        "description": "Juega el clásico juego de cartas",
+        "category": "Estrategia",
+        "difficulty": "Medio",
+        "time": "10-30 min"
+      },
       "comingSoon": "Próximamente",
       "playNow": "Jugar Ahora"
-    },
-    "solitaire": {
-      "title": "Solitaire",
-      "subtitle": "Juego de Cartas Clásico",
-      "gameName": "Klondike Solitaire",
-      "newGame": "Nuevo Juego",
-      "pause": "Pausar",
-      "resume": "Reanudar",
-      "hint": "Pista",
-      "autoComplete": "Auto-completar",
-      "moves": "Movimientos",
-      "time": "Tiempo",
-      "score": "Puntuación",
-      "foundations": "Fundaciones",
-      "tableau": "Tableau",
-      "stock": "Stock",
-      "waste": "Descartes",
-      "congratulations": "¡Felicitaciones!",
-      "youWon": "¡Ganaste el juego!",
-      "playAgain": "Jugar de Nuevo",
-      "settings": {
-        "title": "Configuración",
-        "difficulty": "Dificultad",
-        "easy": "Fácil",
-        "medium": "Medio",
-        "hard": "Difícil",
-        "autoComplete": "Auto-completar",
-        "hints": "Pistas",
-        "animations": "Animaciones",
-        "sound": "Sonido"
-      },
-      "stats": {
-        "title": "Estadísticas",
-        "gamesPlayed": "Juegos Jugados",
-        "gamesWon": "Juegos Ganados",
-        "bestTime": "Mejor Tiempo",
-        "totalMoves": "Total de Movimientos",
-        "averageMoves": "Promedio de Movimientos",
-        "winRate": "Tasa de Victoria"
-      },
-      "rules": {
-        "title": "Reglas del Juego",
-        "objective": "Objetivo: Organizar todas las cartas en las fundaciones por palo, del As al Rey.",
-        "howToPlay": "Cómo Jugar:",
-        "step1": "1. Haz clic en el stock para revelar cartas",
-        "step2": "2. Arrastra cartas para organizarlas",
-        "step3": "3. Organiza cartas en secuencia descendente y colores alternados",
-        "step4": "4. Mueve cartas a las fundaciones cuando sea posible",
-        "step5": "5. ¡Completa todas las fundaciones para ganar!"
-      }
     },
     "about": {
       "title": "¿Por qué Elegir Juegos Educativos Gratuitos en Línea?",
@@ -135,6 +85,146 @@
       "category": "Categoría",
       "difficulty": "Dificultad",
       "time": "Tiempo"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Preguntas Comunes",
+      "questions": {
+        "q1": {
+          "question": "¿Cuáles son los beneficios de los juegos educativos en línea para niños?",
+          "answer": "Los juegos educativos en línea ayudan a los niños a desarrollar habilidades cognitivas como memoria y concentración, además de construir resolución de problemas y pensamiento crítico. A diferencia de los métodos de estudio tradicionales, los juegos hacen que el aprendizaje sea interactivo y divertido, manteniendo a los niños motivados a practicar diariamente."
+        },
+        "q2": {
+          "question": "¿Son efectivos los juegos educativos gratuitos para aprender matemáticas y lógica?",
+          "answer": "Sí. Los juegos educativos gratuitos de matemáticas y lógica permiten a los niños practicar suma, resta, rompecabezas y habilidades de razonamiento de manera lúdica. Estas actividades fortalecen los conceptos del aula y ayudan a los estudiantes a aplicar lo que aprenden en situaciones reales."
+        },
+        "q3": {
+          "question": "¿Los juegos educativos mejoran el vocabulario y las habilidades de lenguaje?",
+          "answer": "Los juegos educativos que involucran palabras, ortografía y lectura alientan a los niños a expandir el vocabulario, mejorar la comprensión y desarrollar habilidades de comunicación. Proporcionan exposición repetida a nuevas palabras en un contexto divertido, lo que comprobadamente acelera el aprendizaje de idiomas."
+        },
+        "q4": {
+          "question": "¿Qué grupo de edad puede jugar juegos educativos en línea?",
+          "answer": "La mayoría de los juegos educativos están diseñados para niños desde preescolar hasta secundaria (edades 4 a 12), pero muchos títulos también son divertidos para adolescentes e incluso adultos. Los juegos pueden filtrarse por edad y nivel de habilidad, haciéndolos accesibles a estudiantes de todos los orígenes."
+        },
+        "q5": {
+          "question": "¿Son seguros los juegos educativos en línea para niños?",
+          "answer": "Sí. Los juegos educativos en nuestra plataforma son seguros, sin anuncios y no requieren descargas o registros. Los padres y maestros pueden dejar que los niños jueguen sabiendo que el ambiente es seguro, enfocado en el aprendizaje y libre de distracciones."
+        },
+        "q6": {
+          "question": "¿Cómo usan los maestros los juegos educativos en el aula?",
+          "answer": "Los maestros integran juegos educativos para revisar lecciones, fomentar el trabajo en equipo y mantener a los estudiantes comprometidos. Al combinar juegos interactivos con objetivos curriculares, los juegos ayudan a los estudiantes a retener conocimiento por más tiempo y disfrutar del proceso de aprendizaje. Muchos educadores los usan como actividades de calentamiento o alternativas para tareas."
+        }
+      }
+    }
+  },
+  "solitaire": {
+    "title": "Paciencia",
+    "subtitle": "Juego de Cartas Clásico",
+    "gameName": "Paciencia Klondike",
+    "newGame": "Nuevo Juego",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "hint": "Pista",
+    "autoComplete": "Auto-completar",
+    "moves": "Movimientos",
+    "time": "Tiempo",
+    "score": "Puntuación",
+    "foundations": "Fundaciones",
+    "tableau": "Tableau",
+    "stock": "Stock",
+    "waste": "Descartes",
+    "congratulations": "¡Felicitaciones!",
+    "youWon": "¡Ganaste el juego!",
+    "playAgain": "Jugar de Nuevo",
+    "gameOver": "¡Fin del Juego!",
+    "gameOverMessage": "¡Has agotado todas las reciclajes disponibles. ¡Inténtalo de nuevo!",
+    "tryAgain": "Intentar de Nuevo",
+    "shareResult": "Compartir Resultado",
+    "movesLabel": "Movimientos",
+    "timeLabel": "Tiempo",
+    "settings": {
+      "title": "Configuración",
+      "difficulty": "Dificultad",
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil",
+      "autoComplete": "Auto-completar",
+      "hints": "Pistas",
+      "animations": "Animaciones",
+      "sound": "Sonido"
+    },
+    "stats": {
+      "title": "Estadísticas",
+      "gamesPlayed": "Juegos Jugados",
+      "gamesWon": "Juegos Ganados",
+      "bestTime": "Mejor Tiempo",
+      "totalMoves": "Total de Movimientos",
+      "averageMoves": "Promedio de Movimientos",
+      "winRate": "Tasa de Victoria"
+    },
+    "rules": {
+      "title": "Reglas del Juego",
+      "objective": "Objetivo: Organizar todas las cartas en las fundaciones por palo, del As al Rey.",
+      "howToPlay": "Cómo Jugar:",
+      "step1": "1. Haz clic en el stock para revelar cartas",
+      "step2": "2. Arrastra cartas para organizarlas",
+      "step3": "3. Organiza cartas en secuencia descendente y colores alternados",
+      "step4": "4. Mueve cartas a las fundaciones cuando sea posible",
+      "step5": "5. ¡Completa todas las fundaciones para ganar!"
+    }
+  },
+  "solitaireSetup": {
+    "title": "Configuración de Paciencia",
+    "subtitle": "Paciencia Klondike",
+    "difficulty": {
+      "title": "Dificultad",
+      "easy": {
+        "name": "Fácil",
+        "description": "Más tiempo, movimientos más fáciles"
+      },
+      "medium": {
+        "name": "Medio",
+        "description": "Desafío equilibrado"
+      },
+      "hard": {
+        "name": "Difícil",
+        "description": "Máximo desafío"
+      }
+    },
+    "gameSettings": {
+      "title": "Configuración del Juego",
+      "drawCount": {
+        "label": "Cartas para Comprar",
+        "one": "1 Carta",
+        "three": "3 Cartas"
+      },
+      "autoComplete": {
+        "label": "Auto-completar",
+        "description": "Mover cartas automáticamente a las fundaciones"
+      },
+      "animations": {
+        "label": "Animaciones",
+        "description": "Movimientos suaves de las cartas"
+      },
+      "sound": {
+        "label": "Efectos de Sonido",
+        "description": "Retroalimentación de audio para movimientos"
+      }
+    },
+    "preview": {
+      "title": "Vista Previa del Juego",
+      "difficulty": "Dificultad:",
+      "drawCount": "Cartas para Comprar:",
+      "autoComplete": "Auto-completar:",
+      "on": "Encendido",
+      "off": "Apagado"
+    },
+    "actions": {
+      "readyToPlay": "¡Listo para Jugar!",
+      "description": "Inicia tu juego de Paciencia con estas configuraciones",
+      "startGame": "Iniciar Juego",
+      "reset": "Restablecer",
+      "help": "Ayuda"
     }
   },
   "gameSetup": {

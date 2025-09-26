@@ -10,14 +10,14 @@ import es from './locales/es.json';
 const resources = {
   pt: { translation: pt },
   en: { translation: en },
-  es: { translation: es }
+  es: { translation: es },
 };
 
-// Função para detectar idioma do navegador e mapear para idiomas suportados
+// Função para detectar idioma do navegador
 const detectBrowserLanguage = () => {
   const browserLang = navigator.language || navigator.languages?.[0] || 'en';
   const langCode = browserLang.split('-')[0]; // Pegar apenas o código do idioma (ex: 'pt' de 'pt-BR')
-  
+
   // Mapear para idiomas suportados
   const supportedLanguages = ['pt', 'en', 'es'];
   return supportedLanguages.includes(langCode) ? langCode : 'en'; // Default para inglês se não suportado
@@ -28,20 +28,16 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: detectBrowserLanguage(), // Forçar detecção automática
+    lng: detectBrowserLanguage(),
     fallbackLng: 'en',
-    debug: false,
-    
+    debug: true,
     detection: {
-      // Priorizar detecção do navegador
       order: ['navigator', 'htmlTag'],
-      caches: [], // Não cachear para sempre detectar o idioma do navegador
+      caches: [],
     },
-
     interpolation: {
       escapeValue: false,
     },
-
     react: {
       useSuspense: false,
     },

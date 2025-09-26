@@ -3,9 +3,9 @@
     "title": "GSL Game Zone",
     "subtitle": "Educational Games",
     "hero": {
-      "title": "Learn in a",
-      "titleHighlight": "Fun Way",
-      "description": "Our collection of educational games was created to make learning an engaging and interactive experience for all ages.",
+      "title": "Free Educational Games Online",
+      "titleHighlight": "Learn Math, Logic & Language by Playing",
+      "description": "Discover a collection of fun and interactive games designed to make learning easy and engaging for kids, parents, and teachers. Play instantly on desktop or mobile.",
       "cta": "Start Playing",
       "learnMore": "Learn More"
     },
@@ -25,13 +25,6 @@
         "difficulty": "Easy",
         "time": "5-15 min"
       },
-      "solitaire": {
-        "title": "Solitaire",
-        "description": "Play the classic card game",
-        "category": "Strategy",
-        "difficulty": "Medium",
-        "time": "10-30 min"
-      },
       "memory": {
         "title": "Memory Game",
         "description": "Find matching card pairs",
@@ -46,58 +39,15 @@
         "difficulty": "Hard",
         "time": "15-45 min"
       },
+      "solitaire": {
+        "title": "Solitaire",
+        "description": "Play the classic card game",
+        "category": "Strategy",
+        "difficulty": "Medium",
+        "time": "10-30 min"
+      },
       "comingSoon": "Coming Soon",
       "playNow": "Play Now"
-    },
-    "solitaire": {
-      "title": "Solitaire",
-      "subtitle": "Classic Card Game",
-      "gameName": "Klondike Solitaire",
-      "newGame": "New Game",
-      "pause": "Pause",
-      "resume": "Resume",
-      "hint": "Hint",
-      "autoComplete": "Auto-complete",
-      "moves": "Moves",
-      "time": "Time",
-      "score": "Score",
-      "foundations": "Foundations",
-      "tableau": "Tableau",
-      "stock": "Stock",
-      "waste": "Waste",
-      "congratulations": "Congratulations!",
-      "youWon": "You won the game!",
-      "playAgain": "Play Again",
-      "settings": {
-        "title": "Settings",
-        "difficulty": "Difficulty",
-        "easy": "Easy",
-        "medium": "Medium",
-        "hard": "Hard",
-        "autoComplete": "Auto-complete",
-        "hints": "Hints",
-        "animations": "Animations",
-        "sound": "Sound"
-      },
-      "stats": {
-        "title": "Statistics",
-        "gamesPlayed": "Games Played",
-        "gamesWon": "Games Won",
-        "bestTime": "Best Time",
-        "totalMoves": "Total Moves",
-        "averageMoves": "Average Moves",
-        "winRate": "Win Rate"
-      },
-      "rules": {
-        "title": "Game Rules",
-        "objective": "Objective: Organize all cards in the foundations by suit, from Ace to King.",
-        "howToPlay": "How to Play:",
-        "step1": "1. Click the stock to reveal cards",
-        "step2": "2. Drag cards to organize them",
-        "step3": "3. Organize cards in descending sequence and alternating colors",
-        "step4": "4. Move cards to foundations when possible",
-        "step5": "5. Complete all foundations to win!"
-      }
     },
     "about": {
       "title": "Why Choose Free Educational Games Online?",
@@ -135,6 +85,146 @@
       "category": "Category",
       "difficulty": "Difficulty",
       "time": "Time"
+    },
+    "faq": {
+      "title": "FAQ",
+      "subtitle": "Frequently Asked Questions",
+      "questions": {
+        "q1": {
+          "question": "What are the benefits of online educational games for kids?",
+          "answer": "Online educational games help children develop cognitive skills like memory and focus, while also building problem-solving and critical thinking. Unlike traditional study methods, games make learning interactive and fun, keeping kids motivated to practice daily."
+        },
+        "q2": {
+          "question": "Are free educational games effective for learning math and logic?",
+          "answer": "Yes. Free educational math and logic games allow children to practice addition, subtraction, puzzles, and reasoning skills in a playful way. These activities strengthen classroom concepts and help students apply what they learn in real situations."
+        },
+        "q3": {
+          "question": "Do educational games improve vocabulary and language skills?",
+          "answer": "Educational games that involve words, spelling, and reading encourage kids to expand vocabulary, improve comprehension, and develop communication skills. They provide repeated exposure to new words in a fun context, which is proven to accelerate language learning."
+        },
+        "q4": {
+          "question": "What age group can play educational games online?",
+          "answer": "Most educational games are designed for kids from preschool to middle school (ages 4 to 12), but many titles are also fun for teenagers and even adults. Games can be filtered by age and skill level, making them accessible to learners of all backgrounds."
+        },
+        "q5": {
+          "question": "Are online educational games safe for kids?",
+          "answer": "Yes. The educational games on our platform are safe, ad-free, and require no downloads or sign-ups. Parents and teachers can let children play knowing the environment is secure, focused on learning, and free of distractions."
+        },
+        "q6": {
+          "question": "How do teachers use educational games in the classroom?",
+          "answer": "Teachers integrate educational games to review lessons, encourage teamwork, and keep students engaged. By combining interactive play with curriculum goals, games help students retain knowledge longer and enjoy the learning process. Many educators use them as warm-up activities or homework alternatives."
+        }
+      }
+    }
+  },
+  "solitaire": {
+    "title": "Solitaire",
+    "subtitle": "Classic Card Game",
+    "gameName": "Klondike Solitaire",
+    "newGame": "New Game",
+    "pause": "Pause",
+    "resume": "Resume",
+    "hint": "Hint",
+    "autoComplete": "Auto-complete",
+    "moves": "Moves",
+    "time": "Time",
+    "score": "Score",
+    "foundations": "Foundations",
+    "tableau": "Tableau",
+    "stock": "Stock",
+    "waste": "Waste",
+    "congratulations": "Congratulations!",
+    "youWon": "You won the game!",
+    "playAgain": "Play Again",
+    "gameOver": "Game Over!",
+    "gameOverMessage": "You have exhausted all available recycles. Try again!",
+    "tryAgain": "Try Again",
+    "shareResult": "Share Result",
+    "movesLabel": "Moves",
+    "timeLabel": "Time",
+    "settings": {
+      "title": "Settings",
+      "difficulty": "Difficulty",
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "autoComplete": "Auto-complete",
+      "hints": "Hints",
+      "animations": "Animations",
+      "sound": "Sound"
+    },
+    "stats": {
+      "title": "Statistics",
+      "gamesPlayed": "Games Played",
+      "gamesWon": "Games Won",
+      "bestTime": "Best Time",
+      "totalMoves": "Total Moves",
+      "averageMoves": "Average Moves",
+      "winRate": "Win Rate"
+    },
+    "rules": {
+      "title": "Game Rules",
+      "objective": "Objective: Organize all cards in the foundations by suit, from Ace to King.",
+      "howToPlay": "How to Play:",
+      "step1": "1. Click the stock to reveal cards",
+      "step2": "2. Drag cards to organize them",
+      "step3": "3. Organize cards in descending sequence and alternating colors",
+      "step4": "4. Move cards to foundations when possible",
+      "step5": "5. Complete all foundations to win!"
+    }
+  },
+  "solitaireSetup": {
+    "title": "Solitaire Setup",
+    "subtitle": "Klondike Solitaire",
+    "difficulty": {
+      "title": "Difficulty",
+      "easy": {
+        "name": "Easy",
+        "description": "More time, easier moves"
+      },
+      "medium": {
+        "name": "Medium",
+        "description": "Balanced challenge"
+      },
+      "hard": {
+        "name": "Hard",
+        "description": "Maximum challenge"
+      }
+    },
+    "gameSettings": {
+      "title": "Game Settings",
+      "drawCount": {
+        "label": "Cards to Draw",
+        "one": "1 Card",
+        "three": "3 Cards"
+      },
+      "autoComplete": {
+        "label": "Auto-complete",
+        "description": "Automatically move cards to foundations"
+      },
+      "animations": {
+        "label": "Animations",
+        "description": "Smooth card movements"
+      },
+      "sound": {
+        "label": "Sound Effects",
+        "description": "Audio feedback for movements"
+      }
+    },
+    "preview": {
+      "title": "Game Preview",
+      "difficulty": "Difficulty:",
+      "drawCount": "Cards to Draw:",
+      "autoComplete": "Auto-complete:",
+      "on": "On",
+      "off": "Off"
+    },
+    "actions": {
+      "readyToPlay": "Ready to Play!",
+      "description": "Start your Solitaire game with these settings",
+      "startGame": "Start Game",
+      "reset": "Reset",
+      "help": "Help"
     }
   },
   "gameSetup": {

@@ -286,7 +286,7 @@ const Home: React.FC = () => {
       </motion.header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-48 px-4 sm:px-6 lg:px-8 light-content">
+      <section className="pt-40 pb-64 px-4 sm:px-6 lg:px-8 light-content">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -294,13 +294,13 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-dark-text mb-6">
-              Free Educational Games Online. Learn Math, Logic & Language by
-              Playing
+              {t('home.hero.title')}{' '}
+              <span className="text-blue-600 dark:text-blue-400">
+                {t('home.hero.titleHighlight')}
+              </span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-dark-textSecondary mb-8 max-w-3xl mx-auto">
-              Discover a collection of fun and interactive games designed to
-              make learning easy and engaging for kids, parents, and teachers.
-              Play instantly on desktop or mobile
+              {t('home.hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -560,10 +560,10 @@ const Home: React.FC = () => {
               className="text-center mb-16"
             >
               <h4 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
-                FAQ
+                {t('home.faq.title')}
               </h4>
               <p className="text-lg text-gray-600 dark:text-dark-textSecondary">
-                Frequently Asked Questions
+                {t('home.faq.subtitle')}
               </p>
             </motion.div>
 
@@ -578,43 +578,28 @@ const Home: React.FC = () => {
               >
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    1. What are the benefits of online educational games for
-                    kids?
+                    {t('home.faq.questions.q1.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Online educational games help children develop cognitive
-                    skills like memory and focus, while also building
-                    problem-solving and critical thinking. Unlike traditional
-                    study methods, games make learning interactive and fun,
-                    keeping kids motivated to practice daily.
+                    {t('home.faq.questions.q1.answer')}
                   </p>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    2. Are free educational games effective for learning math
-                    and logic?
+                    {t('home.faq.questions.q2.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Yes. Free educational math and logic games allow children to
-                    practice addition, subtraction, puzzles, and reasoning
-                    skills in a playful way. These activities strengthen
-                    classroom concepts and help students apply what they learn
-                    in real situations.
+                    {t('home.faq.questions.q2.answer')}
                   </p>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    3. Do educational games improve vocabulary and language
-                    skills?
+                    {t('home.faq.questions.q3.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Educational games that involve words, spelling, and reading
-                    encourage kids to expand vocabulary, improve comprehension,
-                    and develop communication skills. They provide repeated
-                    exposure to new words in a fun context, which is proven to
-                    accelerate language learning.
+                    {t('home.faq.questions.q3.answer')}
                   </p>
                 </div>
               </motion.div>
@@ -629,40 +614,28 @@ const Home: React.FC = () => {
               >
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    4. What age group can play educational games online?
+                    {t('home.faq.questions.q4.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Most educational games are designed for kids from preschool
-                    to middle school (ages 4 to 12), but many titles are also
-                    fun for teenagers and even adults. Games can be filtered by
-                    age and skill level, making them accessible to learners of
-                    all backgrounds.
+                    {t('home.faq.questions.q4.answer')}
                   </p>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    5. Are online educational games safe for kids?
+                    {t('home.faq.questions.q5.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Yes. The educational games on our platform are safe,
-                    ad-free, and require no downloads or sign-ups. Parents and
-                    teachers can let children play knowing the environment is
-                    secure, focused on learning, and free of distractions.
+                    {t('home.faq.questions.q5.answer')}
                   </p>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-dark-border rounded-lg p-6 faq-card">
                   <h5 className="text-lg font-semibold text-gray-900 dark:text-dark-text mb-3">
-                    6. How do teachers use educational games in the classroom?
+                    {t('home.faq.questions.q6.question')}
                   </h5>
                   <p className="text-gray-600 dark:text-dark-textSecondary">
-                    Teachers integrate educational games to review lessons,
-                    encourage teamwork, and keep students engaged. By combining
-                    interactive play with curriculum goals, games help students
-                    retain knowledge longer and enjoy the learning process. Many
-                    educators use them as warm-up activities or homework
-                    alternatives.
+                    {t('home.faq.questions.q6.answer')}
                   </p>
                 </div>
               </motion.div>

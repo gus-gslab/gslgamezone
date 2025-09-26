@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Confetti from 'react-confetti';
 import { ArrowLeft } from 'lucide-react';
 import SEOHead from './SEOHead';
@@ -52,6 +53,7 @@ interface GameState {
 
 const SolitaireGame: React.FC = () => {
   const navigate = useNavigate();
+  const { t, i18n, ready } = useTranslation();
 
   // Estado para validação dinâmica
   const [validDropTargets, setValidDropTargets] = useState<{
@@ -1053,8 +1055,10 @@ const SolitaireGame: React.FC = () => {
   return (
     <>
       <SEOHead
-        pageTitle="Solitaire - GSL Game Zone"
-        pageDescription="Play classic Klondike Solitaire online. Free solitaire card game."
+        pageTitle={`${t('solitaire.title')} - GSL Game Zone`}
+        pageDescription={`${t(
+          'solitaire.subtitle'
+        )} - Play classic Klondike Solitaire online. Free solitaire card game.`}
         pageKeywords="solitaire, card game, klondike, free online game"
       />
 
@@ -1073,14 +1077,10 @@ const SolitaireGame: React.FC = () => {
           >
             <div className="text-6xl mb-4">😞</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              Game Over!
+              {t('solitaire.gameOver')}
             </h2>
             <p className="text-gray-600 mb-6">
-              {navigator.language?.startsWith('pt')
-                ? 'Você esgotou todas as reciclagens disponíveis. Tente novamente!'
-                : navigator.language?.startsWith('es')
-                ? '¡Has agotado todos los reciclajes disponibles. ¡Inténtalo de nuevo!'
-                : 'You have exhausted all available recycles. Try again!'}
+              {t('solitaire.gameOverMessage')}
             </p>
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="grid grid-cols-2 gap-4 text-center">
@@ -1089,11 +1089,7 @@ const SolitaireGame: React.FC = () => {
                     {gameState.moves}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Movimentos'
-                      : navigator.language?.startsWith('es')
-                      ? 'Movimientos'
-                      : 'Moves'}
+                    {t('solitaire.movesLabel')}
                   </div>
                 </div>
                 <div>
@@ -1101,11 +1097,7 @@ const SolitaireGame: React.FC = () => {
                     {formatTime(gameState.time)}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Tempo'
-                      : navigator.language?.startsWith('es')
-                      ? 'Tiempo'
-                      : 'Time'}
+                    {t('solitaire.timeLabel')}
                   </div>
                 </div>
               </div>
@@ -1128,11 +1120,7 @@ const SolitaireGame: React.FC = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                {navigator.language?.startsWith('pt')
-                  ? 'Tentar Novamente'
-                  : navigator.language?.startsWith('es')
-                  ? 'Intentar de Nuevo'
-                  : 'Try Again'}
+                {t('solitaire.tryAgain')}
               </span>
             </motion.button>
           </motion.div>
@@ -1167,11 +1155,7 @@ const SolitaireGame: React.FC = () => {
           >
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              {navigator.language?.startsWith('pt')
-                ? 'Parabéns!'
-                : navigator.language?.startsWith('es')
-                ? '¡Felicidades!'
-                : 'Congratulations!'}
+              {t('solitaire.congratulations')}
             </h2>
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="grid grid-cols-2 gap-4 text-center">
@@ -1180,11 +1164,7 @@ const SolitaireGame: React.FC = () => {
                     {gameState.moves}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Movimentos'
-                      : navigator.language?.startsWith('es')
-                      ? 'Movimientos'
-                      : 'Moves'}
+                    {t('solitaire.movesLabel')}
                   </div>
                 </div>
                 <div>
@@ -1192,11 +1172,7 @@ const SolitaireGame: React.FC = () => {
                     {formatTime(gameState.time)}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Tempo'
-                      : navigator.language?.startsWith('es')
-                      ? 'Tiempo'
-                      : 'Time'}
+                    {t('solitaire.timeLabel')}
                   </div>
                 </div>
               </div>
@@ -1217,11 +1193,7 @@ const SolitaireGame: React.FC = () => {
                   >
                     <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
                   </svg>
-                  {navigator.language?.startsWith('pt')
-                    ? 'Compartilhar Resultado'
-                    : navigator.language?.startsWith('es')
-                    ? 'Compartir Resultado'
-                    : 'Share Result'}
+                  {t('solitaire.shareResult')}
                 </span>
               </motion.button>
 
@@ -1243,11 +1215,7 @@ const SolitaireGame: React.FC = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  {navigator.language?.startsWith('pt')
-                    ? 'Novo Jogo'
-                    : navigator.language?.startsWith('es')
-                    ? 'Nuevo Juego'
-                    : 'New Game'}
+                  {t('solitaire.newGame')}
                 </span>
               </motion.button>
             </div>
@@ -1270,18 +1238,10 @@ const SolitaireGame: React.FC = () => {
           >
             <div className="text-6xl mb-4">😞</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
-              {navigator.language?.startsWith('pt')
-                ? 'Fim de Jogo!'
-                : navigator.language?.startsWith('es')
-                ? '¡Fin del Juego!'
-                : 'Game Over!'}
+              {t('solitaire.gameOver')}
             </h2>
             <p className="text-gray-600 mb-6">
-              {navigator.language?.startsWith('pt')
-                ? 'Você esgotou todas as reciclagens disponíveis. Tente novamente!'
-                : navigator.language?.startsWith('es')
-                ? '¡Has agotado todas las reciclajes disponibles. ¡Inténtalo de nuevo!'
-                : 'You have exhausted all available recycles. Try again!'}
+              {t('solitaire.gameOverMessage')}
             </p>
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="grid grid-cols-2 gap-4 text-center">
@@ -1290,11 +1250,7 @@ const SolitaireGame: React.FC = () => {
                     {gameState.moves}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Movimentos'
-                      : navigator.language?.startsWith('es')
-                      ? 'Movimientos'
-                      : 'Moves'}
+                    {t('solitaire.movesLabel')}
                   </div>
                 </div>
                 <div>
@@ -1302,11 +1258,7 @@ const SolitaireGame: React.FC = () => {
                     {formatTime(gameState.time)}
                   </div>
                   <div className="text-xs text-gray-600">
-                    {navigator.language?.startsWith('pt')
-                      ? 'Tempo'
-                      : navigator.language?.startsWith('es')
-                      ? 'Tiempo'
-                      : 'Time'}
+                    {t('solitaire.timeLabel')}
                   </div>
                 </div>
               </div>
@@ -1330,11 +1282,7 @@ const SolitaireGame: React.FC = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  {navigator.language?.startsWith('pt')
-                    ? 'Tentar Novamente'
-                    : navigator.language?.startsWith('es')
-                    ? 'Intentar de Nuevo'
-                    : 'Try Again'}
+                  {t('solitaire.tryAgain')}
                 </span>
               </motion.button>
             </div>
@@ -1735,11 +1683,11 @@ const SolitaireGame: React.FC = () => {
                 </motion.button>
                 <div className="flex flex-col gap-0.5">
                   <h1 className="text-white text-lg sm:text-xl md:text-2xl font-bold">
-                    Solitaire
+                    {t('solitaire.title')}
                   </h1>
                   <div className="text-white text-xs sm:text-sm">
-                    Moves: {gameState.moves} | Time:{' '}
-                    {formatTime(gameState.time)}
+                    {t('solitaire.movesLabel')}: {gameState.moves} |{' '}
+                    {t('solitaire.timeLabel')}: {formatTime(gameState.time)}
                   </div>
                 </div>
               </div>
@@ -1781,7 +1729,7 @@ const SolitaireGame: React.FC = () => {
                   onClick={newGame}
                   className="px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors text-sm"
                 >
-                  New Game
+                  {t('solitaire.newGame')}
                 </button>
               </div>
             </div>
@@ -1826,9 +1774,10 @@ const SolitaireGame: React.FC = () => {
                               top:
                                 cardIndex > 0
                                   ? `${
-                                      -8 - cardIndex * getFoundationOverlap()
+                                      -2 - cardIndex * getFoundationOverlap()
                                     }px`
-                                  : '0px',
+                                  : '-2px',
+                              left: '-2px',
                               zIndex: cardIndex + 10,
                             }}
                           >
@@ -2270,7 +2219,7 @@ const SolitaireGame: React.FC = () => {
                   {column.faceUp.length === 0 &&
                     column.faceDown.length === 0 && (
                       <div
-                        className="w-14 h-20 sm:w-16 sm:h-24 md:w-18 md:h-28 rounded-lg cursor-pointer bg-green-900 hover:bg-green-800 transition-all duration-200"
+                        className={`${getCardClasses()} rounded-lg cursor-pointer bg-green-900 hover:bg-green-800 transition-all duration-200`}
                         onClick={() =>
                           gameState.selectedCard && moveToTableau(columnIndex)
                         }
