@@ -996,7 +996,6 @@ const SolitaireGame: React.FC = () => {
     }
   };
 
-
   // Obter tamanho da borda baseado no zoom
   const getBorderSize = () => {
     switch (cardZoom) {
@@ -1727,7 +1726,7 @@ const SolitaireGame: React.FC = () => {
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-2 sm:gap-3">
                 <motion.button
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate('/solitaire-setup')}
                   className="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
