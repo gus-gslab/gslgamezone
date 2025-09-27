@@ -1,83 +1,72 @@
-// Force reload script to ensure users get the latest version
+// Force reload script - AGGRESSIVE NO-CACHE VERSION
 (function() {
   'use strict';
   
-  // Version tracking
-  const CURRENT_VERSION = Date.now().toString();
-  const VERSION_KEY = 'gsl-gamezone-version';
+  console.log('GSL Game Zone: Force reload script loaded');
   
-  // Check if this is a new version
-  const storedVersion = localStorage.getItem(VERSION_KEY);
-  
-  if (storedVersion && storedVersion !== CURRENT_VERSION) {
-    console.log('New version detected, clearing cache and reloading...');
-    
-    // Clear all caches
-    if ('caches' in window) {
-      caches.keys().then(function(cacheNames) {
-        return Promise.all(
-          cacheNames.map(function(cacheName) {
-            return caches.delete(cacheName);
-          })
-        );
-      });
-    }
-    
-    // Clear localStorage (except for important data)
-    const keysToKeep = ['theme', 'language', 'stats'];
-    const importantData = {};
-    keysToKeep.forEach(key => {
-      const value = localStorage.getItem(key);
-      if (value) importantData[key] = value;
+  // Clear ALL caches immediately
+  if ('caches' in window) {
+    caches.keys().then(function(cacheNames) {
+      console.log('Clearing all caches:', cacheNames);
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          return caches.delete(cacheName);
+        })
+      );
+    }).then(() => {
+      console.log('All caches cleared');
     });
-    
-    localStorage.clear();
-    
-    // Restore important data
-    Object.keys(importantData).forEach(key => {
-      localStorage.setItem(key, importantData[key]);
-    });
-    
-    // Update version
-    localStorage.setItem(VERSION_KEY, CURRENT_VERSION);
-    
-    // Force reload
-    window.location.reload(true);
-  } else {
-    // First visit or same version
-    localStorage.setItem(VERSION_KEY, CURRENT_VERSION);
   }
   
-  // Periodic check for updates (every 5 minutes)
+  // Clear browser cache by reloading with cache-busting
+  const addCacheBuster = function() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('_t', Date.now().toString());
+    if (url.searchParams.get('_t') !== window.location.search) {
+      window.location.href = url.toString();
+    }
+  };
+  
+  // Check for updates every 2 minutes (more frequent)
   setInterval(function() {
-    // Check if there's a new version by making a HEAD request to the main page
+    console.log('Checking for updates...');
+    
+    // Force reload with cache busting
     fetch(window.location.href, { 
       method: 'HEAD',
       cache: 'no-cache',
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache'
+        'Pragma': 'no-cache',
+        'If-Modified-Since': 'Thu, 01 Jan 1970 00:00:00 GMT'
       }
     })
     .then(response => {
-      const lastModified = response.headers.get('last-modified');
-      const etag = response.headers.get('etag');
-      
-      if (lastModified || etag) {
-        const currentCheck = lastModified || etag;
-        const storedCheck = localStorage.getItem('gsl-gamezone-last-check');
-        
-        if (storedCheck && storedCheck !== currentCheck) {
-          console.log('Site updated, reloading...');
-          window.location.reload(true);
-        } else {
-          localStorage.setItem('gsl-gamezone-last-check', currentCheck);
-        }
+      console.log('Update check response:', response.status);
+      // Always reload to ensure fresh content
+      if (response.status === 200) {
+        console.log('Forcing reload for fresh content...');
+        addCacheBuster();
       }
     })
     .catch(error => {
-      console.log('Update check failed:', error);
+      console.log('Update check failed, forcing reload:', error);
+      addCacheBuster();
     });
-  }, 5 * 60 * 1000); // 5 minutes
+  }, 2 * 60 * 1000); // 2 minutes
+  
+  // Also check on page focus (when user returns to tab)
+  window.addEventListener('focus', function() {
+    console.log('Page focused, checking for updates...');
+    addCacheBuster();
+  });
+  
+  // Check on visibility change
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      console.log('Page visible, checking for updates...');
+      addCacheBuster();
+    }
+  });
   
 })();
