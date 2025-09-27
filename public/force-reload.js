@@ -27,46 +27,77 @@
     }
   };
   
-  // Check for updates every 2 minutes (more frequent)
+  // Check for updates every 10 minutes (less aggressive)
   setInterval(function() {
     console.log('Checking for updates...');
     
-    // Force reload with cache busting
+    // Only check for updates, don't force reload
     fetch(window.location.href, { 
       method: 'HEAD',
       cache: 'no-cache',
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'If-Modified-Since': 'Thu, 01 Jan 1970 00:00:00 GMT'
+        'Pragma': 'no-cache'
       }
     })
     .then(response => {
-      console.log('Update check response:', response.status);
-      // Always reload to ensure fresh content
-      if (response.status === 200) {
-        console.log('Forcing reload for fresh content...');
-        addCacheBuster();
+      const lastModified = response.headers.get('last-modified');
+      const etag = response.headers.get('etag');
+      
+      if (lastModified || etag) {
+        const currentCheck = lastModified || etag;
+        const storedCheck = localStorage.getItem('gsl-gamezone-last-check');
+        
+        // Only reload if there's actually a change
+        if (storedCheck && storedCheck !== currentCheck) {
+          console.log('Site updated, reloading...');
+          addCacheBuster();
+        } else if (!storedCheck) {
+          // First time, just store the check
+          localStorage.setItem('gsl-gamezone-last-check', currentCheck);
+        }
       }
     })
     .catch(error => {
-      console.log('Update check failed, forcing reload:', error);
-      addCacheBuster();
+      console.log('Update check failed:', error);
+      // Don't force reload on network errors
     });
-  }, 2 * 60 * 1000); // 2 minutes
+  }, 10 * 60 * 1000); // 10 minutes (much less frequent)
   
-  // Also check on page focus (when user returns to tab)
+  // Only check on page focus if it's been a while (30+ minutes)
+  let lastFocusTime = Date.now();
   window.addEventListener('focus', function() {
-    console.log('Page focused, checking for updates...');
-    addCacheBuster();
+    const timeSinceLastFocus = Date.now() - lastFocusTime;
+    console.log('Page focused, time since last focus:', timeSinceLastFocus);
+    
+    // Only check for updates if it's been more than 30 minutes
+    if (timeSinceLastFocus > 30 * 60 * 1000) {
+      console.log('Long time since last focus, checking for updates...');
+      // Just check, don't force reload
+      fetch(window.location.href, { 
+        method: 'HEAD',
+        cache: 'no-cache'
+      }).then(response => {
+        const lastModified = response.headers.get('last-modified');
+        const etag = response.headers.get('etag');
+        
+        if (lastModified || etag) {
+          const currentCheck = lastModified || etag;
+          const storedCheck = localStorage.getItem('gsl-gamezone-last-check');
+          
+          if (storedCheck && storedCheck !== currentCheck) {
+            console.log('Update found on focus, reloading...');
+            addCacheBuster();
+          }
+        }
+      }).catch(() => {
+        // Don't reload on error
+      });
+    }
+    
+    lastFocusTime = Date.now();
   });
   
-  // Check on visibility change
-  document.addEventListener('visibilitychange', function() {
-    if (!document.hidden) {
-      console.log('Page visible, checking for updates...');
-      addCacheBuster();
-    }
-  });
+  // Remove aggressive visibility change listener
   
 })();
