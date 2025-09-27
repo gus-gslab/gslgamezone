@@ -22,6 +22,16 @@
       href="https://raw.githubusercontent.com/gus-gslab/images/main/gslgamezone/favicon-48.png"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Cache Control Meta Tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="cache-control" content="max-age=0" />
+    <meta name="expires" content="0" />
+    <meta name="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta name="pragma" content="no-cache" />
+    
     <meta
       name="description"
       content="Discover free educational and brain games for kids, teens and adults. Fun quizzes and learning games online at GSL Game Zone."
@@ -204,5 +214,42 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Force Reload Script -->
+    <script src="/force-reload.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('Service Worker registered successfully:', registration.scope);
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New version available, force reload
+                    console.log('New version available, reloading...');
+                    window.location.reload();
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.log('Service Worker registration failed:', error);
+            });
+        });
+        
+        // Listen for messages from service worker
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          if (event.data && event.data.type === 'RELOAD') {
+            window.location.reload();
+          }
+        });
+      }
+    </script>
   </body>
 </html>
