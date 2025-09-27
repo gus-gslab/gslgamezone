@@ -52,7 +52,7 @@ interface ShareTranslations {
 
 const SHARE_TRANSLATIONS: ShareTranslations = {
   pt: {
-    title: 'Caça-Palavras - GSL Game Zone',
+    title: 'GSL Game Zone | Free Educational Games Online for All Ages',
     result: 'Resultado',
     wordsFound: 'palavras encontradas',
     time: 'Tempo',
@@ -81,7 +81,7 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
     },
   },
   en: {
-    title: 'Word Search - GSL Game Zone',
+    title: 'GSL Game Zone | Free Educational Games Online for All Ages',
     result: 'Result',
     wordsFound: 'words found',
     time: 'Time',
@@ -110,7 +110,7 @@ const SHARE_TRANSLATIONS: ShareTranslations = {
     },
   },
   es: {
-    title: 'Sopa de Letras - GSL Game Zone',
+    title: 'GSL Game Zone | Free Educational Games Online for All Ages',
     result: 'Resultado',
     wordsFound: 'palabras encontradas',
     time: 'Tiempo',
@@ -152,7 +152,22 @@ export function generateShareText(gameResult: GameResult): string {
     t.categories[gameResult.category as keyof typeof t.categories] ||
     gameResult.category;
 
-  return `🎮 ${t.playText}
+  const getPlayText = (gameName: string, language: string) => {
+    switch (language) {
+      case 'pt':
+        return `Joguei ${gameName} no GSL Game Zone!`;
+      case 'es':
+        return `¡Jugué ${gameName} en GSL Game Zone!`;
+      default:
+        return `I played ${gameName} at GSL Game Zone!`;
+    }
+  };
+
+  const playText = gameResult.gameName
+    ? getPlayText(gameResult.gameName, gameResult.language)
+    : t.playText;
+
+  return `🎮 ${playText}
 
 🏆 ${gameResult.score} ${t.points}
 ⏱️ ${t.time}: ${gameResult.time}

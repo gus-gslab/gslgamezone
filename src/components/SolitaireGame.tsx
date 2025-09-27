@@ -564,9 +564,9 @@ const SolitaireGame: React.FC = () => {
       gameType: 'solitaire',
       gameName:
         language === 'pt'
-          ? 'Solitaire'
+          ? 'Paciência'
           : language === 'es'
-          ? 'Solitario'
+          ? 'Paciencia'
           : 'Solitaire',
       moves: gameState.moves,
       time: formatTime(gameState.time),
