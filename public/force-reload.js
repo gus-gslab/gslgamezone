@@ -27,11 +27,21 @@
     }
   };
   
-  // Check for updates every 10 minutes (less aggressive)
+  // Check for updates every 60 minutes (much less aggressive)
   setInterval(function() {
     console.log('Checking for updates...');
     
-    // Only check for updates, don't force reload
+    // Only check for updates, don't force reload during gameplay
+    const isGamePage = window.location.pathname.includes('/solitaire') || 
+                      window.location.pathname.includes('/caca-palavras') ||
+                      window.location.pathname.includes('/game');
+    
+    // Don't check for updates during active gameplay
+    if (isGamePage) {
+      console.log('Game in progress, skipping update check');
+      return;
+    }
+    
     fetch(window.location.href, { 
       method: 'HEAD',
       cache: 'no-cache',
@@ -48,8 +58,8 @@
         const currentCheck = lastModified || etag;
         const storedCheck = localStorage.getItem('gsl-gamezone-last-check');
         
-        // Only reload if there's actually a change
-        if (storedCheck && storedCheck !== currentCheck) {
+        // Only reload if there's actually a change AND not in a game
+        if (storedCheck && storedCheck !== currentCheck && !isGamePage) {
           console.log('Site updated, reloading...');
           addCacheBuster();
         } else if (!storedCheck) {
@@ -62,16 +72,28 @@
       console.log('Update check failed:', error);
       // Don't force reload on network errors
     });
-  }, 10 * 60 * 1000); // 10 minutes (much less frequent)
+  }, 60 * 60 * 1000); // 60 minutes (much less frequent)
   
-  // Only check on page focus if it's been a while (30+ minutes)
+  // Only check on page focus if it's been a while (60+ minutes) and not in a game
   let lastFocusTime = Date.now();
   window.addEventListener('focus', function() {
     const timeSinceLastFocus = Date.now() - lastFocusTime;
     console.log('Page focused, time since last focus:', timeSinceLastFocus);
     
-    // Only check for updates if it's been more than 30 minutes
-    if (timeSinceLastFocus > 30 * 60 * 1000) {
+    // Check if we're in a game page
+    const isGamePage = window.location.pathname.includes('/solitaire') || 
+                      window.location.pathname.includes('/caca-palavras') ||
+                      window.location.pathname.includes('/game');
+    
+    // Don't check for updates during gameplay
+    if (isGamePage) {
+      console.log('Game in progress, skipping focus update check');
+      lastFocusTime = Date.now();
+      return;
+    }
+    
+    // Only check for updates if it's been more than 60 minutes
+    if (timeSinceLastFocus > 60 * 60 * 1000) {
       console.log('Long time since last focus, checking for updates...');
       // Just check, don't force reload
       fetch(window.location.href, { 
@@ -85,7 +107,7 @@
           const currentCheck = lastModified || etag;
           const storedCheck = localStorage.getItem('gsl-gamezone-last-check');
           
-          if (storedCheck && storedCheck !== currentCheck) {
+          if (storedCheck && storedCheck !== currentCheck && !isGamePage) {
             console.log('Update found on focus, reloading...');
             addCacheBuster();
           }
