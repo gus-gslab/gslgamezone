@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -233,15 +233,36 @@ const SolitaireGame: React.FC = () => {
     },
   });
 
-  // Timer
+  // Timer - usando useRef para evitar recriação desnecessária
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (!isWon && !gameState.isWon && !showGameOver) {
-        setGameState(prev => ({ ...prev, time: prev.time + 1 }));
+    // Limpar timer anterior se existir
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    
+    // Só criar timer se o jogo estiver ativo
+    if (gameState.isGameStarted && !gameState.isWon && !showGameOver) {
+      timerRef.current = setInterval(() => {
+        setGameState(prev => {
+          // Só incrementar se o jogo ainda estiver ativo
+          if (prev.isGameStarted && !prev.isWon) {
+            console.log('Timer tick:', prev.time + 1);
+            return { ...prev, time: prev.time + 1 };
+          }
+          return prev;
+        });
+      }, 1000);
+    }
+    
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [isWon, gameState.isWon, showGameOver]);
+    };
+  }, [gameState.isGameStarted, gameState.isWon, showGameOver]);
 
   // Aplicar efeitos da dificuldade quando o jogo inicia
   useEffect(() => {
@@ -468,6 +489,7 @@ const SolitaireGame: React.FC = () => {
 
   // Iniciar novo jogo
   const newGame = () => {
+    console.log('newGame() called - resetting timer');
     const deck = shuffleDeck(createDeck());
     const foundations = [
       { suit: 'hearts', cards: [] },
