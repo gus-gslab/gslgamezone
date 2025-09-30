@@ -234,14 +234,14 @@ const SolitaireGame: React.FC = () => {
   });
 
   // Timer - usando useRef para evitar recriação desnecessária
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  
+  const timerRef = useRef<number | null>(null);
+
   useEffect(() => {
     // Limpar timer anterior se existir
     if (timerRef.current) {
       clearInterval(timerRef.current);
     }
-    
+
     // Só criar timer se o jogo estiver ativo
     if (gameState.isGameStarted && !gameState.isWon && !showGameOver) {
       timerRef.current = setInterval(() => {
@@ -255,7 +255,7 @@ const SolitaireGame: React.FC = () => {
         });
       }, 1000);
     }
-    
+
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
